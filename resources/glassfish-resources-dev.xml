@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//Sun Microsystems, Inc.//DTD Application Server 9.0 Resource Definitions //EN"
+    "http://www.sun.com/software/appserver/dtds/sun-resources_1_3.dtd">
+<resources>
+    <jdbc-connection-pool
+        name="btrsPool"
+        datasource-classname="org.postgresql.ds.PGConnectionPoolDataSource"
+        res-type="javax.sql.DataSource">
+        <property name="database" value="jdbc:postgresql://localhost:5432/btrs"/> <!-- HSQLDB uses database instead of url -->
+        <property name="url" value="jdbc:postgresql://localhost:5432/btrs"/>
+        <property name="user" value="postgres"/>
+        <property name="password" value="postgres"/> <!-- Use the value "()" for an empty password -->
+    </jdbc-connection-pool>
+    <jdbc-resource
+        jndi-name="btrsDatasource"
+        pool-name="btrsPool"
+        enabled="true"
+        object-type="user"/>
+</resources>

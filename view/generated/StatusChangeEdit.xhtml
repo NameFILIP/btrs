@@ -1,0 +1,338 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="statusChange" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{statusChangeHome.managed ? 'Edit' : 'Add'} Status change</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{statusChangeHome.managed}"
+                          value="#{statusChangeHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="commentField" template="layout/edit.xhtml">
+                <ui:define name="label">Comment</ui:define>
+                <h:inputTextarea id="comment"
+                               cols="80"
+                               rows="3"
+                              value="#{statusChangeHome.instance.comment}"/>
+            </s:decorate>
+
+
+            <s:decorate id="createdDateField" template="layout/edit.xhtml">
+                <ui:define name="label">Created date</ui:define>
+                <rich:calendar id="createdDate"
+                       required="true"
+                          value="#{statusChangeHome.instance.createdDate}" datePattern="MM/dd/yyyy hh:mm a"/>
+            </s:decorate>
+
+
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{statusChangeHome.persist}"
+                       disabled="#{!statusChangeHome.wired}"
+                       rendered="#{!statusChangeHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{statusChangeHome.update}"
+                       rendered="#{statusChangeHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{statusChangeHome.remove}"
+                      immediate="true"
+                       rendered="#{statusChangeHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/StatusChange.xhtml"
+                rendered="#{statusChangeHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty statusChangeFrom ? 'StatusChangeList' : statusChangeFrom}.xhtml"
+                rendered="#{!statusChangeHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Report">
+    <div class="association" id="reportParent">
+
+        <h:outputText value="There is no report associated with this statusChange."
+                   rendered="#{statusChangeHome.instance.report == null}"/>
+
+        <rich:dataTable var="_report"
+                   value="#{statusChangeHome.instance.report}"
+                rendered="#{statusChangeHome.instance.report != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="reportTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_report.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Comment</f:facet>
+                <h:outputText value="#{_report.comment}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Created date</f:facet>
+                <h:outputText value="#{_report.createdDate}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">End date</f:facet>
+                <h:outputText value="#{_report.endDate}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Last updated date</f:facet>
+                <h:outputText value="#{_report.lastUpdatedDate}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Reason</f:facet>
+                <h:outputText value="#{_report.reason}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Route</f:facet>
+                <h:outputText value="#{_report.route}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Start date</f:facet>
+                <h:outputText value="#{_report.startDate}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Status change id</f:facet>
+                <h:outputText value="#{_report.statusChange.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">User id</f:facet>
+                <h:outputText value="#{_report.user.id}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{statusChangeHome.instance.report != null ? 'changeParent' : 'selectParent'}" value="#{statusChangeHome.instance.report != null ? 'Change' : 'Select'} report"
+                       view="/ReportList.xhtml">
+                <f:param name="from" value="StatusChangeEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Reports">
+        <h:form styleClass="association" id="reportsChildren">
+
+            <h:outputText value="There are no reports associated with this statusChange."
+                       rendered="#{empty statusChangeHome.reports}"/>
+
+            <rich:dataTable value="#{statusChangeHome.reports}"
+                           var="_report"
+                      rendered="#{not empty statusChangeHome.reports}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="reportsTable">
+                <rich:column sortBy="#{_report.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_report.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_report.comment}">
+                    <f:facet name="header">Comment</f:facet>
+                    <h:outputText value="#{_report.comment}"/>
+                </rich:column>
+                <rich:column sortBy="#{_report.createdDate}">
+                    <f:facet name="header">Created date</f:facet>
+                    <h:outputText value="#{_report.createdDate}">
+                        <s:convertDateTime type="both" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_report.endDate}">
+                    <f:facet name="header">End date</f:facet>
+                    <h:outputText value="#{_report.endDate}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_report.lastUpdatedDate}">
+                    <f:facet name="header">Last updated date</f:facet>
+                    <h:outputText value="#{_report.lastUpdatedDate}">
+                        <s:convertDateTime type="both" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_report.reason}">
+                    <f:facet name="header">Reason</f:facet>
+                    <h:outputText value="#{_report.reason}"/>
+                </rich:column>
+                <rich:column sortBy="#{_report.route}">
+                    <f:facet name="header">Route</f:facet>
+                    <h:outputText value="#{_report.route}"/>
+                </rich:column>
+                <rich:column sortBy="#{_report.startDate}">
+                    <f:facet name="header">Start date</f:facet>
+                    <h:outputText value="#{_report.startDate}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{statusChangeHome.managed}" id="reports">
+        <div class="actionButtons">
+            <s:button id="addreport"
+                   value="Add report"
+                    view="/ReportEdit.xhtml"
+             propagation="none">
+                 <f:param name="statusChangeId"
+                         value="#{statusChangeHome.instance.id}"/>
+                 <f:param name="reportFrom" value="StatusChange"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Status *" labelClass="required">
+    <div class="association" id="statusParent">
+
+        <h:outputText value="There is no status associated with this statusChange."
+                   rendered="#{statusChangeHome.instance.status == null}"/>
+
+        <rich:dataTable var="_status"
+                   value="#{statusChangeHome.instance.status}"
+                rendered="#{statusChangeHome.instance.status != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="statusTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_status.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                <h:outputText value="#{_status.name}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{statusChangeHome.instance.status != null ? 'changeParent' : 'selectParent'}" value="#{statusChangeHome.instance.status != null ? 'Change' : 'Select'} status"
+                       view="/StatusList.xhtml">
+                <f:param name="from" value="StatusChangeEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="User">
+    <div class="association" id="userParent">
+
+        <h:outputText value="There is no user associated with this statusChange."
+                   rendered="#{statusChangeHome.instance.user == null}"/>
+
+        <rich:dataTable var="_user"
+                   value="#{statusChangeHome.instance.user}"
+                rendered="#{statusChangeHome.instance.user != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="userTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_user.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Created date</f:facet>
+                <h:outputText value="#{_user.createdDate}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Department id</f:facet>
+                <h:outputText value="#{_user.department.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Email</f:facet>
+                <h:outputText value="#{_user.email}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">First name</f:facet>
+                <h:outputText value="#{_user.firstName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Gender</f:facet>
+                <h:outputText value="#{_user.gender}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Last login</f:facet>
+                <h:outputText value="#{_user.lastLogin}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Last name</f:facet>
+                <h:outputText value="#{_user.lastName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Password</f:facet>
+                <h:outputText value="#{_user.password}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Role id</f:facet>
+                <h:outputText value="#{_user.role.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Username</f:facet>
+                <h:outputText value="#{_user.username}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{statusChangeHome.instance.user != null ? 'changeParent' : 'selectParent'}" value="#{statusChangeHome.instance.user != null ? 'Change' : 'Select'} user"
+                       view="/UserList.xhtml">
+                <f:param name="from" value="StatusChangeEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

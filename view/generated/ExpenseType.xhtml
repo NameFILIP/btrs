@@ -1,0 +1,148 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Expense type Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{expenseTypeHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="name" template="layout/display.xhtml">
+            <ui:define name="label">Name</ui:define>
+            <h:outputText value="#{expenseTypeHome.instance.name}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ExpenseTypeEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty expenseTypeFrom ? 'ExpenseTypeList' : expenseTypeFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Expense subtypes</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="expenseSubtypesChildren">
+
+        <h:outputText value="There are no expenseSubtypes associated with this expenseType."
+                   rendered="#{empty expenseTypeHome.expenseSubtypes}"/>
+
+        <rich:dataTable value="#{expenseTypeHome.expenseSubtypes}"
+                       var="_expenseSubtype"
+                  rendered="#{not empty expenseTypeHome.expenseSubtypes}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="expenseSubtypesTable">
+            <rich:column sortBy="#{_expenseSubtype.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_expenseSubtype.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expenseSubtype.name}">
+                <f:facet name="header">Name</f:facet>
+                <h:outputText value="#{_expenseSubtype.name}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectexpenseSubtype"
+                     value="Select"
+                      view="/ExpenseSubtype.xhtml">
+                    <f:param name="expenseSubtypeId"
+                            value="#{_expenseSubtype.id}"/>
+                    <f:param name="expenseSubtypeFrom" value="ExpenseType"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add expenseSubtype"
+                view="/ExpenseSubtypeEdit.xhtml">
+            <f:param name="expenseTypeId"
+                    value="#{expenseTypeHome.instance.id}"/>
+            <f:param name="expenseSubtypeFrom" value="ExpenseType"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Expenses</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="expensesChildren">
+
+        <h:outputText value="There are no expenses associated with this expenseType."
+                   rendered="#{empty expenseTypeHome.expenses}"/>
+
+        <rich:dataTable value="#{expenseTypeHome.expenses}"
+                       var="_expense"
+                  rendered="#{not empty expenseTypeHome.expenses}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="expensesTable">
+            <rich:column sortBy="#{_expense.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_expense.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expense.amount}">
+                <f:facet name="header">Amount</f:facet>
+                <h:outputText value="#{_expense.amount}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expense.numberOfDays}">
+                <f:facet name="header">Number of days</f:facet>
+                <h:outputText value="#{_expense.numberOfDays}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expense.numberOfPersons}">
+                <f:facet name="header">Number of persons</f:facet>
+                <h:outputText value="#{_expense.numberOfPersons}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectexpense"
+                     value="Select"
+                      view="/Expense.xhtml">
+                    <f:param name="expenseId"
+                            value="#{_expense.id}"/>
+                    <f:param name="expenseFrom" value="ExpenseType"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add expense"
+                view="/ExpenseEdit.xhtml">
+            <f:param name="expenseTypeId"
+                    value="#{expenseTypeHome.instance.id}"/>
+            <f:param name="expenseFrom" value="ExpenseType"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

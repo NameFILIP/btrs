@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+   <param name="reportFrom"/>
+   <param name="reportId" value="#{reportHome.reportId}"/>
+   <param name="statusChangeFrom"/>
+   <param name="statusChangeId" value="#{statusChangeHome.statusChangeId}"/>
+   <param name="statusFrom"/>
+   <param name="statusId" value="#{statusHome.statusId}"/>
+
+   <param name="userFrom"/>
+   <param name="userId" value="#{userHome.userId}"/>
+   <param name="departmentFrom"/>
+   <param name="departmentId" value="#{departmentHome.departmentId}"/>
+
+   <param name="roleFrom"/>
+   <param name="roleId" value="#{roleHome.roleId}"/>
+
+
+
+
+
+</page>

@@ -1,0 +1,365 @@
+html {
+	overflow-y: scroll;
+}
+
+body {
+	font-size: 12px;
+	margin: 0px;
+}
+
+a img {
+	border: none;
+}
+
+h1 {
+	font-size: 1.6em;
+	margin-top: 0;
+}
+
+input[type=submit], input[type=button] {
+	font-size: 11px;
+	margin: 5px 5px 5px 0;
+	cursor: pointer;
+}
+
+input[type=text], input[type=password], textarea {
+	font-size: 12px;
+	padding-left: 1px;
+}
+
+select {
+	font-size: 13px;
+}
+
+.tableControl, .actionButtons {
+	width: 100%;
+}
+
+.tableControl a {
+	padding-left: 10px;
+}
+
+.tableControl {
+	text-align: right;
+}
+
+.footer {
+	text-align: center;
+	font-size: 11px;
+	margin-bottom: 10px;
+}
+
+.rich-table {
+	width: 100%;
+}
+
+.body {
+	padding: 30px;
+}
+.message {
+	padding: 5px;
+	list-style: none;
+	border: 0;
+	background: none;
+	padding: 0;
+	color: #000000;
+	margin: 5px 0 8px 0;
+	font-size: 12px;
+}
+
+.message li {
+	background: no-repeat left center;
+	padding-top: 1px;
+	padding-left: 20px;
+	margin-left: 3px;
+}
+
+.message li.infomsg {
+	background-image: url(../img/msginfo.png);
+}
+
+.message li.errormsg {
+	background-image: url(../img/msgerror.png);
+}
+
+.message li.warnmsg {
+	background-image: url(../img/msgwarn.png);
+}
+
+.prop {
+	font-size: 12px;
+}
+
+.name {
+	vertical-align: top;
+	font-weight: bold;
+	
+	width: 115px;
+	float: left;
+	padding: 5px;
+	margin-top: 3px;
+	clear: left;
+}
+
+.value {
+	float: left;
+	padding: 5px;
+}
+
+.error {
+	float: left;
+	padding: 5px;
+}
+
+.errors {
+	color: #FF0000;
+	vertical-align: middle;
+}
+
+img.errors {
+	padding-right: 5px;
+}
+
+.errors input, .errors textarea, .errors select {
+	border: 1px solid red !important;
+}
+
+.required {
+	color: #FF0000;
+	padding-left: 2px;
+}
+
+.rich-stglpanel-body {
+	overflow: auto;
+} 
+
+/* the specificity here is necessary to override the defaults */
+/*
+.rich-panel .rich-panel-header,
+.rich-stglpanel .rich-stglpanel-header {
+	padding: 2px 3px;
+}*/
+
+.rich-panel input[type=submit], .rich-panel input[type=button],
+.rich-tabpanel input[type=submit], .rich-tabpanel input[type=button] {
+	margin-bottom: 0;
+}
+
+.tableControl input[type=submit], .tableControl input[type=button], .tableControl select {
+	margin: 5px 0 5px 5px;
+}
+
+/* I don't know why this is necessary, but the select is off by a pixel on the top and is padding too much on the left */
+.tableControl select {
+	margin-left: 2px;
+	position: relative;
+	top: 1px;
+}
+
+.actionButtons {
+	padding-left: 12px;
+}
+
+.actionButtons select {
+	margin: 5px 5px 5px 0;
+	vertical-align: bottom;
+}
+
+.rich-toolbar-item a {
+	text-decoration: none;
+}
+
+.rich-toolbar-item a:hover, .rich-ddmenu-label-select {
+	text-decoration: underline;
+}
+
+.rich-toolbar-item .rich-menu-item a:hover {
+	text-decoration: none;
+}
+
+.rich-datalist {
+	list-style: square;
+	margin: 6px 0 1px 0;
+	padding-left: 18px;
+}
+
+.rich-list-item {
+	padding-bottom: 4px;
+}
+
+div.info {
+	font-size: 1.2em;
+}
+
+ul.bullets {
+	list-style: square;
+}
+
+ul.bullets li {
+	padding-bottom: 2px;
+}
+
+td.action {
+	text-align: center;
+	width: 8em;
+	white-space: nowrap;
+}
+
+td.action a {
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+table.radio {
+   border: 0;
+}
+
+table.radio td {
+   padding: 0 2px;
+}
+
+table.radio input[type=radio] {
+   vertical-align: bottom;
+}
+
+
+
+
+
+/* Appended */
+body {
+	font-family: Verdana, Arial, Helvetica;
+	font-size: 8pt;
+}
+
+div { 
+	display: block;
+}
+
+#accountnav {
+	list-style: none;
+	margin: 0;
+	padding: 0.5em 1em;
+	text-align: right;
+	position: relative;
+	z-index: 1;
+	border-bottom: 1px #DDD solid;
+}
+
+#accountnav li {
+	display: inline;
+}
+
+#logobar {
+	position: relative;
+	padding: 0.8em;
+}
+
+#logobar img {
+	display: inline;
+	vertical-align: middle;
+}
+
+#title {
+	display: inline;
+	vertical-align: middle;
+	font-size: 24pt;
+	font-weight: normal;
+	padding-left: 1em;
+}
+
+#main-container {
+	padding: 0 0.8em 0.8em 0.8em;
+}
+
+#navbar-outer {
+	border: 1px #E0E0E0 solid;
+	margin: 10px 0;
+	width: 100%;
+}
+
+#navbar {
+	background-color: #C6DCF3;
+	border: 1px #3465A4 solid;
+	list-style: none;
+	margin: 0;
+	padding: 9px 6px;
+}
+
+#navbar li {
+	display: inline;
+	height: 30px;
+	margin-right: 14px;
+}
+
+#navbar a {
+	color: #00A;
+	font-size: 110%;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#content {
+	border: 1px gray solid;
+	margin-bottom: 10px;
+	width: 100%;
+	overflow:hidden;
+	background-color: lightgray;
+}
+
+#data-navbar-outer {
+	float: left;
+	width: 18em;
+}
+
+#data-navbar {
+	list-style: none;
+	margin: 0;
+	padding: 10px;
+}
+
+#data-navbar li{
+	height: 16px;
+	font-weight: bold;
+	padding:5px;
+}
+
+#data-navbar a {
+	color: black;
+	text-decoration: none;
+}
+
+#data-main {
+	border-left: 1px black solid;
+	vertical-align: top;
+	margin-left: 18em;
+	background-color: white;
+	min-height: 250px;
+}
+
+#data-main-title {
+	background-color: #A2BEDC;
+	border-bottom: 1px #728EAC solid;
+	margin: 0;
+	padding: 5px;
+}
+
+#data-main-title h1 {
+	display: inline;
+	font-size: 120%;
+}
+
+#data-main-body {
+	background-color: white;
+}
+
+
+.hide-modal-link {
+	padding-top: 2px;
+	padding-right: 1px;
+	cursor: pointer;
+}
+
+.hidden {
+	display:none;
+}

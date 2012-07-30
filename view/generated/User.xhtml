@@ -1,0 +1,297 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">User Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{userHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="createdDate" template="layout/display.xhtml">
+            <ui:define name="label">Created date</ui:define>
+            <h:outputText value="#{userHome.instance.createdDate}">
+                <s:convertDateTime type="both" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="email" template="layout/display.xhtml">
+            <ui:define name="label">Email</ui:define>
+            <h:outputText value="#{userHome.instance.email}"/>
+        </s:decorate>
+
+        <s:decorate id="firstName" template="layout/display.xhtml">
+            <ui:define name="label">First name</ui:define>
+            <h:outputText value="#{userHome.instance.firstName}"/>
+        </s:decorate>
+
+        <s:decorate id="gender" template="layout/display.xhtml">
+            <ui:define name="label">Gender</ui:define>
+            <h:outputText value="#{userHome.instance.gender}"/>
+        </s:decorate>
+
+        <s:decorate id="lastLogin" template="layout/display.xhtml">
+            <ui:define name="label">Last login</ui:define>
+            <h:outputText value="#{userHome.instance.lastLogin}">
+                <s:convertDateTime type="both" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="lastName" template="layout/display.xhtml">
+            <ui:define name="label">Last name</ui:define>
+            <h:outputText value="#{userHome.instance.lastName}"/>
+        </s:decorate>
+
+        <s:decorate id="password" template="layout/display.xhtml">
+            <ui:define name="label">Password</ui:define>
+            <h:outputText value="#{userHome.instance.password}"/>
+        </s:decorate>
+
+        <s:decorate id="username" template="layout/display.xhtml">
+            <ui:define name="label">Username</ui:define>
+            <h:outputText value="#{userHome.instance.username}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/UserEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty userFrom ? 'UserList' : userFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Department</h:panelGroup>
+        </f:facet>
+    <div class="association" id="departmentParent">
+
+        <h:outputText value="There is no department associated with this user."
+                   rendered="#{userHome.instance.department == null}"/>
+
+        <rich:dataTable var="_department"
+                   value="#{userHome.instance.department}"
+                rendered="#{userHome.instance.department != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="departmentTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_department.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Comment</f:facet>
+                <h:outputText value="#{_department.comment}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                <h:outputText value="#{_department.name}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewdepartment"
+                     value="View"
+                      view="/Department.xhtml">
+                    <f:param name="departmentId"
+                           value="#{_department.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Reports</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="reportsChildren">
+
+        <h:outputText value="There are no reports associated with this user."
+                   rendered="#{empty userHome.reports}"/>
+
+        <rich:dataTable value="#{userHome.reports}"
+                       var="_report"
+                  rendered="#{not empty userHome.reports}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="reportsTable">
+            <rich:column sortBy="#{_report.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_report.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_report.comment}">
+                <f:facet name="header">Comment</f:facet>
+                <h:outputText value="#{_report.comment}"/>
+            </rich:column>
+            <rich:column sortBy="#{_report.createdDate}">
+                <f:facet name="header">Created date</f:facet>
+                <h:outputText value="#{_report.createdDate}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_report.endDate}">
+                <f:facet name="header">End date</f:facet>
+                <h:outputText value="#{_report.endDate}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_report.lastUpdatedDate}">
+                <f:facet name="header">Last updated date</f:facet>
+                <h:outputText value="#{_report.lastUpdatedDate}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_report.reason}">
+                <f:facet name="header">Reason</f:facet>
+                <h:outputText value="#{_report.reason}"/>
+            </rich:column>
+            <rich:column sortBy="#{_report.route}">
+                <f:facet name="header">Route</f:facet>
+                <h:outputText value="#{_report.route}"/>
+            </rich:column>
+            <rich:column sortBy="#{_report.startDate}">
+                <f:facet name="header">Start date</f:facet>
+                <h:outputText value="#{_report.startDate}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectreport"
+                     value="Select"
+                      view="/Report.xhtml">
+                    <f:param name="reportId"
+                            value="#{_report.id}"/>
+                    <f:param name="reportFrom" value="User"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add report"
+                view="/ReportEdit.xhtml">
+            <f:param name="userId"
+                    value="#{userHome.instance.id}"/>
+            <f:param name="reportFrom" value="User"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Role</h:panelGroup>
+        </f:facet>
+    <div class="association" id="roleParent">
+
+        <h:outputText value="There is no role associated with this user."
+                   rendered="#{userHome.instance.role == null}"/>
+
+        <rich:dataTable var="_role"
+                   value="#{userHome.instance.role}"
+                rendered="#{userHome.instance.role != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="roleTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_role.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Comment</f:facet>
+                <h:outputText value="#{_role.comment}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                <h:outputText value="#{_role.name}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewrole"
+                     value="View"
+                      view="/Role.xhtml">
+                    <f:param name="roleId"
+                           value="#{_role.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Status changes</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="statusChangesChildren">
+
+        <h:outputText value="There are no statusChanges associated with this user."
+                   rendered="#{empty userHome.statusChanges}"/>
+
+        <rich:dataTable value="#{userHome.statusChanges}"
+                       var="_statusChange"
+                  rendered="#{not empty userHome.statusChanges}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="statusChangesTable">
+            <rich:column sortBy="#{_statusChange.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_statusChange.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_statusChange.comment}">
+                <f:facet name="header">Comment</f:facet>
+                <h:outputText value="#{_statusChange.comment}"/>
+            </rich:column>
+            <rich:column sortBy="#{_statusChange.createdDate}">
+                <f:facet name="header">Created date</f:facet>
+                <h:outputText value="#{_statusChange.createdDate}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectstatusChange"
+                     value="Select"
+                      view="/StatusChange.xhtml">
+                    <f:param name="statusChangeId"
+                            value="#{_statusChange.id}"/>
+                    <f:param name="statusChangeFrom" value="User"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add statusChange"
+                view="/StatusChangeEdit.xhtml">
+            <f:param name="userId"
+                    value="#{userHome.instance.id}"/>
+            <f:param name="statusChangeFrom" value="User"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

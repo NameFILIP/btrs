@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" xmlns:s="http://jboss.com/products/seam/taglib" contentType="text/html"
+	template="layout/template.xhtml">
+
+	<ui:define name="content">
+
+		<h:form id="report" styleClass="edit">
+		
+			<rich:panel>
+				<f:facet name="header">#{reportHome.managed ? 'Edit' : 'Add'} Report</f:facet>
+
+				<s:decorate id="reasonField" template="layout/edit.xhtml">
+					<ui:define name="label">Reason</ui:define>
+					<h:inputTextarea id="reason" cols="80" rows="5" required="true" value="#{report.reason}" />
+				</s:decorate>
+
+				<s:decorate id="routeField" template="layout/edit.xhtml">
+					<ui:define name="label">Route</ui:define>
+					<h:inputTextarea id="route" cols="80" rows="3" required="true" value="#{report.route}" />
+				</s:decorate>
+				
+				<s:decorate id="startDateField" template="layout/edit.xhtml">
+					<ui:define name="label">Start date</ui:define>
+					<rich:calendar id="startDate" required="true" value="#{report.startDate}" datePattern="MM/dd/yyyy" />
+				</s:decorate>
+				
+				<s:decorate id="endDateField" template="layout/edit.xhtml">
+					<ui:define name="label">End date</ui:define>
+					<rich:calendar id="endDate" required="true" value="#{report.endDate}" datePattern="MM/dd/yyyy" />
+				</s:decorate>
+				
+				<s:decorate id="commentField" template="layout/edit.xhtml">
+					<ui:define name="label">Comment</ui:define>
+					<h:inputTextarea id="comment" cols="80" rows="3" value="#{report.comment}" />
+				</s:decorate>
+
+				<a:outputPanel id="expense-table">
+				<s:decorate id="expenseList" template="layout/display.xhtml">
+						<ui:define name="label">List of Expenses</ui:define>
+
+						<h:outputText value="The are no Expense yet." rendered="#{empty report.expenses}" />
+
+						<rich:dataTable id="expenseList" var="_expense" value="#{report.expenses}" rendered="#{not empty report.expenses}">
+
+							<h:column>
+								<f:facet name="header">
+									<ui:include src="layout/sort.xhtml">
+										<ui:param name="entityList" value="#{expenseList}" />
+										<ui:param name="propertyLabel" value="Expense Category name" />
+										<ui:param name="propertyPath" value="expense.expenseType.expenseCategory.name" />
+									</ui:include>
+								</f:facet>
+								<h:outputText value="#{_expense.expenseType.expenseCategory.name}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">
+									<ui:include src="layout/sort.xhtml">
+										<ui:param name="entityList" value="#{expenseList}" />
+										<ui:param name="propertyLabel" value="Expense Type name" />
+										<ui:param name="propertyPath" value="expenseType.fullName" />
+									</ui:include>
+								</f:facet>
+								<h:outputText value="#{_expense.expenseType.fullName}" />
+							</h:column>
+
+
+							<h:column>
+								<f:facet name="header">
+									<ui:include src="layout/sort.xhtml">
+										<ui:param name="entityList" value="#{expenseList}" />
+										<ui:param name="propertyLabel" value="Parameters" />
+										<ui:param name="propertyPath" value="expense.parameterValues" />
+									</ui:include>
+								</f:facet>
+								<ui:repeat var="_param" value="#{_expense.parameterValues}">
+									<h:outputText value="#{_param.typeParameter.fullName} - #{_param.value}" /><br />
+								</ui:repeat>
+							</h:column>
+
+
+							<h:column>
+								<f:facet name="header">
+									<ui:include src="layout/sort.xhtml">
+										<ui:param name="entityList" value="#{expenseList}" />
+										<ui:param name="propertyLabel" value="Total amount" />
+										<ui:param name="propertyPath" value="expense.totalAmount" />
+									</ui:include>
+								</f:facet>
+								<h:outputText value="Total amount - #{_expense.totalAmount}" /><br />
+								<h:outputText value="Tax - #{_expense.tax}" /><br />
+								<h:outputText value="Without Tax - #{_expense.amountWithoutTax}" /><br />
+							</h:column>
+
+
+							<rich:column styleClass="action">
+								<h:form>
+									<f:facet name="header">Action</f:facet>
+									<s:link view="/expense-type-edit.xhtml" value="Edit" propagation="none" id="expenseEdit">
+										<f:param name="expenseId" value="#{_expense.id}" />
+									</s:link>
+							#{' '}
+							<h:commandLink value="Delete" action="#{expenseHome.remove(_expense)}" id="expense-type-delete" />
+								</h:form>
+							</rich:column>
+						</rich:dataTable>
+
+					</s:decorate>
+				</a:outputPanel>
+
+				<s:decorate id="expense-add" template="layout/display.xhtml">
+					<ui:define name="label"></ui:define>
+
+					<a:commandLink id="showItem" onclick="Richfaces.showModalPanel('expense-edit-modal');" reRender="inputs-modal">
+						Add new Expense
+					</a:commandLink>
+				</s:decorate>
+
+				<div style="clear: both">
+					<span class="required">*</span> required fields
+				</div>
+
+			</rich:panel>
+
+			<div class="actionButtons">
+				<h:commandButton id="save" value="Save" action="#{reportHome.persist}" disabled="#{!reportHome.wired}" rendered="#{!reportHome.managed}" />
+				<h:commandButton id="update" value="Save" action="#{reportHome.update}" rendered="#{reportHome.managed}" />
+				<h:commandButton id="delete" value="Delete" action="#{reportHome.remove}" immediate="true" rendered="#{reportHome.managed}" />
+				<s:button id="cancelEdit" value="Cancel" propagation="end" view="/report-list.xhtml" rendered="#{reportHome.managed}" />
+				<s:button id="cancelAdd" value="Cancel" propagation="end" view="/#{empty reportFrom ? 'report-list' : reportFrom}.xhtml" rendered="#{!reportHome.managed}" />
+			</div>
+
+		</h:form>
+		
+		<ui:include src="expense-edit-modal.xhtml" />
+		
+		
+		
+	</ui:define>
+</ui:composition>

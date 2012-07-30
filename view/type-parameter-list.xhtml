@@ -1,0 +1,101 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="title">Admin Console</ui:define>
+
+	<ui:define name="data-navbar">
+		<ui:include src="layout/admin-sidebar.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="data-main-title">Manage Type Parameters</ui:define>
+
+	<ui:define name="data-main-body">
+		<rich:panel>
+			<f:facet name="header">List of Type Parameters (#{empty typeParameterList.resultList ? 0 : (typeParameterList.paginated ? typeParameterList.resultCount : typeParameterList.resultList.size)})</f:facet>
+			<div class="results" id="typeParameterList">
+
+				<h:outputText value="The are no Type Parameters." rendered="#{empty typeParameterList.resultList}" />
+
+				<rich:dataTable id="typeParameterList" var="_typeParameter" value="#{typeParameterList.resultList}"
+					rendered="#{not empty typeParameterList.resultList}">
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{typeParameterList}" />
+								<ui:param name="propertyLabel" value="Full Name" />
+								<ui:param name="propertyPath" value="typeParameter.fullName" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_typeParameter.fullName}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{typeParameterList}" />
+								<ui:param name="propertyLabel" value="Short Name" />
+								<ui:param name="propertyPath" value="typeParameter.shortName" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_typeParameter.shortName}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{typeParameterList}" />
+								<ui:param name="propertyLabel" value="Comment" />
+								<ui:param name="propertyPath" value="typeParameter.comment" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_typeParameter.comment}" />
+					</h:column>
+					
+					<rich:column styleClass="action">
+						<h:form>
+							<f:facet name="header">Action</f:facet>
+	            			<s:link view="/type-parameter-edit.xhtml" value="Edit" propagation="none" id="typeParameterEdit">
+								<f:param name="typeParameterId" value="#{_typeParameter.id}" />
+							</s:link>
+							#{' '}
+							<h:commandLink value="Delete" action="#{typeParameterHome.remove(_typeParameter)}" id="type-parameter-delete"/>
+						</h:form>
+					</rich:column>
+				</rich:dataTable>
+
+			</div>
+		</rich:panel>
+
+		<div class="tableControl">
+
+			<s:link view="/type-parameter-list.xhtml" rendered="#{typeParameterList.previousExists}" value="#{messages.left}#{messages.left} First Page" id="firstPage">
+				<f:param name="firstResult" value="0" />
+			</s:link>
+
+			<s:link view="/type-parameter-list.xhtml" rendered="#{typeParameterList.previousExists}" value="#{messages.left} Previous Page" id="previousPage">
+				<f:param name="firstResult" value="#{typeParameterList.previousFirstResult}" />
+			</s:link>
+
+			<s:link view="/type-parameter-list.xhtml" rendered="#{typeParameterList.nextExists}" value="Next Page #{messages.right}" id="nextPage">
+				<f:param name="firstResult" value="#{typeParameterList.nextFirstResult}" />
+			</s:link>
+
+			<s:link view="/type-parameter-list.xhtml" rendered="#{typeParameterList.nextExists}" value="Last Page #{messages.right}#{messages.right}" id="lastPage">
+				<f:param name="firstResult" value="#{typeParameterList.lastFirstResult}" />
+			</s:link>
+
+		</div>
+
+		<s:div styleClass="actionButtons">
+			<s:button view="/type-parameter-edit.xhtml" id="create" propagation="none" value="Create Type Parameter">
+				<f:param name="typeParameterId" />
+			</s:button>
+		</s:div>
+	</ui:define>
+
+</ui:composition>

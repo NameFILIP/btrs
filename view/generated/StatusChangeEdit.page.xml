@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/StatusChangeList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{statusChangeHome.wire}"/>
+
+   <param name="statusChangeFrom"/>
+   <param name="statusChangeId" value="#{statusChangeHome.statusChangeId}"/>
+   <param name="reportFrom"/>
+   <param name="reportId" value="#{reportHome.reportId}"/>
+   <param name="userFrom"/>
+   <param name="userId" value="#{userHome.userId}"/>
+   <param name="departmentFrom"/>
+   <param name="departmentId" value="#{departmentHome.departmentId}"/>
+
+   <param name="roleFrom"/>
+   <param name="roleId" value="#{roleHome.roleId}"/>
+
+
+
+   <param name="statusFrom"/>
+   <param name="statusId" value="#{statusHome.statusId}"/>
+
+
+
+   <navigation from-action="#{statusChangeHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/StatusChange.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{statusChangeHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/StatusChange.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{statusChangeHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/StatusChangeList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

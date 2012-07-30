@@ -1,0 +1,166 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="department" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{departmentHome.managed ? 'Edit' : 'Add'} Department</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{departmentHome.managed}"
+                          value="#{departmentHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="commentField" template="layout/edit.xhtml">
+                <ui:define name="label">Comment</ui:define>
+                <h:inputTextarea id="comment"
+                               cols="80"
+                               rows="3"
+                              value="#{departmentHome.instance.comment}"/>
+            </s:decorate>
+
+
+            <s:decorate id="nameField" template="layout/edit.xhtml">
+                <ui:define name="label">Name</ui:define>
+                <h:inputText id="name"
+                       required="true"
+                           size="100"
+                      maxlength="100"
+                          value="#{departmentHome.instance.name}">
+                    <a:support event="onblur" reRender="nameField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{departmentHome.persist}"
+                       disabled="#{!departmentHome.wired}"
+                       rendered="#{!departmentHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{departmentHome.update}"
+                       rendered="#{departmentHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{departmentHome.remove}"
+                      immediate="true"
+                       rendered="#{departmentHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Department.xhtml"
+                rendered="#{departmentHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty departmentFrom ? 'DepartmentList' : departmentFrom}.xhtml"
+                rendered="#{!departmentHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Users">
+        <h:form styleClass="association" id="usersChildren">
+
+            <h:outputText value="There are no users associated with this department."
+                       rendered="#{empty departmentHome.users}"/>
+
+            <rich:dataTable value="#{departmentHome.users}"
+                           var="_user"
+                      rendered="#{not empty departmentHome.users}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="usersTable">
+                <rich:column sortBy="#{_user.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_user.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_user.createdDate}">
+                    <f:facet name="header">Created date</f:facet>
+                    <h:outputText value="#{_user.createdDate}">
+                        <s:convertDateTime type="both" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_user.email}">
+                    <f:facet name="header">Email</f:facet>
+                    <h:outputText value="#{_user.email}"/>
+                </rich:column>
+                <rich:column sortBy="#{_user.firstName}">
+                    <f:facet name="header">First name</f:facet>
+                    <h:outputText value="#{_user.firstName}"/>
+                </rich:column>
+                <rich:column sortBy="#{_user.gender}">
+                    <f:facet name="header">Gender</f:facet>
+                    <h:outputText value="#{_user.gender}"/>
+                </rich:column>
+                <rich:column sortBy="#{_user.lastLogin}">
+                    <f:facet name="header">Last login</f:facet>
+                    <h:outputText value="#{_user.lastLogin}">
+                        <s:convertDateTime type="both" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_user.lastName}">
+                    <f:facet name="header">Last name</f:facet>
+                    <h:outputText value="#{_user.lastName}"/>
+                </rich:column>
+                <rich:column sortBy="#{_user.password}">
+                    <f:facet name="header">Password</f:facet>
+                    <h:outputText value="#{_user.password}"/>
+                </rich:column>
+                <rich:column sortBy="#{_user.username}">
+                    <f:facet name="header">Username</f:facet>
+                    <h:outputText value="#{_user.username}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{departmentHome.managed}" id="users">
+        <div class="actionButtons">
+            <s:button id="adduser"
+                   value="Add user"
+                    view="/UserEdit.xhtml"
+             propagation="none">
+                 <f:param name="departmentId"
+                         value="#{departmentHome.instance.id}"/>
+                 <f:param name="userFrom" value="Department"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

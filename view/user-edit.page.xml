@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+	<begin-conversation join="true" flush-mode="AUTO" />
+
+	<param name="userId" value="#{userHome.userId}" />
+
+	<action execute="#{userHome.wire}" />
+
+	<navigation from-action="#{userHome.registerNew}">
+		<rule if-outcome="registered" if="#{s:hasRole('Admin')}">
+			<end-conversation />
+			<redirect view-id="/user-list.xhtml" />
+		</rule>
+		<rule if-outcome="registered" if="#{not s:hasRole('Admin')}">
+			<end-conversation />
+			<redirect view-id="/login.xhtml" />
+		</rule>
+	</navigation>
+
+	<navigation from-action="#{userHome.update}">
+		<rule if-outcome="updated" if="#{s:hasRole('Admin')}">
+			<end-conversation />
+			<redirect view-id="/user-list.xhtml" />
+		</rule>
+		<rule if-outcome="updated" if="#{not s:hasRole('Admin')}">
+			<end-conversation />
+			<redirect view-id="/home.xhtml" />
+		</rule>
+	</navigation>
+
+</page>

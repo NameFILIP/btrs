@@ -1,0 +1,208 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="expense" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{expenseHome.managed ? 'Edit' : 'Add'} Expense</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{expenseHome.managed}"
+                          value="#{expenseHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="amountField" template="layout/edit.xhtml">
+                <ui:define name="label">Amount</ui:define>
+                <h:inputText id="amount"
+                       required="true"
+                          value="#{expenseHome.instance.amount}">
+                    <a:support event="onblur" reRender="amountField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="numberOfDaysField" template="layout/edit.xhtml">
+                <ui:define name="label">Number of days</ui:define>
+                <h:inputText id="numberOfDays"
+                          value="#{expenseHome.instance.numberOfDays}">
+                    <a:support event="onblur" reRender="numberOfDaysField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="numberOfPersonsField" template="layout/edit.xhtml">
+                <ui:define name="label">Number of persons</ui:define>
+                <h:inputText id="numberOfPersons"
+                       required="true"
+                          value="#{expenseHome.instance.numberOfPersons}">
+                    <a:support event="onblur" reRender="numberOfPersonsField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{expenseHome.persist}"
+                       disabled="#{!expenseHome.wired}"
+                       rendered="#{!expenseHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{expenseHome.update}"
+                       rendered="#{expenseHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{expenseHome.remove}"
+                      immediate="true"
+                       rendered="#{expenseHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Expense.xhtml"
+                rendered="#{expenseHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty expenseFrom ? 'ExpenseList' : expenseFrom}.xhtml"
+                rendered="#{!expenseHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Expense type">
+    <div class="association" id="expenseTypeParent">
+
+        <h:outputText value="There is no expenseType associated with this expense."
+                   rendered="#{expenseHome.instance.expenseType == null}"/>
+
+        <rich:dataTable var="_expenseType"
+                   value="#{expenseHome.instance.expenseType}"
+                rendered="#{expenseHome.instance.expenseType != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="expenseTypeTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_expenseType.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                <h:outputText value="#{_expenseType.name}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{expenseHome.instance.expenseType != null ? 'changeParent' : 'selectParent'}" value="#{expenseHome.instance.expenseType != null ? 'Change' : 'Select'} expenseType"
+                       view="/ExpenseTypeList.xhtml">
+                <f:param name="from" value="ExpenseEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Report">
+    <div class="association" id="reportParent">
+
+        <h:outputText value="There is no report associated with this expense."
+                   rendered="#{expenseHome.instance.report == null}"/>
+
+        <rich:dataTable var="_report"
+                   value="#{expenseHome.instance.report}"
+                rendered="#{expenseHome.instance.report != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="reportTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_report.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Comment</f:facet>
+                <h:outputText value="#{_report.comment}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Created date</f:facet>
+                <h:outputText value="#{_report.createdDate}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">End date</f:facet>
+                <h:outputText value="#{_report.endDate}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Last updated date</f:facet>
+                <h:outputText value="#{_report.lastUpdatedDate}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Reason</f:facet>
+                <h:outputText value="#{_report.reason}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Route</f:facet>
+                <h:outputText value="#{_report.route}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Start date</f:facet>
+                <h:outputText value="#{_report.startDate}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Status change id</f:facet>
+                <h:outputText value="#{_report.statusChange.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">User id</f:facet>
+                <h:outputText value="#{_report.user.id}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{expenseHome.instance.report != null ? 'changeParent' : 'selectParent'}" value="#{expenseHome.instance.report != null ? 'Change' : 'Select'} report"
+                       view="/ReportList.xhtml">
+                <f:param name="from" value="ExpenseEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

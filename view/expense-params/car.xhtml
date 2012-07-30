@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				contentType="text/html">
+
+	
+	<script type="text/javascript">
+        function setCaretToEnd (e) {
+            var control = $((e.target ? e.target : e.srcElement).id);
+            if (control.createTextRange) {
+                var range = control.createTextRange();
+                range.collapse(false);
+                range.select();
+            }
+            else if (control.setSelectionRange) {
+                control.focus();
+                var length = control.value.length;
+                control.setSelectionRange(length, length);
+            }
+            control.selectionStart = control.selectionEnd = control.value.length;
+        } 
+
+    </script>
+	
+		<s:decorate id="distanceField" template="/layout/edit.xhtml">
+			<ui:define name="label">#{expense.getParamValueByTypeName('distance').typeParameter.fullName}</ui:define>
+			<h:inputText id="distance" required="true" size="10" maxlength="100" value="#{expense.getParamValueByTypeName('distance').value}">
+				<a:support event="onkeyup" reRender="auto-distance" ignoreDupResponses="true" requestDelay="100" ajaxSingle="true" oncomplete="setCaretToEnd(event);" />
+			</h:inputText>
+			<h:outputText id="auto-distance" value=" * 6 = #{expense.getParamValueByTypeName('distance').value * 6}" />
+		</s:decorate>
+		
+		<s:decorate id="invoiceField" template="/layout/edit.xhtml">
+			<ui:define name="label">#{expense.getParamValueByTypeName('invoice').typeParameter.fullName}</ui:define>
+			<h:inputText id="invoice" required="true" size="20" maxlength="100" value="#{expense.getParamValueByTypeName('invoice').value}" />
+		</s:decorate>
+		
+		<s:decorate id="freewayTollField" template="/layout/edit.xhtml">
+			<ui:define name="label">#{expense.getParamValueByTypeName('freeway_toll').typeParameter.fullName}</ui:define>
+			<h:inputText id="freewayToll" required="true" size="20" maxlength="100" value="#{expense.getParamValueByTypeName('freeway_toll').value}" />
+		</s:decorate>
+
+</ui:composition>

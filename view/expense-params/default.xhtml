@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				contentType="text/html">
+
+	<ui:repeat var="_param" value="#{expense.parameterValues}">
+		<s:decorate id="paramField_#{_param.typeParameter.id}" template="/layout/edit.xhtml">
+			<ui:define name="label">#{_param.typeParameter.fullName}</ui:define>
+			<h:inputText id="name" required="true" size="25" maxlength="1000" value="#{_param.value}" />
+		</s:decorate>
+	</ui:repeat>
+
+</ui:composition>

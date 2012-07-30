@@ -1,0 +1,130 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Role Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{roleHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="comment" template="layout/display.xhtml">
+            <ui:define name="label">Comment</ui:define>
+            <h:outputText value="#{roleHome.instance.comment}"/>
+        </s:decorate>
+
+        <s:decorate id="name" template="layout/display.xhtml">
+            <ui:define name="label">Name</ui:define>
+            <h:outputText value="#{roleHome.instance.name}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/RoleEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty roleFrom ? 'RoleList' : roleFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Users</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="usersChildren">
+
+        <h:outputText value="There are no users associated with this role."
+                   rendered="#{empty roleHome.users}"/>
+
+        <rich:dataTable value="#{roleHome.users}"
+                       var="_user"
+                  rendered="#{not empty roleHome.users}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="usersTable">
+            <rich:column sortBy="#{_user.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_user.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_user.createdDate}">
+                <f:facet name="header">Created date</f:facet>
+                <h:outputText value="#{_user.createdDate}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_user.email}">
+                <f:facet name="header">Email</f:facet>
+                <h:outputText value="#{_user.email}"/>
+            </rich:column>
+            <rich:column sortBy="#{_user.firstName}">
+                <f:facet name="header">First name</f:facet>
+                <h:outputText value="#{_user.firstName}"/>
+            </rich:column>
+            <rich:column sortBy="#{_user.gender}">
+                <f:facet name="header">Gender</f:facet>
+                <h:outputText value="#{_user.gender}"/>
+            </rich:column>
+            <rich:column sortBy="#{_user.lastLogin}">
+                <f:facet name="header">Last login</f:facet>
+                <h:outputText value="#{_user.lastLogin}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_user.lastName}">
+                <f:facet name="header">Last name</f:facet>
+                <h:outputText value="#{_user.lastName}"/>
+            </rich:column>
+            <rich:column sortBy="#{_user.password}">
+                <f:facet name="header">Password</f:facet>
+                <h:outputText value="#{_user.password}"/>
+            </rich:column>
+            <rich:column sortBy="#{_user.username}">
+                <f:facet name="header">Username</f:facet>
+                <h:outputText value="#{_user.username}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectuser"
+                     value="Select"
+                      view="/User.xhtml">
+                    <f:param name="userId"
+                            value="#{_user.id}"/>
+                    <f:param name="userFrom" value="Role"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add user"
+                view="/UserEdit.xhtml">
+            <f:param name="roleId"
+                    value="#{roleHome.instance.id}"/>
+            <f:param name="userFrom" value="Role"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

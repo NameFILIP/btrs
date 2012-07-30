@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:a="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib" contentType="text/html">
+	<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title><ui:insert name="title">Business Trip Report System</ui:insert></title>
+<link rel="shortcut icon" href="#{request.contextPath}/favicon.ico" />
+<a:loadStyle src="/stylesheet/theme.xcss" />
+<a:loadStyle src="/stylesheet/theme.css" />
+<ui:insert name="head" />
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<ul id="accountnav">
+				<li>#{messages['accountnav.welcome']}, #{identity.loggedIn ? currentUser.fullName : messages['accountnav.guest']}</li>
+				<li>-</li>
+				<s:fragment rendered="#{not identity.loggedIn}">
+					<li><s:link id="login" view="/login.xhtml" value="#{messages['accountnav.login']}" /></li>
+					<li>-</li>
+					<li><s:link id="register" view="/user-edit.xhtml" value="#{messages['accountnav.register']}" /></li>
+					<li>-</li>
+					<li><s:link id="forgot" view="/" value="#{messages['accountnav.forgot.password']}" /></li>
+				</s:fragment>
+				<s:fragment rendered="#{identity.loggedIn}">
+					<li>
+						<s:link id="my-account" view="/user-edit.xhtml" value="#{messages['accountnav.my.account']}">
+							<f:param name="userId" value="#{user.id}" />
+						</s:link>
+					</li>
+					<li>-</li>
+					<li><s:link id="help" view="/help.xhtml" value="#{messages['accountnav.help']}" /></li>
+					<li>-</li>
+					<li><s:link id="logout" action="#{identity.logout}" value="#{messages['accountnav.logout']}" /></li>
+				</s:fragment>
+			</ul>
+			<div id="logobar">
+				<a href="#{facesContext.externalContext.requestContextPath}">
+					<img src="img/logo.jpg" alt="#{messages['company.name']}" />
+				</a>
+				<h1 id="title">#{messages['system.name']}</h1>
+			</div>
+		</div>
+		<div id="main-container">
+			<s:div id="navbar-outer" rendered="#{identity.loggedIn}">
+				<ul id="navbar">
+					<li><s:link id="my-reports" view="/report-list.xhtml" value="#{messages['navbar.my.reports']}" /></li>
+					<li><s:link id="report-new" view="/report-edit.xhtml" value="#{messages['navbar.create.new.report']}" /></li>
+
+					<s:fragment rendered="#{s:hasRole('DepLeader') or s:hasRole('Accountant') or s:hasRole('Admin')}">
+						<li>-</li>
+					</s:fragment>
+
+					<s:fragment rendered="#{s:hasRole('DepLeader')}">
+						<li><s:link id="dep-reports" view="/" value="#{messages['navbar.my.department.reports']}" /></li>
+					</s:fragment>
+					<s:fragment rendered="#{s:hasRole('Accountant')}">
+						<li><s:link id="emp-reports" view="/" value="#{messages['navbar.all.employees.reports']}" /></li>
+					</s:fragment>
+					<s:fragment rendered="#{s:hasRole('Admin')}">
+						<li><s:link id="management" action="management" value="#{messages['navbar.management']}" /></li>
+					</s:fragment>
+				</ul>
+			</s:div>
+			<div id="error">
+				<h:messages globalOnly="true" />
+			</div>
+			<div id="content">
+				<ui:insert name="content">
+					<div id="data-navbar-outer">
+						<ul id="data-navbar">
+							<ui:insert name="data-navbar">
+								<ui:include src="sidebar.xhtml" />
+							</ui:insert>
+						</ul>
+					</div>
+					<div id="data-main">
+						<div id="data-main-title">
+							<h1><ui:insert name="data-main-title" /></h1>
+						</div>
+						<div id="data-main-body">
+							<ui:insert name="data-main-body" />
+						</div>
+					</div>
+				</ui:insert>
+			</div>
+		</div>
+	</div>
+</body>
+	</html>
+</f:view>

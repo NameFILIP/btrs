@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				contentType="text/html">
+	
+	<s:decorate id="routeField" template="/layout/edit.xhtml">
+		<ui:define name="label">#{expense.getParamValueByTypeName('route').typeParameter.fullName}</ui:define>
+		<h:inputText id="route" required="true" size="20" maxlength="100" value="#{expense.getParamValueByTypeName('route').value}" />
+	</s:decorate>
+
+	<s:decorate id="amountField" template="/layout/edit.xhtml">
+		<ui:define name="label">#{expense.getParamValueByTypeName('amount').typeParameter.fullName}</ui:define>
+		<h:inputText id="amount" required="true" size="20" maxlength="100" value="#{expense.getParamValueByTypeName('amount').value}" />
+	</s:decorate>
+
+</ui:composition>
