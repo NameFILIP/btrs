@@ -18,7 +18,7 @@
 
 				<s:decorate id="usernameField" template="layout/edit.xhtml">
 					<ui:define name="label">Username</ui:define>
-					<h:inputText id="username" required="true" size="20" maxlength="20" value="#{userHome.instance.username}">
+					<h:inputText id="username" required="true" size="100" maxlength="100" value="#{user.username}">
 						<a:support event="onblur" reRender="usernameField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
@@ -26,7 +26,7 @@
 				<s:decorate id="passwordField" template="layout/edit.xhtml">
 					<ui:define name="label">Password</ui:define>
 					<h:inputSecret id="password" required="true" size="100" minlength="5" maxlength="100"
-						value="#{userHome.instance.password}" immediate="true" redisplay="true">
+						value="#{user.password}" immediate="true" redisplay="true">
 						<a:support event="onblur" reRender="passwordField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputSecret>
 				</s:decorate>
@@ -34,7 +34,7 @@
 				<s:decorate id="confirmPasswordField" template="layout/edit.xhtml">
 					<ui:define name="label">Confirm Password</ui:define>
 					<h:inputSecret id="confirmPassword" required="true" size="100" minlength="5" maxlength="100"
-						value="#{userHome.instance.password}" immediate="true" redisplay="true">
+						value="#{user.password}" immediate="true" redisplay="true">
 						<a:support event="onblur" reRender="confirmPasswordField" bypassUpdates="true" ajaxSingle="true" />
 						<s:validateEquality for="password" message="Passwords do not match." />
 					</h:inputSecret>
@@ -42,28 +42,28 @@
 
 				<s:decorate id="firstNameField" template="layout/edit.xhtml">
 					<ui:define name="label">First name</ui:define>
-					<h:inputText id="firstName" size="100" maxlength="100" value="#{userHome.instance.firstName}">
+					<h:inputText id="firstName" size="100" maxlength="100" value="#{user.firstName}">
 						<a:support event="onblur" reRender="firstNameField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
 
 				<s:decorate id="lastNameField" template="layout/edit.xhtml">
 					<ui:define name="label">Last name</ui:define>
-					<h:inputText id="lastName" size="100" maxlength="100" value="#{userHome.instance.lastName}">
+					<h:inputText id="lastName" size="100" maxlength="100" value="#{user.lastName}">
 						<a:support event="onblur" reRender="lastNameField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
 				
 				<s:decorate id="jobTitleField" template="layout/edit.xhtml">
 					<ui:define name="label">Job title</ui:define>
-					<h:inputText id="jobTitle" size="100" maxlength="100" value="#{userHome.instance.jobTitle}">
+					<h:inputText id="jobTitle" size="100" maxlength="100" value="#{user.jobTitle}">
 						<a:support event="onblur" reRender="jobTitleField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
 
 				<s:decorate id="genderField" template="layout/edit.xhtml">
 					<ui:define name="label">Gender</ui:define>
-					<h:selectOneRadio id="gender" required="true" value="#{userHome.instance.gender}">
+					<h:selectOneRadio id="gender" required="true" value="#{user.gender}">
 						<s:selectItems value="#{genders}" var="g" itemValue="#{g}" label="#{messages[g.label]}" />
 						<s:convertEnum />
 						<a:support event="onblur" reRender="genderField" bypassUpdates="true" ajaxSingle="true" />
@@ -72,14 +72,14 @@
 
 				<s:decorate id="emailField" template="layout/edit.xhtml">
 					<ui:define name="label">Email</ui:define>
-					<h:inputText id="email" required="true" size="100" maxlength="100" value="#{userHome.instance.email}">
+					<h:inputText id="email" required="true" size="100" maxlength="100" value="#{user.email}">
 						<a:support event="onblur" reRender="emailField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
 
 				<s:decorate id="departmentField" template="layout/edit.xhtml">
 					<ui:define name="label">Department</ui:define>
-					<h:selectOneMenu id="department" required="true" value="#{userHome.instance.department}">
+					<h:selectOneMenu id="department" required="true" value="#{user.department}">
 						<s:selectItems value="#{departmentList.resultList}" var="d" itemValue="#{d}" label="#{d.name}" />
 						<s:convertEntity />
 						<a:support event="onblur" reRender="departmentField" bypassUpdates="true" ajaxSingle="true" />
@@ -88,7 +88,7 @@
 				
 				<s:decorate id="rolesField" template="layout/edit.xhtml" rendered="#{s:hasRole('ADMIN')}">
 					<ui:define name="label">Roles</ui:define>
-					<h:selectManyCheckbox id="roles" value="#{userHome.instance.roles}">
+					<h:selectManyCheckbox id="roles" value="#{user.roles}">
 						<s:selectItems var="r" value="#{roleList.resultList}" label="#{messages[r.nameKey]}" />
 						<s:convertEntity />
 						<a:support event="onblur" reRender="rolesField" bypassUpdates="true" ajaxSingle="true" />
@@ -97,7 +97,7 @@
 
 				<s:decorate id="enabledField" template="layout/edit.xhtml" rendered="#{s:hasRole('ADMIN')}">
 					<ui:define name="label">Enabled</ui:define>
-					<h:selectBooleanCheckbox title="enabled" value="#{userHome.instance.enabled}" />
+					<h:selectBooleanCheckbox title="enabled" value="#{user.enabled}" />
 				</s:decorate>
 
 
@@ -110,7 +110,7 @@
 			<div class="actionButtons">
 				<h:commandButton id="save" value="Save" action="#{userHome.registerNew}" disabled="#{!userHome.wired}" rendered="#{!userHome.managed}" />
 				<h:commandButton id="update" value="Save" action="#{userHome.update}" rendered="#{userHome.managed}" />
-				<s:button id="cancel" value="Cancel" propagation="end" view="/#{s:hasRole('ADMIN') ? 'user-list' : home}.xhtml" />
+				<s:button id="cancel" value="Cancel" propagation="end" view="/#{s:hasRole('ADMIN') ? 'user-list' : 'home'}.xhtml" />
 			</div>
 		</h:form>
 	</ui:define>

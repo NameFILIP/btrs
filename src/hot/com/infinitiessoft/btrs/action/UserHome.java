@@ -26,7 +26,7 @@ import com.infinitiessoft.btrs.model.User;
 public class UserHome extends EntityHome<User> {
 
 	private static final long serialVersionUID = -5368319908832175365L;
-
+	
 	@Logger private Log log;
 	
 	@In(create = true)
@@ -130,6 +130,5 @@ public class UserHome extends EntityHome<User> {
 	public GenderEnum[] getGenders() {
 		return GenderEnum.values();
 	}
-	
 	
 }
