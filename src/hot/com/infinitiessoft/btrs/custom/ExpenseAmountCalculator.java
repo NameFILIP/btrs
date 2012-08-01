@@ -1,9 +1,10 @@
-package com.infinitiessoft.btrs.action;
+package com.infinitiessoft.btrs.custom;
 
 import org.drools.util.StringUtils;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 
+import com.infinitiessoft.btrs.action.ExpenseHome;
 import com.infinitiessoft.btrs.enums.ExpenseTypeEnum;
 import com.infinitiessoft.btrs.enums.HighSpeedRailEnum;
 import com.infinitiessoft.btrs.enums.ParameterEnum;
@@ -25,11 +26,11 @@ public class ExpenseAmountCalculator {
 	
 	public void calculateTaxAndAmount() {
 		Expense expense = expenseHome.getInstance();
-		if (ExpenseTypeEnum.HSR.getLabel().equals(expense.getExpenseType().getShortName())) {
-			String sourceValue = expense.getParamValueByTypeName(ParameterEnum.SOURCE.getLabel()).getValue();
-			String destinationValue = expense.getParamValueByTypeName(ParameterEnum.DESTINATION.getLabel()).getValue();
+		if (ExpenseTypeEnum.HSR.name().equals(expense.getExpenseType().getCode())) {
+			String sourceValue = expense.getParamValueByCode(ParameterEnum.SOURCE).getValue();
+			String destinationValue = expense.getParamValueByCode(ParameterEnum.DESTINATION).getValue();
 			
-			String ticketsValue = expense.getParamValueByTypeName(ParameterEnum.TICKETS.getLabel()).getValue();
+			String ticketsValue = expense.getParamValueByCode(ParameterEnum.TICKETS).getValue();
 			Integer ticketsValueSafe = StringUtils.isEmpty(ticketsValue) ? 1 : Integer.valueOf(ticketsValue);
 			
 			HighSpeedRailEnum source = HighSpeedRailEnum.valueOf(sourceValue);
@@ -38,16 +39,16 @@ public class ExpenseAmountCalculator {
 			
 			Integer amountValue = price * ticketsValueSafe;
 			
-			ParameterValue amount = expense.getParamValueByTypeName(ParameterEnum.AMOUNT.getLabel());
+			ParameterValue amount = expense.getParamValueByCode(ParameterEnum.AMOUNT);
 			amount.setValue(amountValue.toString());
 			
 //		} else if (ExpenseTypeEnum.CAR.getLabel().equals(expense.getExpenseType().getShortName())) {
 			
 //			expenseHome.get
 		} else {
-			ParameterValue tax = expense.getParamValueByTypeName(ParameterEnum.TAX.getLabel());
+			ParameterValue tax = expense.getParamValueByCode(ParameterEnum.TAX);
 			if (tax != null) {
-				ParameterValue amount = expense.getParamValueByTypeName(ParameterEnum.AMOUNT.getLabel());
+				ParameterValue amount = expense.getParamValueByCode(ParameterEnum.AMOUNT);
 				Integer amountInt = Integer.valueOf(amount.getValue());
 				Integer taxValue = ((Double) (amountInt * taxPercent / (100.0 + taxPercent))).intValue();
 				tax.setValue(taxValue.toString());

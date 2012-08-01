@@ -1,67 +1,54 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:a="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich" xmlns:s="http://jboss.com/products/seam/taglib" contentType="text/html" template="layout/template.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				contentType="text/html"
+				template="layout/template.xhtml">
 
 	<ui:define name="content">
 		<h:form id="expenseCategory" styleClass="edit">
 
-        <rich:panel>
-            <f:facet name="header">#{expenseCategoryHome.managed ? 'Edit' : 'Add'} Expense Category</f:facet>
+			<rich:panel>
+				<f:facet name="header">#{expenseCategoryHome.managed ? 'Edit' : 'Add'} Expense Category</f:facet>
 
-			<s:decorate id="nameField" template="layout/edit.xhtml">
-                <ui:define name="label">Name</ui:define>
-                <h:inputText id="name"
-                       required="true"
-                           size="100"
-                      maxlength="100"
-                          value="#{expenseCategoryHome.instance.name}">
-                    <a:support event="onblur" reRender="nameField" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
-            </s:decorate>
-          
-            <s:decorate id="commentField" template="layout/edit.xhtml">
-                <ui:define name="label">Comment</ui:define>
-                <h:inputTextarea id="comment"
-                               cols="80"
-                               rows="3"
-                              value="#{expenseCategoryHome.instance.comment}"/>
-            </s:decorate>
+				<s:decorate id="nameKeyField" template="layout/edit.xhtml">
+					<ui:define name="label">Name Key</ui:define>
+					<h:inputText id="nameKey" required="true" size="100" maxlength="100" value="#{expenseCategoryHome.instance.nameKey}">
+						<a:support event="onblur" reRender="nameKeyField" bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
 
-            <div style="clear:both">
-                <span class="required">*</span>
-                required fields
-            </div>
+				<s:decorate id="commentField" template="layout/edit.xhtml">
+					<ui:define name="label">Comment</ui:define>
+					<h:inputTextarea id="comment" cols="80" rows="3" value="#{expenseCategoryHome.instance.comment}" />
+				</s:decorate>
 
-        </rich:panel>
+				<div style="clear: both">
+					<span class="required">*</span> required fields
+				</div>
 
-        <div class="actionButtons">
+			</rich:panel>
 
-            <h:commandButton id="save"
-                          value="Save"
-                         action="#{expenseCategoryHome.persist}"
-                       disabled="#{!expenseCategoryHome.wired}"
-                       rendered="#{!expenseCategoryHome.managed}"/>
+			<div class="actionButtons">
 
-            <h:commandButton id="update"
-                          value="Save"
-                         action="#{expenseCategoryHome.update}"
-                       rendered="#{expenseCategoryHome.managed}"/>
+				<h:commandButton id="save" value="Save" action="#{expenseCategoryHome.persist}" disabled="#{!expenseCategoryHome.wired}"
+					rendered="#{!expenseCategoryHome.managed}" />
 
-            <s:button id="cancelEdit"
-                   value="Cancel"
-             propagation="end"
-                    view="/expense-category-list.xhtml"
-                rendered="#{expenseCategoryHome.managed}"/>
+				<h:commandButton id="update" value="Save" action="#{expenseCategoryHome.update}"
+					rendered="#{expenseCategoryHome.managed}" />
 
-            <s:button id="cancelAdd"
-                   value="Cancel"
-             propagation="end"
-                    view="/expense-category-list.xhtml"
-                rendered="#{!expenseCategoryHome.managed}"/>
+				<s:button id="cancelEdit" value="Cancel" propagation="end" view="/expense-category-list.xhtml"
+					rendered="#{expenseCategoryHome.managed}" />
 
-        </div>
-    </h:form>
+				<s:button id="cancelAdd" value="Cancel" propagation="end" view="/expense-category-list.xhtml"
+					rendered="#{!expenseCategoryHome.managed}" />
+
+			</div>
+		</h:form>
 	</ui:define>
 </ui:composition>

@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 
+import com.infinitiessoft.btrs.custom.ExpenseAmountCalculator;
 import com.infinitiessoft.btrs.enums.HighSpeedRailEnum;
 import com.infinitiessoft.btrs.enums.ParameterEnum;
 import com.infinitiessoft.btrs.logic.HighSpeedRailPrices;
@@ -111,7 +112,7 @@ public class ExpenseHome extends EntityHome<Expense> {
 	}
 	
 	public void clear() {
-		log.warn("clear method is called");
+		log.info("clear method is called");
 		expenseCategoryHome.clearInstance();
 		expenseTypeHome.clearInstance();
 		clearInstance();
@@ -130,8 +131,8 @@ public class ExpenseHome extends EntityHome<Expense> {
 	
 	@Factory(value = "hsrDataReady", scope = ScopeType.EVENT)
 	public boolean hsrDataReady() {
-		String sourceParam = getInstance().getParamValueByTypeName(ParameterEnum.SOURCE.getLabel()).getValue();
-		String destinationParam = getInstance().getParamValueByTypeName(ParameterEnum.DESTINATION.getLabel()).getValue();
+		String sourceParam = getInstance().getParamValueByCode(ParameterEnum.SOURCE).getValue();
+		String destinationParam = getInstance().getParamValueByCode(ParameterEnum.DESTINATION).getValue();
 		
 		boolean hsrDataReady = (sourceParam != null) && (destinationParam != null);
 		

@@ -27,22 +27,22 @@
 						<f:facet name="header">
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{typeParameterList}" />
-								<ui:param name="propertyLabel" value="Full Name" />
-								<ui:param name="propertyPath" value="typeParameter.fullName" />
+								<ui:param name="propertyLabel" value="Name" />
+								<ui:param name="propertyPath" value="typeParameter.nameKey" />
 							</ui:include>
 						</f:facet>
-						<h:outputText value="#{_typeParameter.fullName}" />
+						<h:outputText value="#{messages[_typeParameter.nameKey]}" />
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{typeParameterList}" />
-								<ui:param name="propertyLabel" value="Short Name" />
-								<ui:param name="propertyPath" value="typeParameter.shortName" />
+								<ui:param name="propertyLabel" value="Code" />
+								<ui:param name="propertyPath" value="typeParameter.code" />
 							</ui:include>
 						</f:facet>
-						<h:outputText value="#{_typeParameter.shortName}" />
+						<h:outputText value="#{_typeParameter.code}" />
 					</h:column>
 					
 					<h:column>

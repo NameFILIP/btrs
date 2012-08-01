@@ -53,15 +53,21 @@
 						<a:support event="onblur" reRender="lastNameField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
+				
+				<s:decorate id="jobTitleField" template="layout/edit.xhtml">
+					<ui:define name="label">Job title</ui:define>
+					<h:inputText id="jobTitle" size="100" maxlength="100" value="#{userHome.instance.jobTitle}">
+						<a:support event="onblur" reRender="jobTitleField" bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
 
 				<s:decorate id="genderField" template="layout/edit.xhtml">
 					<ui:define name="label">Gender</ui:define>
-					<h:selectOneMenu id="gender" required="true" value="#{userHome.instance.gender}">
-						<s:enumItem enumValue="Male" label="Male" />
-						<s:enumItem enumValue="Female" label="Female" />
+					<h:selectOneRadio id="gender" required="true" value="#{userHome.instance.gender}">
+						<s:selectItems value="#{genders}" var="g" itemValue="#{g}" label="#{messages[g.label]}" />
 						<s:convertEnum />
 						<a:support event="onblur" reRender="genderField" bypassUpdates="true" ajaxSingle="true" />
-					</h:selectOneMenu>
+					</h:selectOneRadio>
 				</s:decorate>
 
 				<s:decorate id="emailField" template="layout/edit.xhtml">
@@ -80,16 +86,16 @@
 					</h:selectOneMenu>
 				</s:decorate>
 				
-				<s:decorate id="rolesField" template="layout/edit.xhtml" rendered="#{s:hasRole('Admin')}">
+				<s:decorate id="rolesField" template="layout/edit.xhtml" rendered="#{s:hasRole('ADMIN')}">
 					<ui:define name="label">Roles</ui:define>
 					<h:selectManyCheckbox id="roles" value="#{userHome.instance.roles}">
-						<s:selectItems var="r" value="#{roleList.resultList}" label="#{r.name}" />
+						<s:selectItems var="r" value="#{roleList.resultList}" label="#{messages[r.nameKey]}" />
 						<s:convertEntity />
 						<a:support event="onblur" reRender="rolesField" bypassUpdates="true" ajaxSingle="true" />
 					</h:selectManyCheckbox>
 				</s:decorate>
 
-				<s:decorate id="enabledField" template="layout/edit.xhtml" rendered="#{s:hasRole('Admin')}">
+				<s:decorate id="enabledField" template="layout/edit.xhtml" rendered="#{s:hasRole('ADMIN')}">
 					<ui:define name="label">Enabled</ui:define>
 					<h:selectBooleanCheckbox title="enabled" value="#{userHome.instance.enabled}" />
 				</s:decorate>
@@ -104,7 +110,7 @@
 			<div class="actionButtons">
 				<h:commandButton id="save" value="Save" action="#{userHome.registerNew}" disabled="#{!userHome.wired}" rendered="#{!userHome.managed}" />
 				<h:commandButton id="update" value="Save" action="#{userHome.update}" rendered="#{userHome.managed}" />
-				<s:button id="cancel" value="Cancel" propagation="end" view="/#{s:hasRole('Admin') ? 'user-list' : home}.xhtml" />
+				<s:button id="cancel" value="Cancel" propagation="end" view="/#{s:hasRole('ADMIN') ? 'user-list' : home}.xhtml" />
 			</div>
 		</h:form>
 	</ui:define>

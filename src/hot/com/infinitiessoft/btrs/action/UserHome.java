@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
@@ -13,6 +15,7 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.security.management.IdentityManager;
 import org.jboss.seam.security.management.JpaIdentityStore;
 
+import com.infinitiessoft.btrs.enums.GenderEnum;
 import com.infinitiessoft.btrs.model.Department;
 import com.infinitiessoft.btrs.model.Report;
 import com.infinitiessoft.btrs.model.Role;
@@ -97,7 +100,6 @@ public class UserHome extends EntityHome<User> {
 		log.debug("registration has started: {}", getInstance());
 		identityManager.getIdentityStore().createUser(getInstance().getUsername(), getInstance().getPassword());
 		createdMessage();
-		log.debug("registration has finished");
 		return "registered";
 	}
 	
@@ -110,6 +112,7 @@ public class UserHome extends EntityHome<User> {
 		user.setGender(userData.getGender());
 		user.setFirstName(userData.getFirstName());
 		user.setLastName(userData.getLastName());
+		user.setJobTitle(userData.getJobTitle());
 		user.setCreatedDate(new Date());
 		
 		user.getRoles().add(roleList.getDefaultRole());
@@ -122,5 +125,11 @@ public class UserHome extends EntityHome<User> {
 		user.setLastLogin(new Date());
 		update();
 	}
-
+	
+	@Factory(value = "genders", scope = ScopeType.CONVERSATION)
+	public GenderEnum[] getGenders() {
+		return GenderEnum.values();
+	}
+	
+	
 }

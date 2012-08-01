@@ -22,25 +22,13 @@ public class TypeParameter implements java.io.Serializable {
 	private static final long serialVersionUID = -8024876508245805562L;
 
 	private Long id;
-	private String fullName;
-	private String shortName;
+	private String nameKey;
+	private String code;
 	private String comment;
 	private Set<ExpenseType> expenseTypes = new HashSet<ExpenseType>(0);
 	private Set<ParameterValue> parameterValues = new HashSet<ParameterValue>(0);
 
 	public TypeParameter() {
-	}
-
-	public TypeParameter(Long id, String fullName) {
-		this.id = id;
-		this.fullName = fullName;
-	}
-	public TypeParameter(Long id, String fullName, String shortName, String comment, Set<ExpenseType> expenseTypes) {
-		this.id = id;
-		this.fullName = fullName;
-		this.shortName = shortName;
-		this.comment = comment;
-		this.expenseTypes = expenseTypes;
 	}
 
 	@Id
@@ -54,26 +42,26 @@ public class TypeParameter implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "full_name", nullable = false, length = 100)
+	@Column(name = "name_key", nullable = false, length = 100)
 	@NotNull
 	@Length(max = 100)
-	public String getFullName() {
-		return this.fullName;
+	public String getNameKey() {
+		return this.nameKey;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setNameKey(String nameKey) {
+		this.nameKey = nameKey;
 	}
 	
-	@Column(name = "short_name", nullable = false, length = 100)
+	@Column(name = "code", nullable = false, length = 100)
 	@NotNull
 	@Length(max = 100)
-	public String getShortName() {
-		return this.shortName;
+	public String getCode() {
+		return this.code;
 	}
 
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	@Column(length = 4000)

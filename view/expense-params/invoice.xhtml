@@ -12,8 +12,8 @@
 
 
 	<s:decorate id="personsField" template="/layout/edit.xhtml">
-		<ui:define name="label">#{expense.getParamValueByTypeName('persons').typeParameter.fullName}</ui:define>
-		<h:selectOneMenu id="persons" required="true" value="#{expense.getParamValueByTypeName('persons').value}" >
+		<ui:define name="label">#{messages['parameter.persons']}</ui:define>
+		<h:selectOneMenu id="persons" required="true" value="#{expense.getParamValueByCode('PERSONS').value}" >
 			<f:selectItem itemValue="1"/>
 			<f:selectItem itemValue="2"/>
 			<f:selectItem itemValue="3"/>
@@ -27,8 +27,8 @@
 	</s:decorate>
 	
 	<s:decorate id="daysField" template="/layout/edit.xhtml">
-		<ui:define name="label">#{expense.getParamValueByTypeName('days').typeParameter.fullName}</ui:define>
-		<h:selectOneMenu id="days" required="true" value="#{expense.getParamValueByTypeName('days').value}">
+		<ui:define name="label">#{messages['parameter.days']}</ui:define>
+		<h:selectOneMenu id="days" required="true" value="#{expense.getParamValueByCode('DAYS').value}">
 			<f:selectItem itemValue="1"/>
 			<f:selectItem itemValue="2"/>
 			<f:selectItem itemValue="3"/>
@@ -42,8 +42,8 @@
 	</s:decorate>
 
 	<s:decorate id="amountField" template="/layout/edit.xhtml">
-		<ui:define name="label">#{expense.getParamValueByTypeName('amount').typeParameter.fullName}</ui:define>
-		<h:inputText id="amount" required="true" size="20" maxlength="100" value="#{expense.getParamValueByTypeName('amount').value}" />
+		<ui:define name="label">#{messages['parameter.amount']}</ui:define>
+		<h:inputText id="amount" required="true" size="20" maxlength="100" value="#{expense.getParamValueByCode('AMOUNT').value}" />
 	</s:decorate>
 
 </ui:composition>

@@ -26,25 +26,10 @@ public class ExpenseCategory implements java.io.Serializable {
 	private static final long serialVersionUID = -8880786274284098835L;
 
 	private Long id;
-	private String name;
+	private String nameKey;
 	private String comment;
 	private Set<ExpenseType> expenseTypes = new HashSet<ExpenseType>(0);
 	
-
-	public ExpenseCategory() {
-	}
-
-	public ExpenseCategory(Long id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-
-	public ExpenseCategory(Long id, String name, String comment, Set<ExpenseType> expenseTypes) {
-		this.id = id;
-		this.name = name;
-		this.comment = comment;
-		this.expenseTypes = expenseTypes;
-	}
 
 	@Id
 	@GeneratedValue
@@ -57,15 +42,15 @@ public class ExpenseCategory implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name", nullable = false, length = 100)
+	@Column(name = "name_key", nullable = false, length = 100)
 	@NotNull
 	@Length(max = 100)
-	public String getName() {
-		return this.name;
+	public String getNameKey() {
+		return this.nameKey;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNameKey(String nameKey) {
+		this.nameKey = nameKey;
 	}
 	
 	

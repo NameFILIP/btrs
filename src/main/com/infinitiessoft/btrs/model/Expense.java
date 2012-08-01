@@ -99,9 +99,9 @@ public class Expense implements java.io.Serializable {
 	
 	
 	@Transient
-	public ParameterValue getParamValueByTypeName(String name) {
+	public ParameterValue getParamValueByCode(String code) {
 		for (ParameterValue param : parameterValues) {
-			if (name.equals(param.getTypeParameter().getShortName())) {
+			if (code.equalsIgnoreCase(param.getTypeParameter().getCode())) {
 				return param;
 			}
 		}
@@ -109,14 +109,19 @@ public class Expense implements java.io.Serializable {
 	}
 	
 	@Transient
+	public ParameterValue getParamValueByCode(ParameterEnum parameter) {
+		return getParamValueByCode(parameter.name());
+	}
+	
+	@Transient
 	public Integer getTotalAmount() {
-		ParameterValue amountParam = getParamValueByTypeName(ParameterEnum.AMOUNT.getLabel());
+		ParameterValue amountParam = getParamValueByCode(ParameterEnum.AMOUNT.name());
 		return amountParam == null ? 0 : Integer.valueOf(amountParam.getValue());
 	}
 	
 	@Transient
 	public Integer getTax() {
-		ParameterValue taxParam = getParamValueByTypeName(ParameterEnum.TAX.getLabel());
+		ParameterValue taxParam = getParamValueByCode(ParameterEnum.TAX.name());
 		return taxParam == null ? 0 : Integer.valueOf(taxParam.getValue());
 	}
 	

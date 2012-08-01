@@ -10,8 +10,8 @@
 				contentType="text/html">
 	
 	<s:decorate id="otherField" template="/layout/edit.xhtml">
-		<ui:define name="label">#{expense.getParamValueByTypeName('other').typeParameter.fullName}</ui:define>
-		<h:inputTextarea id="other" required="true" cols="40" rows="5" maxlength="1000" value="#{expense.getParamValueByTypeName('other').value}" />
+		<ui:define name="label">#{messages['parameter.other']}</ui:define>
+		<h:inputTextarea id="other" required="true" cols="40" rows="5" maxlength="1000" value="#{expense.getParamValueByCode('OTHER').value}" />
 	</s:decorate>
 
 </ui:composition>

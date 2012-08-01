@@ -1,5 +1,17 @@
 package com.infinitiessoft.btrs.enums;
 
 public enum GenderEnum {
-	Male, Female
+	
+	MALE("gender.male"),
+	FEMALE("gender.female");
+
+	private final String label;
+
+	GenderEnum(String label) {
+		this.label = label;
+	}
+
+	public String getLabel() {
+		return this.label;
+	}
 }

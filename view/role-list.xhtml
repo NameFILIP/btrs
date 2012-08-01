@@ -10,7 +10,6 @@
 		<ui:include src="layout/admin-sidebar.xhtml" />
 	</ui:define>
 
-
 	<ui:define name="data-main-title">Manage Roles</ui:define>
 
 	<ui:define name="data-main-body">
@@ -26,10 +25,21 @@
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{roleList}" />
 								<ui:param name="propertyLabel" value="Name" />
-								<ui:param name="propertyPath" value="role.name" />
+								<ui:param name="propertyPath" value="role.nameKey" />
 							</ui:include>
 						</f:facet>
-						<h:outputText value="#{_role.name}" />
+						<h:outputText value="#{messages[_role.nameKey]}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{roleList}" />
+								<ui:param name="propertyLabel" value="Code" />
+								<ui:param name="propertyPath" value="role.code" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_role.code}" />
 					</h:column>
 					
 					<h:column>

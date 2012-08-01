@@ -1,14 +1,15 @@
 package com.infinitiessoft.btrs.enums;
 
 public enum HighSpeedRailEnum {
-	TAIPEI ("Taipei", 0),
-	BANQIAO ("Banqiao", 1),
-	TAOYUAN ("Taoyuan", 2),
-	HSINCHU ("Hsinchu", 3),
-	TAICHUNG ("Taichung", 4),
-	CHIAYI ("Chiayi", 5),
-	TAINAN ("Tainan", 6),
-	ZUOYING ("Zuoying", 7);
+	
+	TAIPEI ("hsr.station.taipei", 0),
+	BANQIAO ("hsr.station.banqiao", 1),
+	TAOYUAN ("hsr.station.taoyuan", 2),
+	HSINCHU ("hsr.station.hsinchu", 3),
+	TAICHUNG ("hsr.station.taichung", 4),
+	CHIAYI ("hsr.station.chiayi", 5),
+	TAINAN ("hsr.station.tainan", 6),
+	ZUOYING ("hsr.station.zuoying", 7);
 	
 	private final String label;
 	private int index;

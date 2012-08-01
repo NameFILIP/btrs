@@ -15,9 +15,7 @@ public class RoleList extends EntityQuery<Role> {
 
 	private static final String EJBQL = "select role from Role role";
 
-	private static final String[] RESTRICTIONS = {
-			"lower(role.comment) like lower(concat(#{roleList.role.comment},'%'))",
-			"lower(role.name) like lower(concat(#{roleList.role.name},'%'))",};
+	private static final String[] RESTRICTIONS = {"role.code = #{roleList.role.code}"};
 
 	private Role role = new Role();
 
@@ -32,8 +30,7 @@ public class RoleList extends EntityQuery<Role> {
 	}
 	
 	public Role getDefaultRole() {
-		return (Role) getEntityManager().createQuery("select r from Role r where r.name = :role")
-	            .setParameter("role", RoleEnum.Employee.toString())
-	            .getSingleResult();
+		role.setCode(RoleEnum.EMPLOYEE.name());
+		return getSingleResult();
 	}
 }

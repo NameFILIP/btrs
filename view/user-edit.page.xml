@@ -9,22 +9,22 @@
 	<action execute="#{userHome.wire}" />
 
 	<navigation from-action="#{userHome.registerNew}">
-		<rule if-outcome="registered" if="#{s:hasRole('Admin')}">
+		<rule if-outcome="registered" if="#{s:hasRole('ADMIN')}">
 			<end-conversation />
 			<redirect view-id="/user-list.xhtml" />
 		</rule>
-		<rule if-outcome="registered" if="#{not s:hasRole('Admin')}">
+		<rule if-outcome="registered" if="#{not s:hasRole('ADMIN')}">
 			<end-conversation />
 			<redirect view-id="/login.xhtml" />
 		</rule>
 	</navigation>
 
 	<navigation from-action="#{userHome.update}">
-		<rule if-outcome="updated" if="#{s:hasRole('Admin')}">
+		<rule if-outcome="updated" if="#{s:hasRole('ADMIN')}">
 			<end-conversation />
 			<redirect view-id="/user-list.xhtml" />
 		</rule>
-		<rule if-outcome="updated" if="#{not s:hasRole('Admin')}">
+		<rule if-outcome="updated" if="#{not s:hasRole('ADMIN')}">
 			<end-conversation />
 			<redirect view-id="/home.xhtml" />
 		</rule>

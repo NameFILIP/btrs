@@ -6,7 +6,7 @@
 	  no-conversation-view-id="/department-list.xhtml"
       login-required="true">
 	
-	<restrict>#{s:hasRole('Admin')}</restrict>
+	<restrict>#{s:hasRole('ADMIN')}</restrict>
 	
 	<begin-conversation join="true" flush-mode="MANUAL"/>
 

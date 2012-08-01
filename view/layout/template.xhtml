@@ -50,17 +50,17 @@
 					<li><s:link id="my-reports" view="/report-list.xhtml" value="#{messages['navbar.my.reports']}" /></li>
 					<li><s:link id="report-new" view="/report-edit.xhtml" value="#{messages['navbar.create.new.report']}" /></li>
 
-					<s:fragment rendered="#{s:hasRole('DepLeader') or s:hasRole('Accountant') or s:hasRole('Admin')}">
+					<s:fragment rendered="#{s:hasRole('DEP_LEADER') or s:hasRole('ACCOUNTANT') or s:hasRole('ADMIN')}">
 						<li>-</li>
 					</s:fragment>
 
-					<s:fragment rendered="#{s:hasRole('DepLeader')}">
+					<s:fragment rendered="#{s:hasRole('DEP_LEADER')}">
 						<li><s:link id="dep-reports" view="/" value="#{messages['navbar.my.department.reports']}" /></li>
 					</s:fragment>
-					<s:fragment rendered="#{s:hasRole('Accountant')}">
+					<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
 						<li><s:link id="emp-reports" view="/" value="#{messages['navbar.all.employees.reports']}" /></li>
 					</s:fragment>
-					<s:fragment rendered="#{s:hasRole('Admin')}">
+					<s:fragment rendered="#{s:hasRole('ADMIN')}">
 						<li><s:link id="management" action="management" value="#{messages['navbar.management']}" /></li>
 					</s:fragment>
 				</ul>

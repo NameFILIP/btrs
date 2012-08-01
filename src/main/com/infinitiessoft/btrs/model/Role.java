@@ -26,22 +26,12 @@ public class Role implements java.io.Serializable {
 	private static final long serialVersionUID = -4458069011477017587L;
 	
 	private Long id;
-	private String name;
+	private String nameKey;
+	private String code;
 	private String comment;
 	private List<User> users = new ArrayList<User>(0);
 
 	public Role() {
-	}
-
-	public Role(Long id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-	public Role(Long id, String name, String comment, List<User> users) {
-		this.id = id;
-		this.name = name;
-		this.comment = comment;
-		this.users = users;
 	}
 
 	@Id
@@ -55,16 +45,28 @@ public class Role implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@RoleName
-	@Column(name = "name", nullable = false, length = 100)
+	
+	@Column(name = "name_key", nullable = false, length = 100)
 	@NotNull
 	@Length(max = 100)
-	public String getName() {
-		return this.name;
+	public String getNameKey() {
+		return this.nameKey;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNameKey(String nameKey) {
+		this.nameKey = nameKey;
+	}
+
+	@RoleName
+	@Column(name = "code", nullable = false, length = 100)
+	@NotNull
+	@Length(max = 100)
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	@Column(length = 4000)

@@ -34,7 +34,7 @@
 				<s:decorate id="expenseCategoryField" template="layout/edit.xhtml">
 					<ui:define name="label">Expense Category</ui:define>
 					<h:selectOneMenu id="category" value="#{expenseCategoryHome.expenseCategoryId}">
-						<s:selectItems value="#{expenseCategoryList.resultList}" var="c" itemValue="#{c.id}" label="#{c.name}" noSelectionLabel="All Categories" />
+						<s:selectItems value="#{expenseCategoryList.resultList}" var="c" itemValue="#{c.id}" label="#{messages[c.nameKey]}" noSelectionLabel="All Categories" />
 						<a:support event="onchange" reRender="expenseTypeField" ajaxSingle="true" />
 					</h:selectOneMenu>
 				</s:decorate>
@@ -42,17 +42,17 @@
 				<s:decorate id="expenseTypeField" template="layout/edit.xhtml">
 					<ui:define name="label">Expense Type</ui:define>
 					<h:selectOneMenu id="type" required="true" value="#{expenseTypeHome.expenseTypeId}" hideNoSelectionOption="true">
-						<s:selectItems value="#{expenseTypeList.loadByCategory()}" var="t" itemValue="#{t.id}" label="#{t.fullName}" noSelectionLabel="Please select..." />
+						<s:selectItems value="#{expenseTypeList.loadByCategory()}" var="t" itemValue="#{t.id}" label="#{messages[t.nameKey]}" noSelectionLabel="Please select..." />
 						<a:support event="onchange" reRender="parametersArea" ajaxSingle="true" action="#{expenseHome.wire}" />
 					</h:selectOneMenu>
 				</s:decorate>
 
 				<a:outputPanel id="parametersArea" layout="none">
 				
-					<ui:include src="expense-params/#{not empty expenseType.shortName ? expenseType.shortName : 'default'}.xhtml" 
-								rendered="#{not empty expenseType.shortName}" />
-					
+					<ui:include src="expense-params/#{not empty expenseType.code ? expenseType.code.toLowerCase() : 'default'}.xhtml" 
+								rendered="#{not empty expenseType.code}" />
 				</a:outputPanel>
+
 
 			</a:outputPanel>
 

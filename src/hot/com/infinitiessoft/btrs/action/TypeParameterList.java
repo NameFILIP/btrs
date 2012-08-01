@@ -14,9 +14,7 @@ public class TypeParameterList extends EntityQuery<TypeParameter> {
 
 	private static final String EJBQL = "select typeParameter from TypeParameter typeParameter";
 
-	private static final String[] RESTRICTIONS = {
-			"lower(typeParameter.comment) like lower(concat(#{typeParameterList.typeParameter.comment},'%'))",
-			"lower(typeParameter.fullName) like lower(concat(#{typeParameterList.typeParameter.fullName},'%'))",};
+	private static final String[] RESTRICTIONS = {};
 
 	private TypeParameter typeParameter = new TypeParameter();
 

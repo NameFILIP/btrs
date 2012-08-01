@@ -14,7 +14,7 @@ public class ExpenseCategoryList extends EntityQuery<ExpenseCategory> {
 
 	private static final String EJBQL = "select expenseCategory from ExpenseCategory expenseCategory";
 
-	private static final String[] RESTRICTIONS = {"lower(expenseCategory.name) like lower(concat(#{expenseCategoryList.expenseCategory.name},'%'))",};
+	private static final String[] RESTRICTIONS = {};
 
 	private ExpenseCategory expenseCategory = new ExpenseCategory();
 

@@ -27,32 +27,32 @@
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{expenseTypeList}" />
 								<ui:param name="propertyLabel" value="Expense Category name" />
-								<ui:param name="propertyPath" value="expenseType.expenseCategory.name" />
+								<ui:param name="propertyPath" value="expenseType.expenseCategory.nameKey" />
 							</ui:include>
 						</f:facet>
-						<h:outputText value="#{_expenseType.expenseCategory.name}" />
+						<h:outputText value="#{messages[_expenseType.expenseCategory.nameKey]}" />
 					</h:column>
 
 					<h:column>
 						<f:facet name="header">
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{expenseTypeList}" />
-								<ui:param name="propertyLabel" value="Full Name" />
-								<ui:param name="propertyPath" value="expenseType.fullName" />
+								<ui:param name="propertyLabel" value="Name" />
+								<ui:param name="propertyPath" value="expenseType.nameKey" />
 							</ui:include>
 						</f:facet>
-						<h:outputText value="#{_expenseType.fullName}" />
+						<h:outputText value="#{messages[_expenseType.nameKey]}" />
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{expenseTypeList}" />
-								<ui:param name="propertyLabel" value="Short Name" />
-								<ui:param name="propertyPath" value="expenseType.shortName" />
+								<ui:param name="propertyLabel" value="Code" />
+								<ui:param name="propertyPath" value="expenseType.code" />
 							</ui:include>
 						</f:facet>
-						<h:outputText value="#{_expenseType.shortName}" />
+						<h:outputText value="#{_expenseType.code}" />
 					</h:column>
 					
 					<h:column>
@@ -64,7 +64,7 @@
 							</ui:include>
 						</f:facet>
 						<ui:repeat var="p" value="#{_expenseType.typeParameters}">
-							<h:outputText value="#{p.fullName}" /><br/>
+							<h:outputText value="#{messages[p.nameKey]}" /><br/>
 						</ui:repeat>
 					</h:column>
 					

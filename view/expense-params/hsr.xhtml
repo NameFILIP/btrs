@@ -12,38 +12,38 @@
 
 
 	<s:decorate id="sourceField" template="/layout/edit.xhtml">
-		<ui:define name="label">#{expense.getParamValueByTypeName('source').typeParameter.fullName}</ui:define>
-		<h:selectOneMenu id="source" required="true" value="#{expense.getParamValueByTypeName('source').value}" >
-			<s:selectItems value="#{hsrStations}" var="s" itemValue="#{s.toString()}" label="#{s.label}" noSelectionLabel="Please select..." />
+		<ui:define name="label">#{messages['parameter.source']}</ui:define>
+		<h:selectOneMenu id="source" required="true" value="#{expense.getParamValueByCode('SOURCE').value}" >
+			<s:selectItems value="#{hsrStations}" var="s" itemValue="#{s.name()}" label="#{messages[s.label]}" noSelectionLabel="Please select..." />
 			<a:support event="onchange" reRender="auto-tickets" ajaxSingle="true" process="tickets" />
 		</h:selectOneMenu>
 	</s:decorate>
 	
 	<s:decorate id="destinationField" template="/layout/edit.xhtml">
-		<ui:define name="label">#{expense.getParamValueByTypeName('destination').typeParameter.fullName}</ui:define>
-		<h:selectOneMenu id="destination" required="true" value="#{expense.getParamValueByTypeName('destination').value}">
-			<s:selectItems value="#{hsrStations}" var="d" itemValue="#{d.toString()}" label="#{d.label}" noSelectionLabel="Please select..." />
+		<ui:define name="label">#{messages['parameter.destination']}</ui:define>
+		<h:selectOneMenu id="destination" required="true" value="#{expense.getParamValueByCode('DESTINATION').value}">
+			<s:selectItems value="#{hsrStations}" var="d" itemValue="#{d.name()}" label="#{messages[d.label]}" noSelectionLabel="Please select..." />
 			<a:support event="onchange" reRender="auto-tickets" ajaxSingle="true" process="tickets" />
 		</h:selectOneMenu>
 	</s:decorate>
 
 
 	<s:decorate id="ticketsField" template="/layout/edit.xhtml">
-		<ui:define name="label">#{expense.getParamValueByTypeName('tickets').typeParameter.fullName}</ui:define>
-		<h:selectOneMenu id="tickets" required="true" value="#{expense.getParamValueByTypeName('tickets').value}">
-			<f:selectItem itemValue="1"/>
-			<f:selectItem itemValue="2"/>
-			<f:selectItem itemValue="3"/>
-			<f:selectItem itemValue="4"/>
-			<f:selectItem itemValue="5"/>
-			<f:selectItem itemValue="6"/>
-			<f:selectItem itemValue="7"/>
-			<f:selectItem itemValue="8"/>
-			<f:selectItem itemValue="9"/>
+		<ui:define name="label">#{messages['parameter.tickets']}</ui:define>
+		<h:selectOneMenu id="tickets" required="true" value="#{expense.getParamValueByCode('TICKETS').value}">
+			<f:selectItem itemValue="1" />
+			<f:selectItem itemValue="2" />
+			<f:selectItem itemValue="3" />
+			<f:selectItem itemValue="4" />
+			<f:selectItem itemValue="5" />
+			<f:selectItem itemValue="6" />
+			<f:selectItem itemValue="7" />
+			<f:selectItem itemValue="8" />
+			<f:selectItem itemValue="9" />
 			<a:support event="onchange" reRender="auto-tickets" ajaxSingle="true" />
 		</h:selectOneMenu>
 		<h:outputText id="auto-tickets" 
-				value=" * #{hsrPrice} = #{expense.getParamValueByTypeName('tickets').value * hsrPrice} " 
+				value=" * #{hsrPrice} = #{expense.getParamValueByCode('tickets').value * hsrPrice} " 
 				rendered = "#{hsrDataReady}"/>
 	</s:decorate>
 

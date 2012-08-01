@@ -16,17 +16,17 @@
 			<rich:panel>
 				<f:facet name="header">#{typeParameterHome.managed ? 'Edit' : 'Add'} Type Parameter</f:facet>
 
-				<s:decorate id="fullNameField" template="layout/edit.xhtml">
-					<ui:define name="label">Full Name</ui:define>
-					<h:inputText id="fullName" required="true" size="100" maxlength="100" value="#{typeParameter.fullName}">
-						<a:support event="onblur" reRender="fullNameField" bypassUpdates="true" ajaxSingle="true" />
+				<s:decorate id="nameKeyField" template="layout/edit.xhtml">
+					<ui:define name="label">Name Key</ui:define>
+					<h:inputText id="nameKey" required="true" size="100" maxlength="100" value="#{typeParameter.nameKey}">
+						<a:support event="onblur" reRender="nameKeyField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
 				
-				<s:decorate id="shortNameField" template="layout/edit.xhtml">
-					<ui:define name="label">Short Name</ui:define>
-					<h:inputText id="shortName" required="true" size="100" maxlength="100" value="#{typeParameter.shortName}">
-						<a:support event="onblur" reRender="shortNameField" bypassUpdates="true" ajaxSingle="true" />
+				<s:decorate id="codeField" template="layout/edit.xhtml">
+					<ui:define name="label">Code</ui:define>
+					<h:inputText id="code" required="true" size="100" maxlength="100" value="#{typeParameter.code}">
+						<a:support event="onblur" reRender="codeField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
 

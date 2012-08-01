@@ -26,10 +26,10 @@
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{expenseCategoryList}" />
 								<ui:param name="propertyLabel" value="Name" />
-								<ui:param name="propertyPath" value="expenseCategory.name" />
+								<ui:param name="propertyPath" value="expenseCategory.nameKey" />
 							</ui:include>
 						</f:facet>
-						<h:outputText value="#{_expenseCategory.name}" />
+						<h:outputText value="#{messages[_expenseCategory.nameKey]}" />
 					</h:column>
 					
 					<h:column>

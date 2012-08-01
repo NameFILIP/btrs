@@ -1,5 +1,10 @@
 package com.infinitiessoft.btrs.enums;
 
 public enum RoleEnum {
-	Employee, DepLeader, Accountant, Admin
+
+	EMPLOYEE,
+	DEP_LEADER,
+	ACCOUNTANT,
+	ADMIN
+
 }

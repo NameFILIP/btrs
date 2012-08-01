@@ -29,21 +29,21 @@
     </script>
 	
 		<s:decorate id="distanceField" template="/layout/edit.xhtml">
-			<ui:define name="label">#{expense.getParamValueByTypeName('distance').typeParameter.fullName}</ui:define>
-			<h:inputText id="distance" required="true" size="10" maxlength="100" value="#{expense.getParamValueByTypeName('distance').value}">
+			<ui:define name="label">#{messages['parameter.distance']}</ui:define>
+			<h:inputText id="distance" required="true" size="10" maxlength="100" value="#{expense.getParamValueByCode('DISTANCE').value}">
 				<a:support event="onkeyup" reRender="auto-distance" ignoreDupResponses="true" requestDelay="100" ajaxSingle="true" oncomplete="setCaretToEnd(event);" />
 			</h:inputText>
-			<h:outputText id="auto-distance" value=" * 6 = #{expense.getParamValueByTypeName('distance').value * 6}" />
+			<h:outputText id="auto-distance" value=" * 6 = #{expense.getParamValueByCode('distance').value * 6}" />
 		</s:decorate>
 		
 		<s:decorate id="invoiceField" template="/layout/edit.xhtml">
-			<ui:define name="label">#{expense.getParamValueByTypeName('invoice').typeParameter.fullName}</ui:define>
-			<h:inputText id="invoice" required="true" size="20" maxlength="100" value="#{expense.getParamValueByTypeName('invoice').value}" />
+			<ui:define name="label">#{messages['parameter.invoice']}</ui:define>
+			<h:inputText id="invoice" required="true" size="20" maxlength="100" value="#{expense.getParamValueByCode('INVOICE').value}" />
 		</s:decorate>
 		
 		<s:decorate id="freewayTollField" template="/layout/edit.xhtml">
-			<ui:define name="label">#{expense.getParamValueByTypeName('freeway_toll').typeParameter.fullName}</ui:define>
-			<h:inputText id="freewayToll" required="true" size="20" maxlength="100" value="#{expense.getParamValueByTypeName('freeway_toll').value}" />
+			<ui:define name="label">#{messages['parameter.freeway.toll']}</ui:define>
+			<h:inputText id="freewayToll" required="true" size="20" maxlength="100" value="#{expense.getParamValueByCode('FREEWAY_TOLL').value}" />
 		</s:decorate>
 
 </ui:composition>

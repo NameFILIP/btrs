@@ -19,30 +19,30 @@
 				<s:decorate id="expenseCategoryField" template="layout/edit.xhtml">
 					<ui:define name="label">Expense Category</ui:define>
 					<h:selectOneMenu id="category" required="true" value="#{expenseType.expenseCategory}">
-						<s:selectItems value="#{expenseCategoryList.resultList}" var="c" itemValue="#{c}" label="#{c.name}" />
+						<s:selectItems value="#{expenseCategoryList.resultList}" var="c" itemValue="#{c}" label="#{messages[c.nameKey]}" />
 						<s:convertEntity />
 						<a:support event="onblur" reRender="expenseCategoryField" bypassUpdates="true" ajaxSingle="true" />
 					</h:selectOneMenu>
 				</s:decorate>
 
-				<s:decorate id="fullNameField" template="layout/edit.xhtml">
-					<ui:define name="label">Full Name</ui:define>
-					<h:inputText id="name" required="true" size="100" maxlength="100" value="#{expenseType.fullName}">
-						<a:support event="onblur" reRender="fullNameField" bypassUpdates="true" ajaxSingle="true" />
+				<s:decorate id="nameKeyField" template="layout/edit.xhtml">
+					<ui:define name="label">Name Key</ui:define>
+					<h:inputText id="name" required="true" size="100" maxlength="100" value="#{expenseType.nameKey}">
+						<a:support event="onblur" reRender="nameKeyField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
 				
-				<s:decorate id="shortNameField" template="layout/edit.xhtml">
-					<ui:define name="label">Short Name</ui:define>
-					<h:inputText id="name" size="20" maxlength="20" value="#{expenseType.shortName}">
-						<a:support event="onblur" reRender="shortNameField" bypassUpdates="true" ajaxSingle="true" />
+				<s:decorate id="codeField" template="layout/edit.xhtml">
+					<ui:define name="label">Code</ui:define>
+					<h:inputText id="name" size="100" maxlength="100" value="#{expenseType.code}">
+						<a:support event="onblur" reRender="codeField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
 
 				<s:decorate id="typeParametersField" template="layout/edit.xhtml">
 					<ui:define name="label">Parameters</ui:define>
 					<rich:pickList value="#{expenseType.typeParameters}">
-						<s:selectItems value="#{typeParameterList.resultList}" var="p" label="#{p.fullName}" />
+						<s:selectItems value="#{typeParameterList.resultList}" var="p" label="#{messages[p.nameKey]}" />
 						<s:convertEntity />
 						<a:support event="onblur" reRender="typeParametersField" bypassUpdates="true" ajaxSingle="true" />
 					</rich:pickList>
@@ -61,16 +61,13 @@
 
 			<div class="actionButtons">
 
-				<h:commandButton id="save" value="Save" action="#{expenseTypeHome.persist}" disabled="#{!expenseTypeHome.wired}"
-					rendered="#{!expenseTypeHome.managed}" />
+				<h:commandButton id="save" value="Save" action="#{expenseTypeHome.persist}" disabled="#{!expenseTypeHome.wired}" rendered="#{!expenseTypeHome.managed}" />
 
 				<h:commandButton id="update" value="Save" action="#{expenseTypeHome.update}" rendered="#{expenseTypeHome.managed}" />
 
-				<s:button id="cancelEdit" value="Cancel" propagation="end" view="/expense-type-list.xhtml"
-					rendered="#{expenseTypeHome.managed}" />
+				<s:button id="cancelEdit" value="Cancel" propagation="end" view="/expense-type-list.xhtml" rendered="#{expenseTypeHome.managed}" />
 
-				<s:button id="cancelAdd" value="Cancel" propagation="end" view="/expense-type-list.xhtml"
-					rendered="#{!expenseTypeHome.managed}" />
+				<s:button id="cancelAdd" value="Cancel" propagation="end" view="/expense-type-list.xhtml" rendered="#{!expenseTypeHome.managed}" />
 
 			</div>
 		</h:form>

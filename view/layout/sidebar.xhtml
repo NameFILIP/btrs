@@ -4,11 +4,11 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:rich="http://richfaces.org/rich">
 	
-	<s:fragment rendered="#{s:hasRole('Employee') or s:hasRole('DepLeader')}">
+	<s:fragment rendered="#{s:hasRole('EMPLOYEE') or s:hasRole('DEP_LEADER')}">
 		<li><s:link id="outgoing" view="/" value="Outgoing Reports(#)" /></li>
 	</s:fragment>
 	
-	<s:fragment rendered="#{s:hasRole('DepLeader') or s:hasRole('Accountant')}">
+	<s:fragment rendered="#{s:hasRole('DEP_LEADER') or s:hasRole('ACCOUNTANT')}">
 		<li><s:link id="incoming" view="/" value="Incoming Reports(#)" /></li>
 	</s:fragment>
 	
