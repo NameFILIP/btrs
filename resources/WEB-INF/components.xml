@@ -62,12 +62,12 @@
 	<factory name="report" value="#{reportHome.instance}"/>
 	<factory name="role" value="#{roleHome.instance}"/>
 	<factory name="statusChange" value="#{statusChangeHome.instance}"/>
-	<factory name="status" value="#{statusChangeHome.instance}"/>
+	<factory name="status" value="#{statusHome.instance}"/>
 	<factory name="typeParameter" value="#{typeParameterHome.instance}"/>
 	<factory name="user" value="#{userHome.instance}"/>
 
 	<component name="expenseAmountCalculator">
-		<property name="taxPercent">5</property>
+		<property name="taxPercent">@taxPercent@</property>
 	</component>
 	
 	

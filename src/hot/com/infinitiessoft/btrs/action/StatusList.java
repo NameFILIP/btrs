@@ -14,7 +14,7 @@ public class StatusList extends EntityQuery<Status> {
 
 	private static final String EJBQL = "select status from Status status";
 
-	private static final String[] RESTRICTIONS = {"lower(status.name) like lower(concat(#{statusList.status.name},'%'))",};
+	private static final String[] RESTRICTIONS = {};
 
 	private Status status = new Status();
 

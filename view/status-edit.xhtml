@@ -16,10 +16,18 @@
 			<rich:panel>
 				<f:facet name="header">#{statusHome.managed ? 'Edit' : 'Add'} Status</f:facet>
 
-				<s:decorate id="nameField" template="layout/edit.xhtml">
-					<ui:define name="label">Name</ui:define>
-					<h:inputText id="name" required="true" size="100" maxlength="100" value="#{status.name}">
-						<a:support event="onblur" reRender="nameField" bypassUpdates="true" ajaxSingle="true" />
+				<s:decorate id="nameKeyField" template="layout/edit.xhtml">
+					<ui:define name="label">Name Key</ui:define>
+					<h:inputText id="nameKey" required="true" size="100" maxlength="100" value="#{status.nameKey}">
+						<a:support event="onblur" reRender="nameKeyField" ajaxSingle="true" />
+					</h:inputText>
+					<h:outputText value=" - #{messages[status.nameKey]}" />
+				</s:decorate>
+				
+				<s:decorate id="codeField" template="layout/edit.xhtml">
+					<ui:define name="label">Code</ui:define>
+					<h:inputText id="code" required="true" size="100" maxlength="100" value="#{status.code}">
+						<a:support event="onblur" reRender="codeField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
 
@@ -28,10 +36,6 @@
 					<ui:define name="label">Comment</ui:define>
 					<h:inputTextarea id="comment" cols="80" rows="3" value="#{status.comment}" />
 				</s:decorate>
-
-
-
-
 
 				<div style="clear: both">
 					<span class="required">*</span> required fields

@@ -20,18 +20,28 @@
 
 				<h:outputText value="The are no statuses." rendered="#{empty statusList.resultList}" />
 
-				<rich:dataTable id="statusList" var="_status" value="#{statusList.resultList}"
-					rendered="#{not empty statusList.resultList}">
+				<rich:dataTable id="statusList" var="_status" value="#{statusList.resultList}" rendered="#{not empty statusList.resultList}">
 					
 					<h:column>
 						<f:facet name="header">
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{statusList}" />
 								<ui:param name="propertyLabel" value="Name" />
-								<ui:param name="propertyPath" value="status.name" />
+								<ui:param name="propertyPath" value="status.nameKey" />
 							</ui:include>
 						</f:facet>
-						<h:outputText value="#{_status.name}" />
+						<h:outputText value="#{messages[_status.nameKey]}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{statusList}" />
+								<ui:param name="propertyLabel" value="Code" />
+								<ui:param name="propertyPath" value="status.code" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{messages[_status.code]}" />
 					</h:column>
 					
 					<h:column>
