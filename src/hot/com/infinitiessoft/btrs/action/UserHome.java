@@ -92,7 +92,7 @@ public class UserHome extends EntityHome<User> {
 	}
 	
 	public String remove(User user) {
-		setInstance(user);
+		setUserId(user.getId());
 		return remove();
 	}
 	
@@ -121,7 +121,7 @@ public class UserHome extends EntityHome<User> {
 	
 	@Observer(JpaIdentityStore.EVENT_USER_AUTHENTICATED)
 	public void updateLastLoginDate(User user) {
-		setInstance(user);
+		setUserId(user.getId());
 		user.setLastLogin(new Date());
 		update();
 	}
