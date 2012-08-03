@@ -1,6 +1,7 @@
 package com.infinitiessoft.btrs.validation;
 
 import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -26,6 +27,7 @@ public class UniqueValidator implements Validator<Unique>, PropertyConstraint {
 	@Override
 	public boolean isValid(Object value) {
 		EntityManager entityManager = (EntityManager) Component.getInstance("entityManager");
+		entityManager.setFlushMode(FlushModeType.COMMIT);
 		
 		Home<?, ?> home = (Home<?, ?>) Component.getInstance(idProvider);
 		boolean hasId = home.getId() != null;
