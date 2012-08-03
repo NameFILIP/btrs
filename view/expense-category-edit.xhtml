@@ -18,14 +18,15 @@
 
 				<s:decorate id="nameKeyField" template="layout/edit.xhtml">
 					<ui:define name="label">Name Key</ui:define>
-					<h:inputText id="nameKey" required="true" size="100" maxlength="100" value="#{expenseCategoryHome.instance.nameKey}">
-						<a:support event="onblur" reRender="nameKeyField" bypassUpdates="true" ajaxSingle="true" />
+					<h:inputText id="nameKey" required="true" size="100" maxlength="100" value="#{expenseCategory.nameKey}">
+						<a:support event="onblur" reRender="nameKeyField" ajaxSingle="true" />
 					</h:inputText>
+					<h:outputText value=" - #{messages[expenseCategory.nameKey]}" />
 				</s:decorate>
 
 				<s:decorate id="commentField" template="layout/edit.xhtml">
 					<ui:define name="label">Comment</ui:define>
-					<h:inputTextarea id="comment" cols="80" rows="3" value="#{expenseCategoryHome.instance.comment}" />
+					<h:inputTextarea id="comment" cols="80" rows="3" value="#{expenseCategory.comment}" />
 				</s:decorate>
 
 				<div style="clear: both">

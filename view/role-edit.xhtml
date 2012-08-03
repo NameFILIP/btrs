@@ -18,21 +18,22 @@
 
 				<s:decorate id="nameKeyField" template="layout/edit.xhtml">
 					<ui:define name="label">Name Key</ui:define>
-					<h:inputText id="nameKey" required="true" size="100" maxlength="100" value="#{roleHome.instance.nameKey}">
-						<a:support event="onblur" reRender="nameKeyField" bypassUpdates="true" ajaxSingle="true" />
+					<h:inputText id="nameKey" required="true" size="100" maxlength="100" value="#{role.nameKey}">
+						<a:support event="onblur" reRender="nameKeyField" ajaxSingle="true" />
 					</h:inputText>
+					<h:outputText value=" - #{messages[role.nameKey]}" />
 				</s:decorate>
 				
 				<s:decorate id="codeField" template="layout/edit.xhtml">
 					<ui:define name="label">Code</ui:define>
-					<h:inputText id="code" required="true" size="100" maxlength="100" value="#{roleHome.instance.code}">
+					<h:inputText id="code" required="true" size="100" maxlength="100" value="#{role.code}">
 						<a:support event="onblur" reRender="codeField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
 
 				<s:decorate id="commentField" template="layout/edit.xhtml">
 					<ui:define name="label">Comment</ui:define>
-					<h:inputTextarea id="comment" cols="80" rows="3" value="#{roleHome.instance.comment}" />
+					<h:inputTextarea id="comment" cols="80" rows="3" value="#{role.comment}" />
 				</s:decorate>
 
 				<div style="clear: both">

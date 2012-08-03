@@ -28,8 +28,9 @@
 				<s:decorate id="nameKeyField" template="layout/edit.xhtml">
 					<ui:define name="label">Name Key</ui:define>
 					<h:inputText id="name" required="true" size="100" maxlength="100" value="#{expenseType.nameKey}">
-						<a:support event="onblur" reRender="nameKeyField" bypassUpdates="true" ajaxSingle="true" />
+						<a:support event="onblur" reRender="nameKeyField" ajaxSingle="true" />
 					</h:inputText>
+					<h:outputText value=" - #{messages[expenseType.nameKey]}" />
 				</s:decorate>
 				
 				<s:decorate id="codeField" template="layout/edit.xhtml">
