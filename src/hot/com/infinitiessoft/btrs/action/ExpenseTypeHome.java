@@ -47,11 +47,11 @@ public class ExpenseTypeHome extends EntityHome<ExpenseType> {
 	}
 
 	public void wire() {
-		getInstance();
-		ExpenseCategory expenseCategory = expenseCategoryHome.getDefinedInstance();
-		if (expenseCategory != null) {
-			getInstance().setExpenseCategory(expenseCategory);
-		}
+//		getInstance();
+//		ExpenseCategory expenseCategory = expenseCategoryHome.getDefinedInstance();
+//		if (expenseCategory != null) {
+//			getInstance().setExpenseCategory(expenseCategory);
+//		}
 	}
 
 	public boolean isWired() {
@@ -70,11 +70,9 @@ public class ExpenseTypeHome extends EntityHome<ExpenseType> {
 	public List<TypeParameter> getTypeParameters() {
 		return getInstance() == null ? null : new ArrayList<TypeParameter>(getInstance().getTypeParameters());
 	}
-
-
-	public String remove(ExpenseType expenseType) {
-		setInstance(expenseType);
-		return remove();
-	}
 	
+	public List<ExpenseCategory> getExpenseCategories() {
+		return getInstance() == null ? null : getInstance().getExpenseCategories();
+	}
+
 }

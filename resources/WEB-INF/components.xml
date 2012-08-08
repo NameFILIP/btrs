@@ -20,24 +20,10 @@
 	<!-- Make sure this URL pattern is the same as that used by the Faces Servlet -->
 	<web:hot-deploy-filter url-pattern="*.seam" />
 
-	<!-- If you are still using JBoss 4, uncomment this to have your PU started -->
-	<!-- <persistence:entity-manager-factory name="entityManagerFactory" persistence-unit-name="btrs" installed="@seamBootstrapsPu@"/> -->
-
 	<persistence:managed-persistence-context name="entityManager" auto-create="true"
 		entity-manager-factory="@seamEmfRef@" persistence-unit-jndi-name="@puJndiName@" />
 
-	<!-- <drools:rule-base name="securityRules"> -->
-	<!-- <drools:rule-files> -->
-	<!-- <value>/security.drl</value> -->
-	<!-- </drools:rule-files> -->
-	<!-- </drools:rule-base> -->
-
-	<!-- <security:rule-based-permission-resolver security-rules="#{securityRules}" /> -->
-
-	<security:identity />
-
-	<security:jpa-identity-store user-class="com.infinitiessoft.btrs.model.User" role-class="com.infinitiessoft.btrs.model.Role" />
-
+	<security:identity authenticate-method="#{authenticationManager.authenticate}"/>
 
 	<event type="org.jboss.seam.security.notLoggedIn">
 		<action execute="#{redirect.captureCurrentView}" />
@@ -48,12 +34,7 @@
 
 	<mail:mail-session host="localhost" port="25" />
 
-	<!-- For use with jBPM pageflow or process management -->
-	<!-- <bpm:jbpm> <bpm:process-definitions></bpm:process-definitions> <bpm:pageflow-definitions></bpm:pageflow-definitions> </bpm:jbpm> -->
 
-
-	<factory name="currentUser" value="#{org.jboss.seam.security.management.authenticatedUser}"/>
-	
 	<factory name="department" value="#{departmentHome.instance}"/>
 	<factory name="expenseCategory" value="#{expenseCategoryHome.instance}"/>
 	<factory name="expense" value="#{expenseHome.instance}"/>
@@ -69,6 +50,10 @@
 	<component name="expenseAmountCalculator">
 		<property name="taxPercent">@taxPercent@</property>
 	</component>
-	
+
+	<component name="passwordManager">
+		<property name="digestAlgorithm">@passDigestAlgorithm@</property>
+		<property name="charset">@passCharset@</property>
+	</component>
 	
 </components>

@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				contentType="text/html"
+				template="layout/template.xhtml">
+
+	<ui:define name="content">
+
+			<rich:panel>
+				<f:facet name="header">Expense Category Details</f:facet>
+
+				<s:decorate id="nameKeyField" template="layout/display.xhtml">
+					<ui:define name="label">Name</ui:define>
+					<h:outputText value="#{messages[expenseCategory.nameKey]}" />
+				</s:decorate>
+				
+				<s:decorate id="codeField" template="layout/display.xhtml">
+					<ui:define name="label">Code</ui:define>
+					<h:outputText value="#{expenseCategory.code}" />
+				</s:decorate>
+				
+				<s:decorate id="expenseTypesField" template="layout/display.xhtml">
+					<ui:define name="label">Expense Types</ui:define>
+					<ui:repeat var="et" value="#{expenseCategory.expenseTypes}">
+						<h:outputText value="#{messages[et.nameKey]}" /><br/>
+					</ui:repeat>
+				</s:decorate>
+
+				<div style="clear: both" />
+
+			</rich:panel>
+
+			<div class="actionButtons">
+				<s:button id="edit" view="/expense-category-edit.xhtml" value="Edit" />
+				<s:button id="done" view="/expense-category-list.xhtml" value="Done" />
+			</div>
+	</ui:define>
+</ui:composition>

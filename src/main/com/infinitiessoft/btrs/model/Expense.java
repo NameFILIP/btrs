@@ -32,21 +32,11 @@ public class Expense implements java.io.Serializable {
 	private Report report;
 	private String comment;
 	
-	private List<ParameterValue> parameterValues = new ArrayList<ParameterValue>(0);
+	private List<ParameterValue> parameterValues;
 	
-	public Expense() {
-	}
+	
 
-	public Expense(Long id) {
-		this.id = id;
-	}
-	public Expense(Long id, ExpenseType expenseType, Report report,
-			Integer amount, List<ParameterValue> parameterValues) {
-		this.id = id;
-		this.expenseType = expenseType;
-		this.report = report;
-		this.parameterValues = parameterValues;
-	}
+	public Expense() {}
 
 	@Id
 	@GeneratedValue
@@ -90,6 +80,9 @@ public class Expense implements java.io.Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "expense", cascade = CascadeType.ALL)
 	public List<ParameterValue> getParameterValues() {
+		if (parameterValues == null) {
+			parameterValues = new ArrayList<ParameterValue>(0);
+		}
 		return parameterValues;
 	}
 
@@ -99,9 +92,9 @@ public class Expense implements java.io.Serializable {
 	
 	
 	@Transient
-	public ParameterValue getParamValueByCode(String code) {
+	public ParameterValue getParameterValue(ParameterEnum parameter) {
 		for (ParameterValue param : parameterValues) {
-			if (code.equalsIgnoreCase(param.getTypeParameter().getCode())) {
+			if (parameter.equals(param.getTypeParameter().getValue())) {
 				return param;
 			}
 		}
@@ -109,19 +102,19 @@ public class Expense implements java.io.Serializable {
 	}
 	
 	@Transient
-	public ParameterValue getParamValueByCode(ParameterEnum parameter) {
-		return getParamValueByCode(parameter.name());
+	public ParameterValue getParameterValue(String parameter) {
+		return getParameterValue(ParameterEnum.valueOf(parameter.toUpperCase()));
 	}
 	
 	@Transient
 	public Integer getTotalAmount() {
-		ParameterValue amountParam = getParamValueByCode(ParameterEnum.AMOUNT.name());
+		ParameterValue amountParam = getParameterValue(ParameterEnum.AMOUNT);
 		return amountParam == null ? 0 : Integer.valueOf(amountParam.getValue());
 	}
 	
 	@Transient
 	public Integer getTax() {
-		ParameterValue taxParam = getParamValueByCode(ParameterEnum.TAX.name());
+		ParameterValue taxParam = getParameterValue(ParameterEnum.TAX);
 		return taxParam == null ? 0 : Integer.valueOf(taxParam.getValue());
 	}
 	

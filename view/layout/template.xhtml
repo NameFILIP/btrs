@@ -1,8 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:a="http://richfaces.org/a4j"
-	xmlns:s="http://jboss.com/products/seam/taglib" contentType="text/html">
+<f:view xmlns="http://www.w3.org/1999/xhtml" 
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core" 
+		xmlns:h="http://java.sun.com/jsf/html" 
+		xmlns:a="http://richfaces.org/a4j"
+		xmlns:s="http://jboss.com/products/seam/taglib" 
+		contentType="text/html">
 	<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -21,14 +25,19 @@
 				<s:fragment rendered="#{not identity.loggedIn}">
 					<li><s:link id="login" view="/login.xhtml" value="#{messages['accountnav.login']}" /></li>
 					<li>-</li>
-					<li><s:link id="register" view="/user-edit.xhtml" value="#{messages['accountnav.register']}" /></li>
+					<li>
+						<s:link id="register" view="/user-edit.xhtml" value="#{messages['accountnav.register']}">
+							<f:param name="userFrom" value="/login.xhtml" />
+						</s:link>
+					</li>
 					<li>-</li>
 					<li><s:link id="forgot" view="/" value="#{messages['accountnav.forgot.password']}" /></li>
 				</s:fragment>
 				<s:fragment rendered="#{identity.loggedIn}">
 					<li>
 						<s:link id="my-account" view="/user-edit.xhtml" value="#{messages['accountnav.my.account']}">
-							<f:param name="userId" value="#{user.id}" />
+							<f:param name="userId" value="#{currentUser.id}" />
+							<f:param name="userFrom" value="#{facesContext.viewRoot.viewId}" />
 						</s:link>
 					</li>
 					<li>-</li>
@@ -48,15 +57,15 @@
 			<s:div id="navbar-outer" rendered="#{identity.loggedIn}">
 				<ul id="navbar">
 					<li><s:link id="my-reports" view="/report-list.xhtml" value="#{messages['navbar.my.reports']}" /></li>
-					<li><s:link id="report-new" view="/report-edit.xhtml" value="#{messages['navbar.create.new.report']}" /></li>
-
-					<s:fragment rendered="#{s:hasRole('DEP_LEADER') or s:hasRole('ACCOUNTANT') or s:hasRole('ADMIN')}">
+					<li>
+						<s:link id="report-new" view="/report-edit.xhtml" value="#{messages['navbar.create.new.report']}">
+							<f:param name="reportFrom" value="#{facesContext.viewRoot.viewId}" />
+						</s:link>
+					</li>
+					<s:fragment rendered="#{s:hasRole('ACCOUNTANT') or s:hasRole('ADMIN')}">
 						<li>-</li>
 					</s:fragment>
 
-					<s:fragment rendered="#{s:hasRole('DEP_LEADER')}">
-						<li><s:link id="dep-reports" view="/" value="#{messages['navbar.my.department.reports']}" /></li>
-					</s:fragment>
 					<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
 						<li><s:link id="emp-reports" view="/" value="#{messages['navbar.all.employees.reports']}" /></li>
 					</s:fragment>

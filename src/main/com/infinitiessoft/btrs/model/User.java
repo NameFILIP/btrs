@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -29,12 +30,6 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
-import org.jboss.seam.annotations.security.management.UserEnabled;
-import org.jboss.seam.annotations.security.management.UserFirstName;
-import org.jboss.seam.annotations.security.management.UserLastName;
-import org.jboss.seam.annotations.security.management.UserPassword;
-import org.jboss.seam.annotations.security.management.UserPrincipal;
-import org.jboss.seam.annotations.security.management.UserRoles;
 
 import com.infinitiessoft.btrs.enums.GenderEnum;
 import com.infinitiessoft.btrs.validation.Unique;
@@ -54,48 +49,19 @@ public class User implements java.io.Serializable {
 	private String password;
 	private String jobTitle;
 	private String email;
-	private GenderEnum gender = GenderEnum.UNDEFINED;
+	private GenderEnum gender;
 	private Date lastLogin;
 	private String firstName;
 	private String lastName;
 	private Date createdDate;
 	private boolean enabled;
-	private List<Role> roles = new ArrayList<Role>(0);
-	private Set<StatusChange> statusChanges = new HashSet<StatusChange>(0);
-	private Set<Report> outgoingReports = new HashSet<Report>(0);
-	private Set<Report> incomingReports = new HashSet<Report>(0);
+	private List<Role> roles;
+	private Set<StatusChange> statusChanges;
+	private Set<Report> outgoingReports;
+	private Set<Report> incomingReports;
 
-	public User() {
-	}
 
-	public User(Long id, String username, String password, String email, GenderEnum gender, Date createdDate) {
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.email = email;
-		this.gender = gender;
-		this.createdDate = createdDate;
-	}
-
-	public User(Long id, Department department, String username, String password, String jobTitle, String email, GenderEnum gender,
-			Date lastLogin, String firstName, String lastName, Date createdDate, List<Role> roles, Set<StatusChange> statusChanges,
-			Set<Report> outgoingReports, Set<Report> incomingReports) {
-		this.id = id;
-		this.roles = roles;
-		this.department = department;
-		this.username = username;
-		this.password = password;
-		this.jobTitle = jobTitle;
-		this.email = email;
-		this.gender = gender;
-		this.lastLogin = lastLogin;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.createdDate = createdDate;
-		this.statusChanges = statusChanges;
-		this.outgoingReports = outgoingReports;
-		this.incomingReports = incomingReports;
-	}
+	public User() {}
 
 	@Id
 	@GeneratedValue
@@ -108,20 +74,27 @@ public class User implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@UserRoles
 	@ManyToMany(targetEntity = Role.class, fetch = FetchType.LAZY)
 	@JoinTable(name = "users_roles",
 		joinColumns = @JoinColumn(name = "user_id"),
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
 	public List<Role> getRoles() {
+		if (roles == null) {
+			roles = new ArrayList<Role>(0);
+		}
 		return roles;
 	}
 
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
+	
+	@Transient
+	public boolean addRole(Role role) {
+		return this.getRoles().add(role);
+	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "department_id")
 	public Department getDepartment() {
 		return this.department;
@@ -131,7 +104,6 @@ public class User implements java.io.Serializable {
 		this.department = department;
 	}
 
-	@UserPrincipal
 	@Column(name = "username", unique = true, nullable = false, length = 100)
 	@NotNull
 	@Length(max = 100)
@@ -144,7 +116,6 @@ public class User implements java.io.Serializable {
 		this.username = username;
 	}
 
-	@UserPassword(hash = "sha")
 	@Column(name = "password", nullable = false, length = 100)
 	@NotNull
 	@Length(max = 100)
@@ -170,6 +141,7 @@ public class User implements java.io.Serializable {
 	@NotNull
 	@Email
 	@Length(max = 100)
+	@Unique(entityName = "User", fieldName = "email", idProvider = "userHome")
 	public String getEmail() {
 		return this.email;
 	}
@@ -198,7 +170,6 @@ public class User implements java.io.Serializable {
 		this.lastLogin = lastLogin;
 	}
 
-	@UserFirstName
 	@Column(name = "first_name", length = 100)
 	@Length(max = 100)
 	public String getFirstName() {
@@ -209,7 +180,6 @@ public class User implements java.io.Serializable {
 		this.firstName = firstName;
 	}
 
-	@UserLastName
 	@Column(name = "last_name", length = 100)
 	@Length(max = 100)
 	public String getLastName() {
@@ -230,7 +200,6 @@ public class User implements java.io.Serializable {
 		this.createdDate = createdDate;
 	}
 
-	@UserEnabled
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -239,8 +208,11 @@ public class User implements java.io.Serializable {
 		this.enabled = enabled;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
 	public Set<StatusChange> getStatusChanges() {
+		if (statusChanges == null) {
+			statusChanges = new HashSet<StatusChange>(0);
+		}
 		return this.statusChanges;
 	}
 
@@ -248,8 +220,11 @@ public class User implements java.io.Serializable {
 		this.statusChanges = statusChanges;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
 	public Set<Report> getOutgoingReports() {
+		if (outgoingReports == null) {
+			outgoingReports = new HashSet<Report>(0);
+		}
 		return this.outgoingReports;
 	}
 
@@ -257,8 +232,11 @@ public class User implements java.io.Serializable {
 		this.outgoingReports = outgoingReports;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reviewer")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reviewer", cascade = CascadeType.ALL)
 	public Set<Report> getIncomingReports() {
+		if (incomingReports == null) {
+			incomingReports = new HashSet<Report>(0);
+		}
 		return this.incomingReports;
 	}
 
@@ -266,6 +244,31 @@ public class User implements java.io.Serializable {
 		this.incomingReports = incomingReports;
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
+
 	@Transient
 	public String getFullName() {
 		return firstName + " " + lastName;

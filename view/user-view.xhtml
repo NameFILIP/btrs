@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				contentType="text/html" 
+				template="layout/template.xhtml">
+
+	<ui:define name="content">
+
+		<rich:panel>
+			<f:facet name="header">User Details</f:facet>
+
+			<s:decorate id="usernameField" template="layout/display.xhtml">
+				<ui:define name="label">Username</ui:define>
+				<h:outputText value="#{user.username}" />
+			</s:decorate>
+
+			<s:decorate id="firstNameField" template="layout/display.xhtml">
+				<ui:define name="label">First name</ui:define>
+				<h:outputText value="#{user.firstName}" />
+			</s:decorate>
+
+			<s:decorate id="lastNameField" template="layout/display.xhtml">
+				<ui:define name="label">Last name</ui:define>
+				<h:outputText value="#{user.lastName}" />
+			</s:decorate>
+
+			<s:decorate id="jobTitleField" template="layout/display.xhtml">
+				<ui:define name="label">Job title</ui:define>
+				<h:outputText value="#{user.jobTitle}" />
+			</s:decorate>
+
+			<s:decorate id="genderField" template="layout/display.xhtml">
+				<ui:define name="label">Gender</ui:define>
+				<h:outputText value="#{messages[user.gender.label]}" />
+			</s:decorate>
+
+			<s:decorate id="emailField" template="layout/display.xhtml">
+				<ui:define name="label">Email</ui:define>
+				<h:outputText value="#{user.email}" />
+			</s:decorate>
+
+			<s:decorate id="departmentField" template="layout/display.xhtml">
+				<ui:define name="label">Department</ui:define>
+				<h:outputText value="#{user.department.name}" />
+			</s:decorate>
+
+			<s:decorate id="rolesField" template="layout/display.xhtml">
+				<ui:define name="label">Roles</ui:define>
+				<ui:repeat var="r" value="#{user.roles}">
+					<h:outputText value="#{messages[r.nameKey]}" />
+					<br />
+				</ui:repeat>
+			</s:decorate>
+
+			<s:decorate id="enabledField" template="layout/display.xhtml">
+				<ui:define name="label">Enabled</ui:define>
+				<h:outputText value="#{user.enabled ? messages.yes : messages.no}" />
+			</s:decorate>
+
+
+			<div style="clear: both" />
+
+		</rich:panel>
+
+		<div class="actionButtons">
+			<s:button id="edit" view="/user-edit.xhtml" value="Edit" />
+			<s:button id="done" value="Done" view="/user-list.xhtml" />
+		</div>
+	</ui:define>
+</ui:composition>

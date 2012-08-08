@@ -5,7 +5,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
 
 import com.infinitiessoft.btrs.model.Report;
-import com.infinitiessoft.btrs.model.Status;
 import com.infinitiessoft.btrs.model.StatusChange;
 import com.infinitiessoft.btrs.model.User;
 
@@ -16,8 +15,6 @@ public class StatusChangeHome extends EntityHome<StatusChange> {
 	
 	@In(create = true)
 	ReportHome reportHome;
-	@In(create = true)
-	StatusHome statusHome;
 	@In(create = true)
 	UserHome userHome;
 
@@ -47,10 +44,10 @@ public class StatusChangeHome extends EntityHome<StatusChange> {
 		if (report != null) {
 			getInstance().setReport(report);
 		}
-		Status status = statusHome.getDefinedInstance();
-		if (status != null) {
-			getInstance().setStatus(status);
-		}
+//		Status status = statusHome.getDefinedInstance();
+//		if (status != null) {
+//			getInstance().setStatus(status);
+//		}
 		User user = userHome.getDefinedInstance();
 		if (user != null) {
 			getInstance().setUser(user);
@@ -58,7 +55,7 @@ public class StatusChangeHome extends EntityHome<StatusChange> {
 	}
 
 	public boolean isWired() {
-		if (getInstance().getStatus() == null)
+		if (getInstance().getValue() == null)
 			return false;
 		return true;
 	}

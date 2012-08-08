@@ -51,9 +51,4 @@ public class DepartmentHome extends EntityHome<Department> {
 				.getUsers());
 	}
 	
-	public String remove(Department department) {
-		setInstance(department);
-		return remove();
-	}
-
 }

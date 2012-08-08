@@ -24,13 +24,11 @@
 
 			<a:outputPanel id="inputs-modal" ajaxRendered="true">
 
-				
-
 				<s:decorate id="ajaxStatusField" template="layout/display.xhtml">
 					<ui:define name="label">Ajax Status</ui:define>
 					<a:status id="ajaxStatus" startText="In progress..." stopText="Complete" />
 				</s:decorate>
-
+				
 				<s:decorate id="expenseCategoryField" template="layout/edit.xhtml">
 					<ui:define name="label">Expense Category</ui:define>
 					<h:selectOneMenu id="category" value="#{expenseCategoryHome.expenseCategoryId}">
@@ -42,15 +40,21 @@
 				<s:decorate id="expenseTypeField" template="layout/edit.xhtml">
 					<ui:define name="label">Expense Type</ui:define>
 					<h:selectOneMenu id="type" required="true" value="#{expenseTypeHome.expenseTypeId}" hideNoSelectionOption="true">
-						<s:selectItems value="#{expenseTypeList.loadByCategory()}" var="t" itemValue="#{t.id}" label="#{messages[t.nameKey]}" noSelectionLabel="Please select..." />
+						<s:selectItems value="#{expenseCategoryHome.managed ? expenseCategoryHome.getExpenseTypes() : expenseTypeList.resultList}" 
+								var="t" itemValue="#{t.id}" label="#{messages[t.nameKey]}" noSelectionLabel="Please select..." />
 						<a:support event="onchange" reRender="parametersArea" ajaxSingle="true" action="#{expenseHome.wire}" />
 					</h:selectOneMenu>
 				</s:decorate>
+				
+				<s:decorate id="commentField" template="layout/edit.xhtml">
+					<ui:define name="label">Comment</ui:define>
+					<h:inputTextarea id="comment" cols="40" rows="3" value="#{expense.comment}" />
+				</s:decorate>
 
 				<a:outputPanel id="parametersArea" layout="none">
-				
-					<ui:include src="expense-params/#{not empty expenseType.code ? expenseType.code.toLowerCase() : 'default'}.xhtml" 
-								rendered="#{not empty expenseType.code}" />
+					<ui:fragment rendered="#{expenseTypeHome.managed}">
+						<ui:include src="expense-params/#{expenseTypeHome.managed ? expenseType.value.name().toLowerCase() : 'default'}.xhtml" />
+					</ui:fragment>
 				</a:outputPanel>
 
 
@@ -58,13 +62,13 @@
 
 
 			<div class="actionButtons" style="clear: both">
-				<a:commandButton id="save-modal" value="Save" action="#{expenseHome.addToReportAndClear()}" reRender="expense-table, hack-panel, parametersArea" oncomplete="closeWindow();"/>
-
-				<a:commandButton id="save-and-add-modal" value="Save and Add new" action="#{expenseHome.addToReportAndClear()}" reRender="expense-table, parametersArea" />
+				<a:commandButton id="save-modal" value="Save" actionListener="#{expenseHome.addToReportAndClear()}" reRender="expense-table, hack-panel" oncomplete="closeWindow();"/>
+				
+				<a:commandButton id="save-and-add-modal" value="Save and Add new" actionListener="#{expenseHome.addToReportAndClear()}" reRender="expense-table" />
 
 				<a:commandButton id="cancel-modal" value="Cancel" actionListener="#{expenseHome.clear()}" immediate="true" oncomplete="Richfaces.hideModalPanel('expense-edit-modal');" />
 			</div>
-
+			
 			<!-- Hack for closing modal window if validation after Save successful -->
 			<a:outputPanel id="hack-panel" styleClass="hidden">
 				<h:messages id="hack-errors"></h:messages>

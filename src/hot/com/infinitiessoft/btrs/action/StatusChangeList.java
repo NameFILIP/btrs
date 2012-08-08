@@ -14,7 +14,7 @@ public class StatusChangeList extends EntityQuery<StatusChange> {
 
 	private static final String EJBQL = "select statusChange from StatusChange statusChange";
 
-	private static final String[] RESTRICTIONS = {"lower(statusChange.comment) like lower(concat(#{statusChangeList.statusChange.comment},'%'))",};
+	private static final String[] RESTRICTIONS = {};
 
 	private StatusChange statusChange = new StatusChange();
 

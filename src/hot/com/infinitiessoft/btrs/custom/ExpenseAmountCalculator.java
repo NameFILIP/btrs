@@ -26,11 +26,11 @@ public class ExpenseAmountCalculator {
 	
 	public void calculateTaxAndAmount() {
 		Expense expense = expenseHome.getInstance();
-		if (ExpenseTypeEnum.HSR.name().equals(expense.getExpenseType().getCode())) {
-			String sourceValue = expense.getParamValueByCode(ParameterEnum.SOURCE).getValue();
-			String destinationValue = expense.getParamValueByCode(ParameterEnum.DESTINATION).getValue();
+		if (ExpenseTypeEnum.HSR.equals(expense.getExpenseType().getValue())) {
+			String sourceValue = expense.getParameterValue(ParameterEnum.SOURCE).getValue();
+			String destinationValue = expense.getParameterValue(ParameterEnum.DESTINATION).getValue();
 			
-			String ticketsValue = expense.getParamValueByCode(ParameterEnum.TICKETS).getValue();
+			String ticketsValue = expense.getParameterValue(ParameterEnum.TICKETS).getValue();
 			Integer ticketsValueSafe = StringUtils.isEmpty(ticketsValue) ? 1 : Integer.valueOf(ticketsValue);
 			
 			HighSpeedRailEnum source = HighSpeedRailEnum.valueOf(sourceValue);
@@ -39,18 +39,23 @@ public class ExpenseAmountCalculator {
 			
 			Integer amountValue = price * ticketsValueSafe;
 			
-			ParameterValue amount = expense.getParamValueByCode(ParameterEnum.AMOUNT);
+			ParameterValue amount = expense.getParameterValue(ParameterEnum.AMOUNT);
 			amount.setValue(amountValue.toString());
 			
 //		} else if (ExpenseTypeEnum.CAR.getLabel().equals(expense.getExpenseType().getShortName())) {
 			
 //			expenseHome.get
 		} else {
-			ParameterValue tax = expense.getParamValueByCode(ParameterEnum.TAX);
+			ParameterValue tax = expense.getParameterValue(ParameterEnum.TAX);
 			if (tax != null) {
-				ParameterValue amount = expense.getParamValueByCode(ParameterEnum.AMOUNT);
+				ParameterValue amount = expense.getParameterValue(ParameterEnum.AMOUNT);
 				Integer amountInt = Integer.valueOf(amount.getValue());
-				Integer taxValue = ((Double) (amountInt * taxPercent / (100.0 + taxPercent))).intValue();
+				
+				double taxCoefficient = 100 / (100.0 + taxPercent);
+				Double amountWithoutTax = amountInt * taxCoefficient;
+				Integer amountWithoutTaxRoundedDown = amountWithoutTax.intValue();
+				Integer taxValue = amountInt - amountWithoutTaxRoundedDown;
+				
 				tax.setValue(taxValue.toString());
 			}
 		}

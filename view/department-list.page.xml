@@ -7,10 +7,8 @@
 	
 	<restrict>#{s:hasRole('ADMIN')}</restrict>
 	
-	<navigation>
-		<rule if-outcome="removed">
-			<redirect view-id="/department-list.xhtml" />
-		</rule>
-	</navigation>
+	<param name="firstResult" value="#{departmentList.firstResult}" />
+	<param name="sort" value="#{departmentList.orderColumn}" />
+	<param name="dir" value="#{departmentList.orderDirection}" />
 	
 </page>

@@ -36,18 +36,10 @@
 			</rich:panel>
 
 			<div class="actionButtons">
-
-				<h:commandButton id="save" value="Save" action="#{departmentHome.persist}" disabled="#{!departmentHome.wired}"
-					rendered="#{!departmentHome.managed}" />
-
+				<h:commandButton id="save" value="Save" action="#{departmentHome.persist}" rendered="#{!departmentHome.managed}" />
 				<h:commandButton id="update" value="Save" action="#{departmentHome.update}" rendered="#{departmentHome.managed}" />
-
-				<s:button id="cancelEdit" value="Cancel" propagation="end" view="/department-list.xhtml"
-					rendered="#{departmentHome.managed}" />
-
-				<s:button id="cancelAdd" value="Cancel" propagation="end" view="/department-list.xhtml"
-					rendered="#{!departmentHome.managed}" />
-
+				<h:commandButton id="delete" value="Delete" action="#{departmentHome.remove}" immediate="true" rendered="#{departmentHome.managed}" />
+				<s:button id="cancel" value="Cancel" propagation="end" view="/department-list.xhtml" />
 			</div>
 		</h:form>
 	</ui:define>

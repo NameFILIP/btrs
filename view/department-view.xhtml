@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				contentType="text/html" 
+				template="layout/template.xhtml">
+
+	<ui:define name="content">
+
+			<rich:panel>
+				<f:facet name="header">Department Details</f:facet>
+
+				<s:decorate id="nameField" template="layout/display.xhtml">
+					<ui:define name="label">Name</ui:define>
+					<h:outputText value="#{department.name}" />
+				</s:decorate>
+
+
+				<s:decorate id="commentField" template="layout/display.xhtml">
+					<ui:define name="label">Comment</ui:define>
+					<h:outputText value="#{department.comment}" />
+				</s:decorate>
+
+			<div style="clear: both" />
+
+			</rich:panel>
+
+			<div class="actionButtons">
+				<s:button id="edit" view="/department-edit.xhtml" value="Edit" />
+				<s:button id="done" view="/department-list.xhtml" value="Done" />
+			</div>
+	</ui:define>
+</ui:composition>

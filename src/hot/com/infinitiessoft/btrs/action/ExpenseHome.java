@@ -99,20 +99,12 @@ public class ExpenseHome extends EntityHome<Expense> {
 		return getInstance() == null ? null : new ArrayList<ParameterValue>(getInstance().getParameterValues());
 	}
 	
-	public Integer getHsrPrice() {
-		return hsrPrice;
-	}
-
-	public void setHsrPrice(Integer hsrPrice) {
-		this.hsrPrice = hsrPrice;
-	}
-	
 	public void addToReport() {
-		reportHome.getInstance().getExpenses().add(getInstance());
+		reportHome.getInstance().addExpense(getInstance());
 	}
 	
 	public void clear() {
-		log.info("clear method is called");
+		log.debug("clear method is called");
 		expenseCategoryHome.clearInstance();
 		expenseTypeHome.clearInstance();
 		clearInstance();
@@ -124,15 +116,11 @@ public class ExpenseHome extends EntityHome<Expense> {
 		clear();
 	}
 	
-	@Factory(value = "hsrStations", scope = ScopeType.CONVERSATION)
-	public HighSpeedRailEnum[] getHsrStations() {
-		return HighSpeedRailEnum.values();
-	}
 	
 	@Factory(value = "hsrDataReady", scope = ScopeType.EVENT)
 	public boolean hsrDataReady() {
-		String sourceParam = getInstance().getParamValueByCode(ParameterEnum.SOURCE).getValue();
-		String destinationParam = getInstance().getParamValueByCode(ParameterEnum.DESTINATION).getValue();
+		String sourceParam = getInstance().getParameterValue(ParameterEnum.SOURCE).getValue();
+		String destinationParam = getInstance().getParameterValue(ParameterEnum.DESTINATION).getValue();
 		
 		boolean hsrDataReady = (sourceParam != null) && (destinationParam != null);
 		

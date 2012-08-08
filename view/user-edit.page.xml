@@ -2,31 +2,35 @@
 <page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
 
-	<begin-conversation join="true" flush-mode="AUTO" />
+	<restrict>#{s:hasRole('ADMIN') or currentUser.id eq userId}</restrict>
 
+	<begin-conversation join="true" flush-mode="MANUAL" />
+
+	<param name="userFrom" />
 	<param name="userId" value="#{userHome.userId}" />
 
-	<action execute="#{userHome.wire}" />
-
-	<navigation from-action="#{userHome.registerNew}">
-		<rule if-outcome="registered" if="#{s:hasRole('ADMIN')}">
+	<navigation from-action="#{userHome.persist}">
+		<rule if-outcome="persisted" if="#{s:hasRole('ADMIN')}">
 			<end-conversation />
-			<redirect view-id="/user-list.xhtml" />
+			<redirect view-id="/user-view.xhtml" />
 		</rule>
-		<rule if-outcome="registered" if="#{not s:hasRole('ADMIN')}">
+		<rule if-outcome="persisted" if="#{not s:hasRole('ADMIN')}">
 			<end-conversation />
 			<redirect view-id="/login.xhtml" />
 		</rule>
 	</navigation>
 
 	<navigation from-action="#{userHome.update}">
-		<rule if-outcome="updated" if="#{s:hasRole('ADMIN')}">
+		<rule if-outcome="updated">
+			<end-conversation />
+			<redirect view-id="/user-view.xhtml" />
+		</rule>
+	</navigation>
+	
+	<navigation from-action="#{userHome.remove}">
+		<rule if-outcome="removed">
 			<end-conversation />
 			<redirect view-id="/user-list.xhtml" />
-		</rule>
-		<rule if-outcome="updated" if="#{not s:hasRole('ADMIN')}">
-			<end-conversation />
-			<redirect view-id="/home.xhtml" />
 		</rule>
 	</navigation>
 

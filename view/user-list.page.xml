@@ -7,10 +7,8 @@
 
 	<restrict>#{s:hasRole('ADMIN')}</restrict>
 
-	<navigation>
-		<rule if-outcome="removed">
-			<redirect view-id="/user-list.xhtml" />
-		</rule>
-	</navigation>
-	
+	<param name="firstResult" value="#{userList.firstResult}" />
+	<param name="sort" value="#{userList.orderColumn}" />
+	<param name="dir" value="#{userList.orderDirection}" />
+
 </page>

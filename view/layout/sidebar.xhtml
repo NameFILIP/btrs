@@ -4,14 +4,26 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:rich="http://richfaces.org/rich">
 	
-	<s:fragment rendered="#{s:hasRole('EMPLOYEE') or s:hasRole('DEP_LEADER')}">
-		<li><s:link id="outgoing" view="/" value="Outgoing Reports(#)" /></li>
+	<s:fragment rendered="#{s:hasRole('EMPLOYEE')}">
+		<li>
+			<s:link id="outgoing" view="/report-list.xhtml" value="Outgoing Reports(#)">
+				<f:param name="type" value="out" />
+			</s:link>
+		</li>
 	</s:fragment>
 	
-	<s:fragment rendered="#{s:hasRole('DEP_LEADER') or s:hasRole('ACCOUNTANT')}">
-		<li><s:link id="incoming" view="/" value="Incoming Reports(#)" /></li>
+	<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
+		<li>
+			<s:link id="incoming" view="/report-list.xhtml" value="Incoming Reports(#)">
+				<f:param name="type" value="in" />
+			</s:link>
+		</li>
 	</s:fragment>
 	
-	<li><s:link id="all-my-reports" view="/" value="All My Reports(#)" /></li>
+	<li>
+		<s:link id="all-my-reports" view="/report-list.xhtml" value="All My Reports(#)">
+			<f:param name="type" value="all" />
+		</s:link>
+	</li>
 
 </ui:composition>

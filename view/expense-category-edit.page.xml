@@ -12,17 +12,22 @@
 
 	<param name="expenseCategoryId" value="#{expenseCategoryHome.expenseCategoryId}"/>
 
-	<action execute="#{expenseCategoryHome.wire}"/>
-
 	<navigation from-action="#{expenseCategoryHome.persist}">
       <rule if-outcome="persisted">
          <end-conversation/>
-         <redirect view-id="/expense-category-list.xhtml"/>
+         <redirect view-id="/expense-category-view.xhtml"/>
       </rule>
    </navigation>
 
    <navigation from-action="#{expenseCategoryHome.update}">
       <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/expense-category-view.xhtml"/>
+      </rule>
+   </navigation>
+   
+   <navigation from-action="#{expenseCategoryHome.remove}">
+      <rule if-outcome="removed">
          <end-conversation/>
          <redirect view-id="/expense-category-list.xhtml"/>
       </rule>

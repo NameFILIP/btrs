@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				contentType="text/html">
+
+
+	<h:outputText value="The are no Expenses yet." rendered="#{empty report.expenses}" />
+
+	<rich:dataTable id="expense-list" var="_expense" value="#{report.expenses}" rendered="#{not empty report.expenses}">
+
+		<!-- h:column>
+			<f:facet name="header">
+				<ui:include src="layout/sort.xhtml">
+					<ui:param name="entityList" value="#{expenseList}" />
+					<ui:param name="propertyLabel" value="Expense Category name" />
+					<ui:param name="propertyPath" value="expense.expenseType.expenseCategory.nameKey" />
+				</ui:include>
+			</f:facet>
+			<h:outputText value="#{messages[_expense.expenseType.expenseCategory.nameKey]}" />
+		</h:column-->
+
+		<h:column>
+			<f:facet name="header">
+				<ui:include src="layout/sort.xhtml">
+					<ui:param name="entityList" value="#{expenseList}" />
+					<ui:param name="propertyLabel" value="Expense Type" />
+					<ui:param name="propertyPath" value="expenseType.value" />
+				</ui:include>
+			</f:facet>
+			<h:outputText value="#{messages[_expense.expenseType.nameKey]}" />
+		</h:column>
+
+		<h:column>
+			<f:facet name="header">Parameters</f:facet>
+			<ui:repeat var="_param" value="#{_expense.parameterValues}">
+				<h:outputText value="#{messages[_param.typeParameter.nameKey]} - #{_param.value}" /><br />
+			</ui:repeat>
+		</h:column>
+
+		<h:column>
+			<f:facet name="header">
+				<ui:include src="layout/sort.xhtml">
+					<ui:param name="entityList" value="#{expenseList}" />
+					<ui:param name="propertyLabel" value="Comment" />
+					<ui:param name="propertyPath" value="expense.comment" />
+				</ui:include>
+			</f:facet>
+			<h:outputText value="#{_expense.comment}" />
+		</h:column>
+
+
+		<h:column>
+			<f:facet name="header">Amount</f:facet>
+			<h:outputText value="Total amount - #{_expense.totalAmount}" /><br />
+			<h:outputText value="Tax - #{_expense.tax}" /><br />
+			<h:outputText value="Without Tax - #{_expense.amountWithoutTax}" />
+		</h:column>
+
+
+		<rich:column styleClass="action">
+			<h:form>
+				<f:facet name="header">Action</f:facet>
+				<s:link view="/expense-view.xhtml" value="View" propagation="none" id="expense-view">
+					<f:param name="expenseId" value="#{_expense.id}" />
+				</s:link>
+				#{' '}
+				<s:link view="/expense-edit.xhtml" value="Edit" propagation="none" id="expense-edit">
+					<f:param name="expenseId" value="#{_expense.id}" />
+				</s:link>
+				#{' '}
+				<h:commandLink value="Delete" action="#{expenseHome.remove(_expense)}" id="expense-delete" />
+			</h:form>
+		</rich:column>
+	</rich:dataTable>
+
+</ui:composition>

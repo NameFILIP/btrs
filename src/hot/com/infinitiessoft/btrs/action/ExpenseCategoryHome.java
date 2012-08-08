@@ -58,10 +58,4 @@ public class ExpenseCategoryHome extends EntityHome<ExpenseCategory> {
 				getInstance().getExpenseTypes());
 	}
 	
-	
-	public String remove(ExpenseCategory expenseCategory) {
-		setInstance(expenseCategory);
-		return remove();
-	}
-
 }
