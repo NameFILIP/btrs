@@ -11,12 +11,12 @@
 	
 	<s:decorate id="routeField" template="/layout/edit.xhtml">
 		<ui:define name="label">#{messages['parameter.route']}</ui:define>
-		<h:inputText id="route" required="true" size="20" maxlength="100" value="#{expense.getParamValueByCode('ROUTE').value}" />
+		<h:inputText id="route" required="true" size="20" maxlength="100" value="#{expense.getParameterValue('ROUTE').value}" />
 	</s:decorate>
 
 	<s:decorate id="amountField" template="/layout/edit.xhtml">
 		<ui:define name="label">#{messages['parameter.amount']}</ui:define>
-		<h:inputText id="amount" required="true" size="20" maxlength="100" value="#{expense.getParamValueByCode('AMOUNT').value}" />
+		<h:inputText id="amount" required="true" size="20" maxlength="100" value="#{expense.getParameterValue('AMOUNT').value}" />
 	</s:decorate>
 
 </ui:composition>

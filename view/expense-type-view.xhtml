@@ -11,24 +11,20 @@
 				template="layout/template.xhtml">
 
 	<ui:define name="content">
-		<h:form id="expenseType" styleClass="edit">
 
 			<rich:panel>
-				<f:facet name="header">#{expenseTypeHome.managed ? 'Edit' : 'Add'} Expense Type</f:facet>
+				<f:facet name="header">Expense Type Details</f:facet>
 
 				<s:decorate id="nameKeyField" template="layout/display.xhtml">
 					<ui:define name="label">Expense Type</ui:define>
 					<h:outputText value="#{messages[expenseType.nameKey]}" />
 				</s:decorate>
 				
-
-				<s:decorate id="typeParametersField" template="layout/edit.xhtml">
+				<s:decorate id="typeParametersField" template="layout/display.xhtml">
 					<ui:define name="label">Parameters</ui:define>
-					<rich:pickList value="#{expenseType.typeParameters}">
-						<s:selectItems value="#{typeParameterList.resultList}" var="p" label="#{messages[p.nameKey]}" />
-						<s:convertEntity />
-						<a:support event="onblur" reRender="typeParametersField" bypassUpdates="true" ajaxSingle="true" />
-					</rich:pickList>
+					<ui:repeat var="p" value="#{expenseType.typeParameters}">
+						<h:outputText value="#{messages[p.nameKey]}" /><br/>
+					</ui:repeat>
 				</s:decorate>
 
 				<!-- If you add required params - modify next div -->
@@ -37,10 +33,8 @@
 			</rich:panel>
 
 			<div class="actionButtons">
-				<h:commandButton id="save" value="Save" action="#{expenseTypeHome.persist}" rendered="#{!expenseTypeHome.managed}" />
-				<h:commandButton id="update" value="Save" action="#{expenseTypeHome.update}" rendered="#{expenseTypeHome.managed}" />
-				<s:button id="cancel" value="Cancel" propagation="end" view="/expense-type-list.xhtml" />
+				<s:button id="edit" view="/expense-type-edit.xhtml" value="Edit" />
+				<s:button id="done" view="/expense-type-list.xhtml" value="Done" />
 			</div>
-		</h:form>
 	</ui:define>
 </ui:composition>

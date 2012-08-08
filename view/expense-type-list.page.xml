@@ -7,10 +7,8 @@
 	
 	<restrict>#{s:hasRole('ADMIN')}</restrict>
 	
-	<navigation>
-		<rule if-outcome="removed">
-			<redirect view-id="/expense-type-list.xhtml" />
-		</rule>
-	</navigation>
+	<param name="firstResult" value="#{expenseTypeList.firstResult}" />
+	<param name="sort" value="#{expenseTypeList.orderColumn}" />
+	<param name="dir" value="#{expenseTypeList.orderDirection}" />
 	
 </page>

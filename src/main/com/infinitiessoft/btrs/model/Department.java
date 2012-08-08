@@ -27,21 +27,10 @@ public class Department implements java.io.Serializable {
 	private Long id;
 	private String name;
 	private String comment;
-	private Set<User> users = new HashSet<User>(0);
+	private Set<User> users;
 
-	public Department() {
-	}
 
-	public Department(Long id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-	public Department(Long id, String name, String comment, Set<User> users) {
-		this.id = id;
-		this.name = name;
-		this.comment = comment;
-		this.users = users;
-	}
+	public Department() {}
 
 	@Id
 	@GeneratedValue
@@ -76,6 +65,9 @@ public class Department implements java.io.Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
 	public Set<User> getUsers() {
+		if (users == null) {
+			users = new HashSet<User>(0);
+		}
 		return this.users;
 	}
 

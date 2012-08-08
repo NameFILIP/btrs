@@ -151,14 +151,40 @@
 						<h:outputText value="#{_report.totalAmountWithoutTax}" />
 					</h:column>
 					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{reportList}" />
+								<ui:param name="propertyLabel" value="Status" />
+								<ui:param name="propertyPath" value="report.currentStatus" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_report.currentStatus}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{reportList}" />
+								<ui:param name="propertyLabel" value="Accountant" />
+								<ui:param name="propertyPath" value="report.reviewer.fullName" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_report.reviewer.fullName}" />
+					</h:column>
+					
 					<rich:column styleClass="action">
 						<h:form>
 							<f:facet name="header">Action</f:facet>
-	            			<s:link view="/report-edit.xhtml" value="Edit" propagation="none" id="reportEdit">
+							<h:commandLink value="Approve" action="#{reportHome.approve(_report)}" id="report-approve" rendered="#{s:hasRole('ACCOUNTANT')}"/>
+	            			#{' '}
+							<s:link view="/report-view.xhtml" value="View" id="report-view">
 								<f:param name="reportId" value="#{_report.id}" />
 							</s:link>
-							#{' '}
-							<h:commandLink value="Delete" action="#{reportHome.remove(_report)}" id="report-delete"/>
+	            			#{' '}
+	            			<s:link view="/report-edit.xhtml" value="Edit" propagation="none" id="report-edit">
+								<f:param name="reportId" value="#{_report.id}" />
+							</s:link>
 						</h:form>
 					</rich:column>
 				</rich:dataTable>
@@ -167,29 +193,21 @@
 		</rich:panel>
 
 		<div class="tableControl">
-
-			<s:link view="/report-list.xhtml" rendered="#{reportList.previousExists}"
-				value="#{messages.left}#{messages.left} First Page" id="firstPage">
+			<s:link view="/report-list.xhtml" rendered="#{reportList.previousExists}" value="#{messages.left}#{messages.left} First Page" id="firstPage">
 				<f:param name="firstResult" value="0" />
 			</s:link>
-
-			<s:link view="/report-list.xhtml" rendered="#{reportList.previousExists}" value="#{messages.left} Previous Page"
-				id="previousPage">
+			<s:link view="/report-list.xhtml" rendered="#{reportList.previousExists}" value="#{messages.left} Previous Page" id="previousPage">
 				<f:param name="firstResult" value="#{reportList.previousFirstResult}" />
 			</s:link>
-
 			<s:link view="/report-list.xhtml" rendered="#{reportList.nextExists}" value="Next Page #{messages.right}" id="nextPage">
 				<f:param name="firstResult" value="#{reportList.nextFirstResult}" />
 			</s:link>
-
-			<s:link view="/report-list.xhtml" rendered="#{reportList.nextExists}" value="Last Page #{messages.right}#{messages.right}"
-				id="lastPage">
+			<s:link view="/report-list.xhtml" rendered="#{reportList.nextExists}" value="Last Page #{messages.right}#{messages.right}" id="lastPage">
 				<f:param name="firstResult" value="#{reportList.lastFirstResult}" />
 			</s:link>
-
 		</div>
 
-		<s:div styleClass="actionButtons" rendered="#{empty from}">
+		<s:div styleClass="actionButtons">
 			<s:button view="/report-edit.xhtml" id="create" propagation="none" value="Create report">
 				<f:param name="reportId" />
 			</s:button>

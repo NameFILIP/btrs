@@ -8,6 +8,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
 
+import com.infinitiessoft.btrs.enums.StatusEnum;
 import com.infinitiessoft.btrs.model.Expense;
 import com.infinitiessoft.btrs.model.Report;
 import com.infinitiessoft.btrs.model.StatusChange;
@@ -20,15 +21,6 @@ public class ReportHome extends EntityHome<Report> {
 	
 	@In("#{currentUser}")
 	User currentUser;
-	
-
-	public User getCurrentUser() {
-		return currentUser;
-	}
-
-	public void setCurrentUser(User currentUser) {
-		this.currentUser = currentUser;
-	}
 
 	public void setReportId(Long id) {
 		setId(id);
@@ -42,7 +34,6 @@ public class ReportHome extends EntityHome<Report> {
 	protected Report createInstance() {
 		Report report = new Report();
 		report.setId(System.currentTimeMillis());
-		report.setCreatedDate(new Date());
 		report.setOwner(currentUser);
 		return report;
 	}
@@ -76,6 +67,19 @@ public class ReportHome extends EntityHome<Report> {
 		return getInstance() == null ? null : new ArrayList<StatusChange>(
 				getInstance().getStatusChanges());
 	}
-	
+
+	@Override
+	public String persist() {
+		Report report = getInstance();
+		report.setCreatedDate(new Date());
+		report.setCurrentStatus(StatusEnum.SUBMITTED);
+		return super.persist();
+	}
+
+	@Override
+	public String update() {
+		// TODO Auto-generated method stub
+		return super.update();
+	}
 	
 }

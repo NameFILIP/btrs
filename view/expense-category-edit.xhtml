@@ -23,10 +23,21 @@
 					</h:inputText>
 					<h:outputText value=" - #{messages[expenseCategory.nameKey]}" />
 				</s:decorate>
-
-				<s:decorate id="commentField" template="layout/edit.xhtml">
-					<ui:define name="label">Comment</ui:define>
-					<h:inputTextarea id="comment" cols="80" rows="3" value="#{expenseCategory.comment}" />
+				
+				<s:decorate id="codeField" template="layout/edit.xhtml">
+					<ui:define name="label">Code</ui:define>
+					<h:inputText id="name" size="100" maxlength="100" value="#{expenseCategory.code}">
+						<a:support event="onblur" reRender="codeField" bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
+				
+				<s:decorate id="expenseTypesField" template="layout/edit.xhtml">
+					<ui:define name="label">Expense Types</ui:define>
+					<rich:pickList value="#{expenseCategory.expenseTypes}">
+						<s:selectItems value="#{expenseTypeList.resultList}" var="et" label="#{messages[et.nameKey]}" />
+						<s:convertEntity />
+						<a:support event="onblur" reRender="expenseTypesField" bypassUpdates="true" ajaxSingle="true" />
+					</rich:pickList>
 				</s:decorate>
 
 				<div style="clear: both">
@@ -36,19 +47,10 @@
 			</rich:panel>
 
 			<div class="actionButtons">
-
-				<h:commandButton id="save" value="Save" action="#{expenseCategoryHome.persist}" disabled="#{!expenseCategoryHome.wired}"
-					rendered="#{!expenseCategoryHome.managed}" />
-
-				<h:commandButton id="update" value="Save" action="#{expenseCategoryHome.update}"
-					rendered="#{expenseCategoryHome.managed}" />
-
-				<s:button id="cancelEdit" value="Cancel" propagation="end" view="/expense-category-list.xhtml"
-					rendered="#{expenseCategoryHome.managed}" />
-
-				<s:button id="cancelAdd" value="Cancel" propagation="end" view="/expense-category-list.xhtml"
-					rendered="#{!expenseCategoryHome.managed}" />
-
+				<h:commandButton id="save" value="Save" action="#{expenseCategoryHome.persist}" rendered="#{!expenseCategoryHome.managed}" />
+				<h:commandButton id="update" value="Save" action="#{expenseCategoryHome.update}" rendered="#{expenseCategoryHome.managed}" />
+				<h:commandButton id="delete" value="Delete" action="#{expenseCategoryHome.remove}" immediate="true" rendered="#{expenseCategoryHome.managed}" />
+				<s:button id="cancel" value="Cancel" propagation="end" view="/expense-category-list.xhtml" />
 			</div>
 		</h:form>
 	</ui:define>

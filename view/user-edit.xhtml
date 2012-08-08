@@ -33,8 +33,7 @@
 
 				<s:decorate id="confirmPasswordField" template="layout/edit.xhtml">
 					<ui:define name="label">Confirm Password</ui:define>
-					<h:inputSecret id="confirmPassword" required="true" size="100" minlength="5" maxlength="100"
-						value="#{user.password}" immediate="true" redisplay="true">
+					<h:inputSecret id="confirmPassword" required="true" size="100" minlength="5" maxlength="100" value="#{user.password}" immediate="true" redisplay="true">
 						<a:support event="onblur" reRender="confirmPasswordField" bypassUpdates="true" ajaxSingle="true" />
 						<s:validateEquality for="password" message="Passwords do not match." />
 					</h:inputSecret>
@@ -108,9 +107,10 @@
 			</rich:panel>
 
 			<div class="actionButtons">
-				<h:commandButton id="save" value="Save" action="#{userHome.registerNew}" disabled="#{!userHome.wired}" rendered="#{!userHome.managed}" />
+				<h:commandButton id="save" value="Save" action="#{userHome.persist}" rendered="#{!userHome.managed}" />
 				<h:commandButton id="update" value="Save" action="#{userHome.update}" rendered="#{userHome.managed}" />
-				<s:button id="cancel" value="Cancel" propagation="end" view="/#{s:hasRole('ADMIN') ? 'user-list' : 'home'}.xhtml" />
+				<h:commandButton id="delete" value="Delete" action="#{userHome.remove}" immediate="true" rendered="#{userHome.managed}" />
+				<s:button id="cancel" value="Cancel" propagation="end" view="#{empty userFrom ? '/user-list.xhtml' : userFrom}" />
 			</div>
 		</h:form>
 	</ui:define>

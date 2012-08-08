@@ -11,7 +11,7 @@
 	
 	<s:decorate id="otherField" template="/layout/edit.xhtml">
 		<ui:define name="label">#{messages['parameter.other']}</ui:define>
-		<h:inputTextarea id="other" required="true" cols="40" rows="5" maxlength="1000" value="#{expense.getParamValueByCode('OTHER').value}" />
+		<h:inputTextarea id="other" required="true" cols="40" rows="5" maxlength="1000" value="#{expense.getParameterValue('OTHER').value}" />
 	</s:decorate>
 
 </ui:composition>

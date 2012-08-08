@@ -26,25 +26,41 @@
 					<ui:define name="label">Job title</ui:define>
 					<h:outputText value="#{report.owner.jobTitle}" />
 				</s:decorate>
+				
+				<s:decorate id="reviewerField" template="layout/edit.xhtml">
+					<ui:define name="label">Accountant</ui:define>
+					<h:selectOneMenu id="reviewer" required="true" value="#{report.reviewer}">
+						<s:selectItems var="a" value="#{userList.getAccountants()}" itemValue="#{a}" label="#{a.fullName}" />
+						<s:convertEntity />
+					</h:selectOneMenu>
+				</s:decorate>
 
 				<s:decorate id="reasonField" template="layout/edit.xhtml">
 					<ui:define name="label">Reason</ui:define>
-					<h:inputTextarea id="reason" cols="80" rows="5" required="true" value="#{report.reason}" />
+					<h:inputTextarea id="reason" cols="80" rows="5" required="true" value="#{report.reason}" >
+						<a:support event="onblur" reRender="reasonField" bypassUpdates="true" ajaxSingle="true" />
+					</h:inputTextarea>
 				</s:decorate>
 
 				<s:decorate id="routeField" template="layout/edit.xhtml">
 					<ui:define name="label">Route</ui:define>
-					<h:inputTextarea id="route" cols="80" rows="3" required="true" value="#{report.route}" />
+					<h:inputTextarea id="route" cols="80" rows="3" required="true" value="#{report.route}">
+						<a:support event="onblur" reRender="routeField" bypassUpdates="true" ajaxSingle="true" />
+					</h:inputTextarea>
 				</s:decorate>
 				
 				<s:decorate id="startDateField" template="layout/edit.xhtml">
 					<ui:define name="label">Start date</ui:define>
-					<rich:calendar id="startDate" required="true" value="#{report.startDate}" datePattern="MM/dd/yyyy" />
+					<rich:calendar id="startDate" required="true" value="#{report.startDate}" datePattern="MM/dd/yyyy">
+						<a:support event="onchanged" reRender="startDateField" bypassUpdates="true" ajaxSingle="true" />
+					</rich:calendar>
 				</s:decorate>
 				
 				<s:decorate id="endDateField" template="layout/edit.xhtml">
 					<ui:define name="label">End date</ui:define>
-					<rich:calendar id="endDate" required="true" value="#{report.endDate}" datePattern="MM/dd/yyyy" />
+					<rich:calendar id="endDate" required="true" value="#{report.endDate}" datePattern="MM/dd/yyyy">
+						<a:support event="onchanged" reRender="endDateField" bypassUpdates="true" ajaxSingle="true" />
+					</rich:calendar>
 				</s:decorate>
 				
 				<s:decorate id="commentField" template="layout/edit.xhtml">
@@ -53,83 +69,16 @@
 				</s:decorate>
 
 				<a:outputPanel id="expense-table">
-				<s:decorate id="expenseList" template="layout/display.xhtml">
+					<s:decorate id="expenseList" template="layout/display.xhtml">
 						<ui:define name="label">List of Expenses</ui:define>
-
-						<h:outputText value="The are no Expense yet." rendered="#{empty report.expenses}" />
-
-						<rich:dataTable id="expenseList" var="_expense" value="#{report.expenses}" rendered="#{not empty report.expenses}">
-
-							<h:column>
-								<f:facet name="header">
-									<ui:include src="layout/sort.xhtml">
-										<ui:param name="entityList" value="#{expenseList}" />
-										<ui:param name="propertyLabel" value="Expense Category name" />
-										<ui:param name="propertyPath" value="expense.expenseType.expenseCategory.nameKey" />
-									</ui:include>
-								</f:facet>
-								<h:outputText value="#{messages[_expense.expenseType.expenseCategory.nameKey]}" />
-							</h:column>
-
-							<h:column>
-								<f:facet name="header">
-									<ui:include src="layout/sort.xhtml">
-										<ui:param name="entityList" value="#{expenseList}" />
-										<ui:param name="propertyLabel" value="Expense Type name" />
-										<ui:param name="propertyPath" value="expenseType.nameKey" />
-									</ui:include>
-								</f:facet>
-								<h:outputText value="#{messages[_expense.expenseType.nameKey]}" />
-							</h:column>
-
-
-							<h:column>
-								<f:facet name="header">
-									<ui:include src="layout/sort.xhtml">
-										<ui:param name="entityList" value="#{expenseList}" />
-										<ui:param name="propertyLabel" value="Parameters" />
-										<ui:param name="propertyPath" value="expense.parameterValues" />
-									</ui:include>
-								</f:facet>
-								<ui:repeat var="_param" value="#{_expense.parameterValues}">
-									<h:outputText value="#{messages[_param.typeParameter.nameKey]} - #{_param.value}" /><br />
-								</ui:repeat>
-							</h:column>
-
-
-							<h:column>
-								<f:facet name="header">
-									<ui:include src="layout/sort.xhtml">
-										<ui:param name="entityList" value="#{expenseList}" />
-										<ui:param name="propertyLabel" value="Total amount" />
-										<ui:param name="propertyPath" value="expense.totalAmount" />
-									</ui:include>
-								</f:facet>
-								<h:outputText value="Total amount - #{_expense.totalAmount}" /><br />
-								<h:outputText value="Tax - #{_expense.tax}" /><br />
-								<h:outputText value="Without Tax - #{_expense.amountWithoutTax}" /><br />
-							</h:column>
-
-
-							<rich:column styleClass="action">
-								<h:form>
-									<f:facet name="header">Action</f:facet>
-									<s:link view="/expense-type-edit.xhtml" value="Edit" propagation="none" id="expenseEdit">
-										<f:param name="expenseId" value="#{_expense.id}" />
-									</s:link>
-							#{' '}
-							<h:commandLink value="Delete" action="#{expenseHome.remove(_expense)}" id="expense-type-delete" />
-								</h:form>
-							</rich:column>
-						</rich:dataTable>
-
+						<ui:include src="expense-table.xhtml" />
 					</s:decorate>
 				</a:outputPanel>
 
 				<s:decorate id="expense-add" template="layout/display.xhtml">
 					<ui:define name="label"></ui:define>
 
-					<a:commandLink id="showItem" onclick="Richfaces.showModalPanel('expense-edit-modal');" reRender="inputs-modal">
+					<a:commandLink id="showItem" onclick="Richfaces.showModalPanel('expense-edit-modal');">
 						Add new Expense
 					</a:commandLink>
 				</s:decorate>
@@ -141,18 +90,16 @@
 			</rich:panel>
 
 			<div class="actionButtons">
-				<h:commandButton id="save" value="Save" action="#{reportHome.persist}" disabled="#{!reportHome.wired}" rendered="#{!reportHome.managed}" />
+				<h:commandButton id="save" value="Save" action="#{reportHome.persist}" rendered="#{!reportHome.managed}" />
 				<h:commandButton id="update" value="Save" action="#{reportHome.update}" rendered="#{reportHome.managed}" />
 				<h:commandButton id="delete" value="Delete" action="#{reportHome.remove}" immediate="true" rendered="#{reportHome.managed}" />
 				<s:button id="cancelEdit" value="Cancel" propagation="end" view="/report-list.xhtml" rendered="#{reportHome.managed}" />
-				<s:button id="cancelAdd" value="Cancel" propagation="end" view="/#{empty reportFrom ? 'report-list' : reportFrom}.xhtml" rendered="#{!reportHome.managed}" />
+				<s:button id="cancelAdd" value="Cancel" propagation="end" view="#{empty reportFrom ? '/report-list.xhtml' : reportFrom}" rendered="#{!reportHome.managed}" />
 			</div>
 
 		</h:form>
 		
 		<ui:include src="expense-edit-modal.xhtml" />
-		
-		
 		
 	</ui:define>
 </ui:composition>

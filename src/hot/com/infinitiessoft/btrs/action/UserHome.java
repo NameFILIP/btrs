@@ -4,19 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.security.management.IdentityManager;
-import org.jboss.seam.security.management.JpaIdentityStore;
+import org.jboss.seam.security.Identity;
 
-import com.infinitiessoft.btrs.enums.GenderEnum;
-import com.infinitiessoft.btrs.model.Department;
+import com.infinitiessoft.btrs.logic.PasswordManager;
 import com.infinitiessoft.btrs.model.Report;
 import com.infinitiessoft.btrs.model.Role;
 import com.infinitiessoft.btrs.model.StatusChange;
@@ -28,12 +24,12 @@ public class UserHome extends EntityHome<User> {
 	private static final long serialVersionUID = -5368319908832175365L;
 	
 	@Logger private Log log;
-	
-	@In(create = true)
-	DepartmentHome departmentHome;
 
+	@In(required = false)
+	User currentUser;
+	
 	@In
-	IdentityManager identityManager;
+	PasswordManager passwordManager;
 	
 	@In(create = true)
 	RoleList roleList;
@@ -49,6 +45,7 @@ public class UserHome extends EntityHome<User> {
 	@Override
 	protected User createInstance() {
 		User user = new User();
+		user.setEnabled(true);
 		return user;
 	}
 
@@ -59,11 +56,11 @@ public class UserHome extends EntityHome<User> {
 	}
 
 	public void wire() {
-		getInstance();
-		Department department = departmentHome.getDefinedInstance();
-		if (department != null) {
-			getInstance().setDepartment(department);
-		}
+//		getInstance();
+//		Department department = departmentHome.getDefinedInstance();
+//		if (department != null) {
+//			getInstance().setDepartment(department);
+//		}
 	}
 
 	public boolean isWired() {
@@ -91,44 +88,40 @@ public class UserHome extends EntityHome<User> {
 		return getInstance() == null ? null : new ArrayList<Role>(getInstance().getRoles());
 	}
 	
-	public String remove(User user) {
-		setUserId(user.getId());
-		return remove();
-	}
-	
-	public String registerNew() {
-		log.debug("registration has started: {}", getInstance());
-		identityManager.getIdentityStore().createUser(getInstance().getUsername(), getInstance().getPassword());
-		createdMessage();
-		return "registered";
-	}
-	
-	@Observer(JpaIdentityStore.EVENT_PRE_PERSIST_USER)
-	public void preProcessRegistration(User user) {
-		log.debug("registration preprocessing has started: {}", user);
-		User userData = getInstance();
-		user.setDepartment(userData.getDepartment());
-		user.setEmail(userData.getEmail());
-		user.setGender(userData.getGender());
-		user.setFirstName(userData.getFirstName());
-		user.setLastName(userData.getLastName());
-		user.setJobTitle(userData.getJobTitle());
+	@Override
+	public String persist() {
+		log.info("Registering user #{user.username}");
+		User user = getInstance();
+		user.setPassword(passwordManager.hash(user.getPassword()));
 		user.setCreatedDate(new Date());
-		
-		user.getRoles().add(roleList.getDefaultRole());
-		log.debug("registration preprocessing has finished: {}", user);
+		if (user.getRoles().isEmpty()) {
+			user.addRole(roleList.getDefaultRole());
+		}
+		return super.persist();
+	}
+
+	@Override
+	public String update() {
+		User user = getInstance();
+		if (isPasswordChanged()) {
+			log.debug("Changing #{user.username}'s password");
+			user.setPassword(passwordManager.hash(user.getPassword()));
+		}
+		return super.update();
 	}
 	
-	@Observer(JpaIdentityStore.EVENT_USER_AUTHENTICATED)
-	public void updateLastLoginDate(User user) {
-		setUserId(user.getId());
-		user.setLastLogin(new Date());
-		update();
+	public boolean isPasswordChanged() {
+		String oldPassword = (String) getEntityManager()
+				.createQuery("select u.password from User u where u.id = #{user.id}")
+				.getSingleResult();
+		return ! getInstance().getPassword().equals(oldPassword);
 	}
 	
-	@Factory(value = "genders", scope = ScopeType.CONVERSATION)
-	public GenderEnum[] getGenders() {
-		return GenderEnum.values();
+	@Observer(Identity.EVENT_LOGIN_SUCCESSFUL)
+	public void updateLastLoginDate() {
+		currentUser.setLastLogin(new Date());
+		setUserId(currentUser.getId());
+		super.update();
 	}
 	
 }

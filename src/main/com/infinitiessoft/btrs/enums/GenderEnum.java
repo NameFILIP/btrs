@@ -3,8 +3,7 @@ package com.infinitiessoft.btrs.enums;
 public enum GenderEnum {
 	
 	MALE("gender.male"),
-	FEMALE("gender.female"),
-	UNDEFINED("gender.undefined");
+	FEMALE("gender.female");
 
 	private final String label;
 

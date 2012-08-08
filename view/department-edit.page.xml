@@ -12,20 +12,24 @@
 
 	<param name="departmentId" value="#{departmentHome.departmentId}"/>
 
-	<action execute="#{departmentHome.wire}"/>
-
 	<navigation from-action="#{departmentHome.persist}">
       <rule if-outcome="persisted">
          <end-conversation/>
-         <redirect view-id="/department-list.xhtml"/>
+         <redirect view-id="/department-view.xhtml"/>
       </rule>
    </navigation>
 
    <navigation from-action="#{departmentHome.update}">
       <rule if-outcome="updated">
          <end-conversation/>
-         <redirect view-id="/department-list.xhtml"/>
+         <redirect view-id="/department-view.xhtml"/>
       </rule>
    </navigation>
+   
+   <navigation from-action="#{departmentHome.remove}">
+		<rule if-outcome="removed">
+			<redirect view-id="/department-list.xhtml" />
+		</rule>
+	</navigation>
 
 </page>

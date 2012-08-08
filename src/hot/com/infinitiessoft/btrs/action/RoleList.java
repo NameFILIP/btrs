@@ -15,7 +15,7 @@ public class RoleList extends EntityQuery<Role> {
 
 	private static final String EJBQL = "select role from Role role";
 
-	private static final String[] RESTRICTIONS = {"role.code = #{roleList.role.code}"};
+	private static final String[] RESTRICTIONS = {"role.value = #{roleList.role.value}"};
 
 	private Role role = new Role();
 
@@ -30,7 +30,7 @@ public class RoleList extends EntityQuery<Role> {
 	}
 	
 	public Role getDefaultRole() {
-		role.setCode(RoleEnum.EMPLOYEE.name());
+		role.setValue(RoleEnum.EMPLOYEE);
 		return getSingleResult();
 	}
 }

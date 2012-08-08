@@ -26,8 +26,7 @@ public class ParameterValue implements java.io.Serializable {
 	private String value;
 	
 	
-	public ParameterValue() {
-	}
+	public ParameterValue() {}
 	
 	public ParameterValue(TypeParameter typeParameter, Expense expense) {
 		this.typeParameter = typeParameter;

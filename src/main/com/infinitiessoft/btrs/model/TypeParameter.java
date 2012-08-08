@@ -5,15 +5,19 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
+
+import com.infinitiessoft.btrs.enums.ParameterEnum;
 
 @Entity
 @Table(name = "type_parameters")
@@ -22,14 +26,12 @@ public class TypeParameter implements java.io.Serializable {
 	private static final long serialVersionUID = -8024876508245805562L;
 
 	private Long id;
-	private String nameKey;
-	private String code;
-	private String comment;
-	private Set<ExpenseType> expenseTypes = new HashSet<ExpenseType>(0);
-	private Set<ParameterValue> parameterValues = new HashSet<ParameterValue>(0);
+	private ParameterEnum value;
+	private Set<ExpenseType> expenseTypes;
+	private Set<ParameterValue> parameterValues;
 
-	public TypeParameter() {
-	}
+
+	public TypeParameter() {}
 
 	@Id
 	@GeneratedValue
@@ -42,39 +44,27 @@ public class TypeParameter implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name_key", nullable = false, length = 100)
-	@NotNull
-	@Length(max = 100)
+	@Transient
 	public String getNameKey() {
-		return this.nameKey;
+		return this.value.getLabel();
 	}
 
-	public void setNameKey(String nameKey) {
-		this.nameKey = nameKey;
-	}
-	
-	@Column(name = "code", nullable = false, length = 100)
+	@Enumerated(EnumType.STRING)
+	@Column(name = "value", nullable = false)
 	@NotNull
-	@Length(max = 100)
-	public String getCode() {
-		return this.code;
+	public ParameterEnum getValue() {
+		return this.value;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	@Column(length = 4000)
-	public String getComment() {
-		return this.comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setValue(ParameterEnum value) {
+		this.value = value;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "typeParameters")
 	public Set<ExpenseType> getExpenseTypes() {
+		if (expenseTypes == null) {
+			expenseTypes = new HashSet<ExpenseType>(0);
+		}
 		return this.expenseTypes;
 	}
 
@@ -84,6 +74,9 @@ public class TypeParameter implements java.io.Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "typeParameter")
 	public Set<ParameterValue> getParameterValues() {
+		if (parameterValues == null) {
+			parameterValues = new HashSet<ParameterValue>(0);
+		}
 		return parameterValues;
 	}
 
