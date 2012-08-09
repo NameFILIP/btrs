@@ -258,13 +258,13 @@ public class User implements java.io.Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if ( ! (obj instanceof User))
 			return false;
 		User other = (User) obj;
 		if (username == null) {
-			if (other.username != null)
+			if (other.getUsername() != null)
 				return false;
-		} else if (!username.equals(other.username))
+		} else if (!username.equals(other.getUsername()))
 			return false;
 		return true;
 	}

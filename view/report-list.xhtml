@@ -112,42 +112,24 @@
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{reportList}" />
 								<ui:param name="propertyLabel" value="Owner name" />
-								<ui:param name="propertyPath" value="report.owner.fullName" />
+								<ui:param name="propertyPath" value="report.owner.firstName" />
 							</ui:include>
 						</f:facet>
 						<h:outputText value="#{_report.owner.fullName}" />
 					</h:column>
 					
 					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{reportList}" />
-								<ui:param name="propertyLabel" value="Total amount" />
-								<ui:param name="propertyPath" value="report.totalAmount" />
-							</ui:include>
-						</f:facet>
+						<f:facet name="header">Total amount</f:facet>
 						<h:outputText value="#{_report.totalAmount}" />
 					</h:column>
 					
 					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{reportList}" />
-								<ui:param name="propertyLabel" value="Total tax" />
-								<ui:param name="propertyPath" value="report.totalTaxAmount" />
-							</ui:include>
-						</f:facet>
+						<f:facet name="header">Total tax</f:facet>
 						<h:outputText value="#{_report.totalTaxAmount}" />
 					</h:column>
 					
 					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{reportList}" />
-								<ui:param name="propertyLabel" value="Total without tax" />
-								<ui:param name="propertyPath" value="report.totalAmountWithoutTax" />
-							</ui:include>
-						</f:facet>
+						<f:facet name="header">Total without tax</f:facet>
 						<h:outputText value="#{_report.totalAmountWithoutTax}" />
 					</h:column>
 					
@@ -167,16 +149,18 @@
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{reportList}" />
 								<ui:param name="propertyLabel" value="Accountant" />
-								<ui:param name="propertyPath" value="report.reviewer.fullName" />
+								<ui:param name="propertyPath" value="report.reviewer.firstName" />
 							</ui:include>
 						</f:facet>
 						<h:outputText value="#{_report.reviewer.fullName}" />
 					</h:column>
 					
 					<rich:column styleClass="action">
+						<f:facet name="header">Action</f:facet>
 						<h:form>
-							<f:facet name="header">Action</f:facet>
 							<h:commandLink value="Approve" action="#{reportHome.approve(_report)}" id="report-approve" rendered="#{s:hasRole('ACCOUNTANT')}"/>
+	            			#{' '}
+	            			<h:commandLink value="Reject" action="#{reportHome.reject(_report)}" id="report-reject" rendered="#{s:hasRole('ACCOUNTANT')}"/>
 	            			#{' '}
 							<s:link view="/report-view.xhtml" value="View" id="report-view">
 								<f:param name="reportId" value="#{_report.id}" />

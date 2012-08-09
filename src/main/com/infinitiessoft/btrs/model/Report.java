@@ -208,6 +208,11 @@ public class Report implements java.io.Serializable {
 	}
 	
 	@Transient
+	public boolean removeExpense(Expense expense) {
+		return getExpenses().remove(expense);
+	}
+	
+	@Transient
 	public Integer getTotalAmount() {
 		int total = 0;
 		for (Expense expense : expenses) {

@@ -68,12 +68,12 @@
 					<h:inputTextarea id="comment" cols="80" rows="3" value="#{report.comment}" />
 				</s:decorate>
 
-				<a:outputPanel id="expense-table">
-					<s:decorate id="expenseList" template="layout/display.xhtml">
-						<ui:define name="label">List of Expenses</ui:define>
-						<ui:include src="expense-table.xhtml" />
-					</s:decorate>
-				</a:outputPanel>
+				<s:decorate id="expenseList" template="layout/display.xhtml">
+					<ui:define name="label">List of Expenses</ui:define>
+					<ui:include src="expense-table.xhtml">
+						<ui:param name="editable" value="true" />
+					</ui:include>
+				</s:decorate>
 
 				<s:decorate id="expense-add" template="layout/display.xhtml">
 					<ui:define name="label"></ui:define>

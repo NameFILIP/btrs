@@ -19,7 +19,7 @@ public class ReportHome extends EntityHome<Report> {
 
 	private static final long serialVersionUID = -2118409698027259254L;
 	
-	@In("#{currentUser}")
+	@In
 	User currentUser;
 
 	public void setReportId(Long id) {
@@ -78,7 +78,8 @@ public class ReportHome extends EntityHome<Report> {
 
 	@Override
 	public String update() {
-		// TODO Auto-generated method stub
+		Report report = getInstance();
+		report.setLastUpdatedDate(new Date());
 		return super.update();
 	}
 	

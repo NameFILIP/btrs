@@ -63,13 +63,22 @@ public class ExpenseHome extends EntityHome<Expense> {
 			wire();
 		}
 	}
+	
+	public void load(Expense expense) {
+		if (expense.getId() == null) {
+			setInstance(expense);
+		} else {
+			setExpenseId(expense.getId());
+		}
+		expenseTypeHome.setExpenseTypeId(expense.getExpenseType().getId());
+	}
 
 	public void wire() {
 		Expense expense = getInstance();
 		log.info("wiring object {0}", expense);
 		ExpenseType expenseType = expenseTypeHome.getDefinedInstance();
 		if (expenseType != null) {
-			getInstance().setExpenseType(expenseType);
+			expense.setExpenseType(expenseType);
 			if ( ! expense.getParameterValues().isEmpty()) {
 				log.warn("List of parameter values of expense {0} was not empty: {1}",
 						expense, expense.getParameterValues());
@@ -111,8 +120,11 @@ public class ExpenseHome extends EntityHome<Expense> {
 	}
 	
 	public void addToReportAndClear() {
+		Expense expense = getInstance();
 		expenseAmountCalculator.calculateTaxAndAmount();
-		addToReport();
+		if ( ! reportHome.getInstance().getExpenses().contains(expense)) {
+			addToReport();
+		}
 		clear();
 	}
 	

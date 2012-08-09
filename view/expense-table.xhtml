@@ -9,74 +9,71 @@
 				xmlns:s="http://jboss.com/products/seam/taglib" 
 				contentType="text/html">
 
-
-	<h:outputText value="The are no Expenses yet." rendered="#{empty report.expenses}" />
-
-	<rich:dataTable id="expense-list" var="_expense" value="#{report.expenses}" rendered="#{not empty report.expenses}">
-
-		<!-- h:column>
-			<f:facet name="header">
-				<ui:include src="layout/sort.xhtml">
-					<ui:param name="entityList" value="#{expenseList}" />
-					<ui:param name="propertyLabel" value="Expense Category name" />
-					<ui:param name="propertyPath" value="expense.expenseType.expenseCategory.nameKey" />
-				</ui:include>
-			</f:facet>
-			<h:outputText value="#{messages[_expense.expenseType.expenseCategory.nameKey]}" />
-		</h:column-->
-
-		<h:column>
-			<f:facet name="header">
-				<ui:include src="layout/sort.xhtml">
-					<ui:param name="entityList" value="#{expenseList}" />
-					<ui:param name="propertyLabel" value="Expense Type" />
-					<ui:param name="propertyPath" value="expenseType.value" />
-				</ui:include>
-			</f:facet>
-			<h:outputText value="#{messages[_expense.expenseType.nameKey]}" />
-		</h:column>
-
-		<h:column>
-			<f:facet name="header">Parameters</f:facet>
-			<ui:repeat var="_param" value="#{_expense.parameterValues}">
-				<h:outputText value="#{messages[_param.typeParameter.nameKey]} - #{_param.value}" /><br />
-			</ui:repeat>
-		</h:column>
-
-		<h:column>
-			<f:facet name="header">
-				<ui:include src="layout/sort.xhtml">
-					<ui:param name="entityList" value="#{expenseList}" />
-					<ui:param name="propertyLabel" value="Comment" />
-					<ui:param name="propertyPath" value="expense.comment" />
-				</ui:include>
-			</f:facet>
-			<h:outputText value="#{_expense.comment}" />
-		</h:column>
-
-
-		<h:column>
-			<f:facet name="header">Amount</f:facet>
-			<h:outputText value="Total amount - #{_expense.totalAmount}" /><br />
-			<h:outputText value="Tax - #{_expense.tax}" /><br />
-			<h:outputText value="Without Tax - #{_expense.amountWithoutTax}" />
-		</h:column>
-
-
-		<rich:column styleClass="action">
-			<h:form>
-				<f:facet name="header">Action</f:facet>
-				<s:link view="/expense-view.xhtml" value="View" propagation="none" id="expense-view">
-					<f:param name="expenseId" value="#{_expense.id}" />
-				</s:link>
-				#{' '}
-				<s:link view="/expense-edit.xhtml" value="Edit" propagation="none" id="expense-edit">
-					<f:param name="expenseId" value="#{_expense.id}" />
-				</s:link>
-				#{' '}
-				<h:commandLink value="Delete" action="#{expenseHome.remove(_expense)}" id="expense-delete" />
-			</h:form>
-		</rich:column>
-	</rich:dataTable>
+	<a:outputPanel id="expense-table">
+		<a:region>
+			<h:outputText value="The are no Expenses yet." rendered="#{empty report.expenses}" />
+		
+			<rich:dataTable id="expense-list" var="_expense" value="#{report.expenses}" rendered="#{not empty report.expenses}">
+		
+				<!-- h:column>
+					<f:facet name="header">
+						<ui:include src="layout/sort.xhtml">
+							<ui:param name="entityList" value="#{expenseList}" />
+							<ui:param name="propertyLabel" value="Expense Category name" />
+							<ui:param name="propertyPath" value="expense.expenseType.expenseCategory.nameKey" />
+						</ui:include>
+					</f:facet>
+					<h:outputText value="#{messages[_expense.expenseType.expenseCategory.nameKey]}" />
+				</h:column-->
+		
+				<h:column>
+					<f:facet name="header">
+						<ui:include src="layout/sort.xhtml">
+							<ui:param name="entityList" value="#{expenseList}" />
+							<ui:param name="propertyLabel" value="Expense Type" />
+							<ui:param name="propertyPath" value="expenseType.value" />
+						</ui:include>
+					</f:facet>
+					<h:outputText value="#{messages[_expense.expenseType.nameKey]}" />
+				</h:column>
+		
+				<h:column>
+					<f:facet name="header">Parameters</f:facet>
+					<ui:repeat var="_param" value="#{_expense.parameterValues}">
+						<h:outputText value="#{messages[_param.typeParameter.nameKey]} - #{_param.value}" /><br />
+					</ui:repeat>
+				</h:column>
+		
+				<h:column>
+					<f:facet name="header">
+						<ui:include src="layout/sort.xhtml">
+							<ui:param name="entityList" value="#{expenseList}" />
+							<ui:param name="propertyLabel" value="Comment" />
+							<ui:param name="propertyPath" value="expense.comment" />
+						</ui:include>
+					</f:facet>
+					<h:outputText value="#{_expense.comment}" />
+				</h:column>
+		
+		
+				<h:column>
+					<f:facet name="header">Amount</f:facet>
+					<h:outputText value="Total amount - #{_expense.totalAmount}" /><br />
+					<h:outputText value="Tax - #{_expense.tax}" /><br />
+					<h:outputText value="Without Tax - #{_expense.amountWithoutTax}" />
+				</h:column>
+		
+		
+				<rich:column styleClass="action" rendered="#{editable}">
+					<f:facet name="header">Action</f:facet>
+					<h:form>
+						<a:commandLink value="Edit" id="expense-edit" actionListener="#{expenseHome.load(_expense)}" onclick="Richfaces.showModalPanel('expense-edit-modal');" />
+						#{' '}
+						<a:commandLink value="Delete" id="expense-delete" actionListener="#{report.removeExpense(_expense)}" reRender="expense-table" />
+					</h:form>
+				</rich:column>
+			</rich:dataTable>
+		</a:region>
+	</a:outputPanel>
 
 </ui:composition>
