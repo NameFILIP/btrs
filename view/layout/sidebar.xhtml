@@ -6,22 +6,34 @@
 	
 	<s:fragment rendered="#{s:hasRole('EMPLOYEE')}">
 		<li>
-			<s:link id="outgoing" view="/report-list.xhtml" value="Outgoing Reports(#)">
-				<f:param name="type" value="out" />
+			<s:link id="outgoing" view="/report-list.xhtml" value="Outgoing Reports(#{reportsCounts['outgoing']})">
+				<f:param name="type" value="outgoing" />
 			</s:link>
 		</li>
+		<ul>
+			<li>
+				<s:link id="submitted" view="/report-list.xhtml" value="Submitted(#{reportsCounts['submitted']})">
+					<f:param name="type" value="submitted" />
+				</s:link>
+			</li>
+			<li>
+				<s:link id="rejected" view="/report-list.xhtml" value="Rejected(#{reportsCounts['rejected']})">
+					<f:param name="type" value="rejected" />
+				</s:link>
+			</li>
+		</ul>
 	</s:fragment>
 	
 	<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
 		<li>
-			<s:link id="incoming" view="/report-list.xhtml" value="Incoming Reports(#)">
-				<f:param name="type" value="in" />
+			<s:link id="incoming" view="/report-list.xhtml" value="Incoming Reports(#{reportsCounts['incoming']})">
+				<f:param name="type" value="incoming" />
 			</s:link>
 		</li>
 	</s:fragment>
 	
 	<li>
-		<s:link id="all-my-reports" view="/report-list.xhtml" value="All My Reports(#)">
+		<s:link id="all-my-reports" view="/report-list.xhtml" value="All My Reports(#{reportsCounts['all']})">
 			<f:param name="type" value="all" />
 		</s:link>
 	</li>

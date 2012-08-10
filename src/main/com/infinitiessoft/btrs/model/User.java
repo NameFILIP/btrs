@@ -268,6 +268,12 @@ public class User implements java.io.Serializable {
 			return false;
 		return true;
 	}
+	
+
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", roles=" + roles + "]";
+	}
 
 	@Transient
 	public String getFullName() {

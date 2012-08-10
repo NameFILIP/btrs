@@ -202,6 +202,12 @@ public class Report implements java.io.Serializable {
 		this.expenses = expenses;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "Report [id=" + id + ", owner=" + owner + ", reviewer=" + reviewer + ", currentStatus=" + currentStatus + "]";
+	}
+
 	@Transient
 	public boolean addExpense(Expense expense) {
 		return getExpenses().add(expense);

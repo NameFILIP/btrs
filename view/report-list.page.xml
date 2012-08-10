@@ -5,9 +5,12 @@
 						http://jboss.com/products/seam/pages-2.2.xsd"
 	login-required="true">
 
+	
 	<param name="type" />
 
+	<action execute="#{reportList.prepareCounts()}" />
 	<action execute="#{reportList.prepareList(type)}" />
+
 	
 	<param name="firstResult" value="#{reportList.firstResult}" />
 	<param name="sort" value="#{reportList.orderColumn}" />

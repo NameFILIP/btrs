@@ -56,7 +56,11 @@
 		<div id="main-container">
 			<s:div id="navbar-outer" rendered="#{identity.loggedIn}">
 				<ul id="navbar">
-					<li><s:link id="my-reports" view="/report-list.xhtml" value="#{messages['navbar.my.reports']}" /></li>
+					<li>
+						<s:link id="my-reports" view="/report-list.xhtml" value="#{messages['navbar.my.reports']}">
+							<f:param name="type" value="all" />
+						</s:link>
+					</li>
 					<li>
 						<s:link id="report-new" view="/report-edit.xhtml" value="#{messages['navbar.create.new.report']}">
 							<f:param name="reportFrom" value="#{facesContext.viewRoot.viewId}" />

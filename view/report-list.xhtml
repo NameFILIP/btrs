@@ -15,12 +15,12 @@
 	<ui:define name="data-main-body">
 
 		<rich:panel>
-			<f:facet name="header">List of Reports (#{empty reportList.resultList ? 0 : (reportList.paginated ? reportList.resultCount : reportList.resultList.size)})</f:facet>
+			<f:facet name="header">List of Reports (#{empty preparedReports ? 0 : (reportList.paginated ? reportList.resultCount : preparedReports.size)})</f:facet>
 			<div class="results" id="reportList">
 
-				<h:outputText value="The are no reports." rendered="#{empty reportList.resultList}" />
+				<h:outputText value="The are no reports." rendered="#{empty preparedReports}" />
 
-				<rich:dataTable id="reportList" var="_report" value="#{reportList.resultList}" rendered="#{not empty reportList.resultList}">
+				<rich:dataTable id="reportList" var="_report" value="#{preparedReports}" rendered="#{not empty preparedReports}">
 					
 					<h:column>
 						<f:facet name="header">
