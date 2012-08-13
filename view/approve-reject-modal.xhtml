@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				contentType="text/html">
+
+
+	<rich:modalPanel id="approve-reject-modal" width="500" height="200">
+		<f:facet name="header"> Confirmation</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/img/close.png" styleClass="hide-modal-link" id="hide-modal-link" alt="Close window" />
+				<rich:componentControl for="approve-reject-modal" attachTo="hide-modal-link" operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+
+		<h:form id="approve-reject-form">
+			<s:decorate id="statusChangeCommentField" template="layout/edit.xhtml">
+				<ui:define name="label">Comment</ui:define>
+				<h:inputTextarea id="statusChangeComment" cols="64" rows="5" value="#{reportHome.comment}" />
+			</s:decorate>
+
+			<div class="actionButtons" style="clear: both">
+				<a:commandButton id="approve-modal" value="Approve" action="#{reportHome.approve}" rendered="#{reportHome.actionName eq 'approve'}" onclick="Richfaces.hideModalPanel('approve-reject-modal');" />
+				<a:commandButton id="reject-modal" value="Reject" action="#{reportHome.reject}" rendered="#{reportHome.actionName eq 'reject'}" onclick="Richfaces.hideModalPanel('approve-reject-modal');" />
+				<a:commandButton id="cancel-modal" value="Cancel" immediate="true" onclick="Richfaces.hideModalPanel('approve-reject-modal');" />
+			</div>
+			
+		</h:form>
+	</rich:modalPanel>
+
+</ui:composition>

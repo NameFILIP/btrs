@@ -78,7 +78,7 @@
 				<s:decorate id="expense-add" template="layout/display.xhtml">
 					<ui:define name="label"></ui:define>
 
-					<a:commandLink id="showItem" onclick="Richfaces.showModalPanel('expense-edit-modal');">
+					<a:commandLink id="showItem" oncomplete="Richfaces.showModalPanel('expense-edit-modal');">
 						Add new Expense
 					</a:commandLink>
 				</s:decorate>

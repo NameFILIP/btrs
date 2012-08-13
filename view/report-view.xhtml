@@ -29,6 +29,11 @@
 				<ui:define name="label">Accountant</ui:define>
 				<h:outputText value="#{report.reviewer.fullName}" />
 			</s:decorate>
+			
+			<s:decorate id="currentStatusField" template="layout/display.xhtml">
+				<ui:define name="label">Status</ui:define>
+				<h:outputText value="#{messages[report.currentStatus.label]}" />
+			</s:decorate>
 
 			<s:decorate id="reasonField" template="layout/display.xhtml">
 				<ui:define name="label">Reason</ui:define>
@@ -71,11 +76,23 @@
 		</rich:panel>
 
 		<div class="actionButtons">
-			<h:commandButton id="approve" value="Approve" action="#{reportHome.approve}" rendered="#{s:hasRole('ACCOUNTANT')}" />
-			<h:commandButton id="reject" value="Reject" action="#{reportHome.reject}" rendered="#{s:hasRole('ACCOUNTANT')}" />
-			<s:button id="edit" view="/report-edit.xhtml" value="Edit" />
-			<s:button id="done" value="Done" view="/report-list.xhtml" />
+			<h:form id="report-view-form">
+				<a:commandButton id="approve" value="Approve" oncomplete="Richfaces.showModalPanel('approve-reject-modal');" 
+						rendered="#{s:hasRole('ACCOUNTANT')}" reRender="modal-window">
+					<a:actionparam name="actionApprove" value="approve" assignTo="#{reportHome.actionName}" />
+				</a:commandButton>
+				<a:commandButton id="reject" value="Reject" oncomplete="Richfaces.showModalPanel('approve-reject-modal');" 
+						rendered="#{s:hasRole('ACCOUNTANT')}" reRender="modal-window">
+					<a:actionparam name="actionReject" value="reject" assignTo="#{reportHome.actionName}" />
+				</a:commandButton>
+				<s:button id="edit" view="/report-edit.xhtml" value="Edit" />
+				<s:button id="done" view="/report-list.xhtml" value="Done" propagation="end" />
+			</h:form>
 		</div>
-
+		
+		<a:outputPanel id="modal-window">
+			<ui:include src="approve-reject-modal.xhtml" />
+		</a:outputPanel>		
+		
 	</ui:define>
 </ui:composition>

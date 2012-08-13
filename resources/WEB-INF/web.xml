@@ -34,6 +34,19 @@
   <param-name>org.richfaces.SKIN</param-name>
   <param-value>blueSky</param-value>
  </context-param>
+ <context-param>
+    <description>Turn off autocomplete</description>
+    <param-name>com.sun.faces.autoCompleteOffOnViewState</param-name>
+    <param-value>false</param-value>
+</context-param>
+<context-param>
+    <description>Generate unique viewState ids</description>
+    <param-name>com.sun.faces.enableViewStateIdRendering</param-name>
+    <param-value>false</param-value>
+</context-param>
+
+
+
  <filter>
   <filter-name>Seam Filter</filter-name>
   <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>

@@ -5,6 +5,22 @@
       					  http://jboss.com/products/seam/pages-2.2.xsd"
       login-required="true">
 	
+	<begin-conversation join="true" flush-mode="MANUAL"/>
+	
 	<param name="reportId" value="#{reportHome.reportId}"/>
+
+	<navigation from-action="#{reportHome.approve}">
+		<rule if-outcome="approved">
+			<end-conversation />
+			<redirect view-id="/report-list.xhtml" />
+		</rule>
+	</navigation>
+
+	<navigation from-action="#{reportHome.reject}">
+		<rule if-outcome="rejected">
+			<end-conversation />
+			<redirect view-id="/report-list.xhtml" />
+		</rule>
+	</navigation>
 
 </page>

@@ -35,17 +35,17 @@
 	<mail:mail-session host="localhost" port="25" />
 
 
-	<factory name="department" value="#{departmentHome.instance}"/>
-	<factory name="expenseCategory" value="#{expenseCategoryHome.instance}"/>
-	<factory name="expense" value="#{expenseHome.instance}"/>
-	<factory name="expenseType" value="#{expenseTypeHome.instance}"/>
-	<factory name="parameterValue" value="#{parameterValueHome.instance}"/>
-	<factory name="report" value="#{reportHome.instance}"/>
-	<factory name="role" value="#{roleHome.instance}"/>
-	<factory name="statusChange" value="#{statusChangeHome.instance}"/>
-	<factory name="status" value="#{statusHome.instance}"/>
-	<factory name="typeParameter" value="#{typeParameterHome.instance}"/>
-	<factory name="user" value="#{userHome.instance}"/>
+	<factory name="department" value="#{departmentHome.instance}" scope="STATELESS" />
+	<factory name="expenseCategory" value="#{expenseCategoryHome.instance}" scope="STATELESS" />
+	<factory name="expense" value="#{expenseHome.instance}" scope="STATELESS" />
+	<factory name="expenseType" value="#{expenseTypeHome.instance}" scope="STATELESS" />
+	<factory name="parameterValue" value="#{parameterValueHome.instance}" scope="STATELESS" />
+	<factory name="report" value="#{reportHome.instance}" scope="STATELESS" />
+	<factory name="role" value="#{roleHome.instance}" scope="STATELESS" />
+	<factory name="statusChange" value="#{statusChangeHome.instance}" scope="STATELESS" />
+	<factory name="status" value="#{statusHome.instance}" scope="STATELESS" />
+	<factory name="typeParameter" value="#{typeParameterHome.instance}" scope="STATELESS" />
+	<factory name="user" value="#{userHome.instance}" scope="STATELESS" />
 
 	<component name="expenseAmountCalculator">
 		<property name="taxPercent">@taxPercent@</property>

@@ -40,6 +40,15 @@ public class StatusChange implements java.io.Serializable {
 
 	public StatusChange() {}
 
+	
+	public StatusChange(User user, StatusEnum value, Report report, String comment, Date createdDate) {
+		this.user = user;
+		this.value = value;
+		this.report = report;
+		this.comment = comment;
+		this.createdDate = createdDate;
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "id", unique = true, nullable = false)

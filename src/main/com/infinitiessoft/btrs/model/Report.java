@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -177,8 +176,8 @@ public class Report implements java.io.Serializable {
 		this.currentStatus = currentStatus;
 	}
 
-	@OrderBy("createdDate")
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "report")
+//	@OrderBy("createdDate")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "report", cascade = CascadeType.ALL)
 	public List<StatusChange> getStatusChanges() {
 		if (statusChanges == null) {
 			statusChanges = new ArrayList<StatusChange>(0);
@@ -216,6 +215,11 @@ public class Report implements java.io.Serializable {
 	@Transient
 	public boolean removeExpense(Expense expense) {
 		return getExpenses().remove(expense);
+	}
+	
+	@Transient
+	public boolean addStatusChange(StatusChange statusChange) {
+		return getStatusChanges().add(statusChange);
 	}
 	
 	@Transient

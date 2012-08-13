@@ -11,7 +11,7 @@
 
 
 	<rich:modalPanel id="expense-edit-modal" width="600" height="500">
-		<f:facet name="header">#{expenseHome.managed ? 'Edit' : 'Add'} Expense</f:facet>
+		<f:facet name="header">Expense Details</f:facet>
 		<f:facet name="controls">
 			<h:panelGroup>
 				<h:graphicImage value="/img/close.png" styleClass="hide-modal-link" id="hide-modal-link" />
@@ -66,7 +66,7 @@
 				
 				<a:commandButton id="save-and-add-modal" value="Save and Add new" actionListener="#{expenseHome.addToReportAndClear()}" reRender="expense-table" />
 
-				<a:commandButton id="cancel-modal" value="Cancel" actionListener="#{expenseHome.clear()}" immediate="true" oncomplete="Richfaces.hideModalPanel('expense-edit-modal');" />
+				<a:commandButton id="cancel-modal" value="Cancel" actionListener="#{expenseHome.clear()}" immediate="true" onclick="Richfaces.hideModalPanel('expense-edit-modal');" />
 			</div>
 			
 			<!-- Hack for closing modal window if validation after Save successful -->
