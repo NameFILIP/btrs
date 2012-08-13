@@ -84,14 +84,14 @@ public class ReportList extends EntityQuery<Report> {
 			if (currentUser.equals(report.getReviewer())) {
 				if (StatusEnum.SUBMITTED.equals(report.getCurrentStatus())) {
 					incomingCount++;
-				} else if (currentUser.equals(report.getOwner())) {
-					if (StatusEnum.SUBMITTED.equals(report.getCurrentStatus())) {
-						submittedCount++;
-						outgoingCount++;
-					} else if (StatusEnum.REJECTED.equals(report.getCurrentStatus())) {
-						rejectedCount++;
-						outgoingCount++;
-					}
+				}
+			} else if (currentUser.equals(report.getOwner())) {
+				if (StatusEnum.SUBMITTED.equals(report.getCurrentStatus())) {
+					submittedCount++;
+					outgoingCount++;
+				} else if (StatusEnum.REJECTED.equals(report.getCurrentStatus())) {
+					rejectedCount++;
+					outgoingCount++;
 				}
 			} else {
 				String message = "Report (id=" + report.getId() + ") doesn't belong to user " + currentUser;
