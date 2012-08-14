@@ -35,21 +35,21 @@
 				</s:fragment>
 				<s:fragment rendered="#{identity.loggedIn}">
 					<li>
-						<s:link id="my-account" view="/user-edit.xhtml" value="#{messages['accountnav.my.account']}">
+						<s:link id="my-account" view="/user-edit.xhtml" value="#{messages['accountnav.my.account']}" propagation="none">
 							<f:param name="userId" value="#{currentUser.id}" />
 							<f:param name="userFrom" value="#{facesContext.viewRoot.viewId}" />
 						</s:link>
 					</li>
 					<li>-</li>
-					<li><s:link id="help" view="/help.xhtml" value="#{messages['accountnav.help']}" /></li>
+					<li><s:link id="help" view="/help.xhtml" value="#{messages['accountnav.help']}" propagation="none" /></li>
 					<li>-</li>
-					<li><s:link id="logout" action="#{identity.logout}" value="#{messages['accountnav.logout']}" /></li>
+					<li><s:link id="logout" action="#{identity.logout}" value="#{messages['accountnav.logout']}" propagation="end" /></li>
 				</s:fragment>
 			</ul>
 			<div id="logobar">
-				<a href="#{facesContext.externalContext.requestContextPath}">
-					<img src="img/logo.jpg" alt="#{messages['company.name']}" />
-				</a>
+				<s:link id="logo-img" view="/" propagation="none">
+					<h:graphicImage value="/img/logo.jpg" alt="#{messages['company.name']}" />
+				</s:link>
 				<h1 id="title">#{messages['system.name']}</h1>
 			</div>
 		</div>
@@ -57,7 +57,7 @@
 			<s:div id="navbar-outer" rendered="#{identity.loggedIn}">
 				<ul id="navbar">
 					<li>
-						<s:link id="my-reports" view="/report-list.xhtml" value="#{messages['navbar.my.reports']}">
+						<s:link id="my-reports" view="/report-list.xhtml" value="#{messages['navbar.my.reports']}" propagation="none">
 							<f:param name="type" />
 						</s:link>
 					</li>
@@ -72,7 +72,7 @@
 					</s:fragment>
 
 					<s:fragment rendered="#{s:hasRole('ACCOUNTANT') or s:hasRole('ADMIN')}">
-						<li><s:link id="management" action="management" value="#{messages['navbar.management']}" /></li>
+						<li><s:link id="management" action="management" value="#{messages['navbar.management']}" propagation="none" /></li>
 					</s:fragment>
 				</ul>
 			</s:div>

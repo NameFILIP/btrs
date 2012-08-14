@@ -5,11 +5,11 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 	<s:fragment rendered="#{s:hasRole('ADMIN')}">
-		<li><s:link id="user-list" view="/user-list.xhtml" value="Manage Users" /></li>
-		<li><s:link id="department-list" view="/department-list.xhtml" value="Manage Departments" /></li>
-		<li><s:link id="expense-category-list" view="/expense-category-list.xhtml" value="Manage Exp. Categories" /></li>
-		<li><s:link id="expense-type-list" view="/expense-type-list.xhtml" value="Manage Exp. Types" /></li>
+		<li><s:link id="user-list" view="/user-list.xhtml" value="Manage Users" propagation="none" /></li>
+		<li><s:link id="department-list" view="/department-list.xhtml" value="Manage Departments" propagation="none" /></li>
+		<li><s:link id="expense-category-list" view="/expense-category-list.xhtml" value="Manage Exp. Categories" propagation="none" /></li>
+		<li><s:link id="expense-type-list" view="/expense-type-list.xhtml" value="Manage Exp. Types" propagation="none" /></li>
 	</s:fragment>
-	<li><s:link id="manage-variables" view="/manage-variables.xhtml" value="Manage Variables" /></li>
+	<li><s:link id="manage-variables" view="/manage-variables.xhtml" value="Manage Variables" propagation="none" /></li>
 	
 </ui:composition>
