@@ -30,7 +30,7 @@
 				<s:decorate id="reviewerField" template="layout/edit.xhtml">
 					<ui:define name="label">Accountant</ui:define>
 					<h:selectOneMenu id="reviewer" required="true" value="#{report.reviewer}">
-						<s:selectItems var="a" value="#{userList.getAccountants()}" itemValue="#{a}" label="#{a.fullName}" />
+						<s:selectItems var="a" value="#{roleList.getAccountants()}" itemValue="#{a}" label="#{a.fullName}" />
 						<s:convertEntity />
 					</h:selectOneMenu>
 				</s:decorate>

@@ -9,8 +9,38 @@
 				xmlns:s="http://jboss.com/products/seam/taglib" 
 				contentType="text/html">
 	
-	<s:decorate id="otherField" template="/layout/edit.xhtml">
-		<ui:define name="label">#{messages['parameter.other']}</ui:define>
+	<s:decorate id="personsField" template="/layout/edit.xhtml">
+		<ui:define name="label">#{messages['parameter.persons']}</ui:define>
+		<h:selectOneMenu id="persons" required="true" value="#{expense.getParameterValue('PERSONS').value}" >
+			<f:selectItem itemValue="1"/>
+			<f:selectItem itemValue="2"/>
+			<f:selectItem itemValue="3"/>
+			<f:selectItem itemValue="4"/>
+			<f:selectItem itemValue="5"/>
+			<f:selectItem itemValue="6"/>
+			<f:selectItem itemValue="7"/>
+			<f:selectItem itemValue="8"/>
+			<f:selectItem itemValue="9"/>
+		</h:selectOneMenu>
+	</s:decorate>
+	
+	<s:decorate id="daysField" template="/layout/edit.xhtml">
+		<ui:define name="label">#{messages['parameter.days']}</ui:define>
+		<h:selectOneMenu id="days" required="true" value="#{expense.getParameterValue('DAYS').value}">
+			<f:selectItem itemValue="1"/>
+			<f:selectItem itemValue="2"/>
+			<f:selectItem itemValue="3"/>
+			<f:selectItem itemValue="4"/>
+			<f:selectItem itemValue="5"/>
+			<f:selectItem itemValue="6"/>
+			<f:selectItem itemValue="7"/>
+			<f:selectItem itemValue="8"/>
+			<f:selectItem itemValue="9"/>
+		</h:selectOneMenu>
+	</s:decorate>
+
+	<s:decorate id="amountField" template="/layout/edit.xhtml">
+		<ui:define name="label">#{messages['parameter.amount']}</ui:define>
 		<h:inputText id="amount" required="true" size="20" maxlength="100" value="#{expense.totalAmount}">
 			<a:support event="onkeyup" reRender="taxFragment" ignoreDupResponses="true" requestDelay="50" ajaxSingle="true" oncomplete="setCaretToEnd(event);" />
 		</h:inputText>
@@ -25,4 +55,6 @@
 		</s:decorate>
 	</a:outputPanel>
 	
+	
+
 </ui:composition>

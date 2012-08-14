@@ -20,6 +20,11 @@
 					<h:outputText value="#{messages[expenseType.nameKey]}" />
 				</s:decorate>
 				
+				<s:decorate id="taxPercentField" template="layout/display.xhtml">
+					<ui:define name="label">Tax Percent</ui:define>
+					<h:outputText value="#{expenseType.taxPercent}" />
+				</s:decorate>
+				
 				<s:decorate id="typeParametersField" template="layout/display.xhtml">
 					<ui:define name="label">Parameters</ui:define>
 					<ui:repeat var="p" value="#{expenseType.typeParameters}">

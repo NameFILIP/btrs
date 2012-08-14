@@ -43,6 +43,17 @@
 					</h:column>
 					
 					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{expenseTypeList}" />
+								<ui:param name="propertyLabel" value="Tax Percent" />
+								<ui:param name="propertyPath" value="expenseType.taxPercent" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_expenseType.taxPercent}" />
+					</h:column>
+					
+					<h:column>
 						<f:facet name="header">Parameters</f:facet>
 						<ui:repeat var="p" value="#{_expenseType.typeParameters}">
 							<h:outputText value="#{messages[p.nameKey]}" /><br/>
@@ -81,11 +92,11 @@
 			</s:link>
 		</div>
 
-		<!-- s:div styleClass="actionButtons">
+		<s:div styleClass="actionButtons">
 			<s:button view="/expense-type-edit.xhtml" id="create" propagation="none" value="Create Expense Type">
 				<f:param name="expenseTypeId" />
 			</s:button>
-		</s:div-->
+		</s:div>
 	</ui:define>
 
 </ui:composition>

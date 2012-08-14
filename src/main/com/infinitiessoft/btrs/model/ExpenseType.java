@@ -1,11 +1,14 @@
 package com.infinitiessoft.btrs.model;
 // Generated Jul 9, 2012 10:51:06 AM by Hibernate Tools 3.2.4.GA
 
+import static javax.persistence.FetchType.LAZY;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,9 +20,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.validator.Digits;
 import org.hibernate.validator.NotNull;
 
 import com.infinitiessoft.btrs.enums.ExpenseTypeEnum;
@@ -36,11 +41,14 @@ public class ExpenseType implements java.io.Serializable {
 	private Long id;
 	private List<ExpenseCategory> expenseCategories;
 	private ExpenseTypeEnum value;
+	private Integer taxPercent;
 	private Set<Expense> expenses;
 	private List<TypeParameter> typeParameters;
 
 	
-	public ExpenseType() {}
+	public ExpenseType() {
+		this.taxPercent = 0;
+	}
 
 	@Id
 	@GeneratedValue
@@ -53,7 +61,10 @@ public class ExpenseType implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "expenseTypes")
+	@ManyToMany(fetch = LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(name = "exp_category_exp_type",
+		joinColumns = @JoinColumn(name = "type_id"),
+		inverseJoinColumns = @JoinColumn(name = "category_id"))
 	public List<ExpenseCategory> getExpenseCategories() {
 		if (expenseCategories == null) {
 			expenseCategories = new ArrayList<ExpenseCategory>(0);
@@ -81,7 +92,17 @@ public class ExpenseType implements java.io.Serializable {
 		this.value = value;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "expenseType")
+	@Digits(integerDigits = 2)
+	@Column(name = "tax_percent")
+	public Integer getTaxPercent() {
+		return taxPercent;
+	}
+
+	public void setTaxPercent(Integer taxPercent) {
+		this.taxPercent = taxPercent;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "expenseType", cascade = CascadeType.ALL)
 	public Set<Expense> getExpenses() {
 		if (expenses == null) {
 			expenses = new HashSet<Expense>(0);
@@ -93,6 +114,7 @@ public class ExpenseType implements java.io.Serializable {
 		this.expenses = expenses;
 	}
 	
+	@OrderBy("value")
 	@ManyToMany(targetEntity = TypeParameter.class, fetch = FetchType.LAZY)
 	@JoinTable(name = "exp_types_type_parameters",
 		joinColumns = @JoinColumn(name = "type_id"),

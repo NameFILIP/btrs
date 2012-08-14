@@ -1,12 +1,10 @@
 package com.infinitiessoft.btrs.action;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
 
-import com.infinitiessoft.btrs.enums.RoleEnum;
 import com.infinitiessoft.btrs.model.User;
 
 @Name("userList")
@@ -29,17 +27,11 @@ public class UserList extends EntityQuery<User> {
 		setEjbql(EJBQL);
 		setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
 		setMaxResults(25);
+		setOrder("createdDate");
 	}
 
 	public User getUser() {
 		return user;
-	}
-	
-	public List<User> getAccountants() {
-		String ejbql = "SELECT DISTINCT u FROM User u join u.roles as r "
-				+ "WHERE r.value = '" + RoleEnum.ACCOUNTANT + "'";
-		setEjbql(ejbql);
-		return getResultList();
 	}
 	
 }

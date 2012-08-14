@@ -129,7 +129,7 @@
 					</h:column>
 					
 					<h:column>
-						<f:facet name="header">Total without tax</f:facet>
+						<f:facet name="header">Total w/o tax</f:facet>
 						<h:outputText value="#{_report.totalAmountWithoutTax}" />
 					</h:column>
 					
@@ -141,7 +141,7 @@
 								<ui:param name="propertyPath" value="report.currentStatus" />
 							</ui:include>
 						</f:facet>
-						<h:outputText value="#{_report.currentStatus}" />
+						<h:outputText value="#{messages[_report.currentStatus.label]}" />
 					</h:column>
 					
 					<h:column>
@@ -157,19 +157,13 @@
 					
 					<rich:column styleClass="action">
 						<f:facet name="header">Action</f:facet>
-						<h:form>
-							<h:commandLink value="Approve" action="#{reportHome.approve(_report)}" id="report-approve" rendered="#{s:hasRole('ACCOUNTANT')}"/>
-	            			#{' '}
-	            			<h:commandLink value="Reject" action="#{reportHome.reject(_report)}" id="report-reject" rendered="#{s:hasRole('ACCOUNTANT')}"/>
-	            			#{' '}
-							<s:link view="/report-view.xhtml" value="View" id="report-view">
-								<f:param name="reportId" value="#{_report.id}" />
-							</s:link>
-	            			#{' '}
-	            			<s:link view="/report-edit.xhtml" value="Edit" propagation="none" id="report-edit">
-								<f:param name="reportId" value="#{_report.id}" />
-							</s:link>
-						</h:form>
+						<s:link view="/report-view.xhtml" value="View" id="report-view">
+							<f:param name="reportId" value="#{_report.id}" />
+						</s:link>
+            			#{' '}
+            			<s:link view="/report-edit.xhtml" value="Edit" propagation="none" id="report-edit">
+							<f:param name="reportId" value="#{_report.id}" />
+						</s:link>
 					</rich:column>
 				</rich:dataTable>
 

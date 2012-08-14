@@ -10,12 +10,13 @@ import com.infinitiessoft.btrs.enums.HighSpeedRailEnum;
 @Name("factories")
 public class Factories {
 
-	@Factory(value = "genders")
+	
+	@Factory(value = "genders", scope = ScopeType.APPLICATION)
 	public GenderEnum[] getGenders() {
 		return GenderEnum.values();
 	}
 	
-	@Factory(value = "hsrStations", scope = ScopeType.CONVERSATION)
+	@Factory(value = "hsrStations", scope = ScopeType.APPLICATION)
 	public HighSpeedRailEnum[] getHsrStations() {
 		return HighSpeedRailEnum.values();
 	}

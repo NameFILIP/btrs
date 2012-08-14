@@ -54,6 +54,7 @@ public class ReportList extends EntityQuery<Report> {
 		setEjbql(EJBQL);
 		setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
 		setMaxResults(25);
+		setOrder("lastUpdatedDate");
 	}
 
 	public Report getReport() {

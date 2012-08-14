@@ -62,18 +62,16 @@
 						</s:link>
 					</li>
 					<li>
-						<s:link id="report-new" view="/report-edit.xhtml" value="#{messages['navbar.create.new.report']}">
+						<s:link id="report-new" view="/report-edit.xhtml" value="#{messages['navbar.create.new.report']}" propagation="none">
 							<f:param name="reportFrom" value="#{facesContext.viewRoot.viewId}" />
+							<f:param name="reportId" />
 						</s:link>
 					</li>
 					<s:fragment rendered="#{s:hasRole('ACCOUNTANT') or s:hasRole('ADMIN')}">
 						<li>-</li>
 					</s:fragment>
 
-					<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
-						<li><s:link id="emp-reports" view="/" value="#{messages['navbar.all.employees.reports']}" /></li>
-					</s:fragment>
-					<s:fragment rendered="#{s:hasRole('ADMIN')}">
+					<s:fragment rendered="#{s:hasRole('ACCOUNTANT') or s:hasRole('ADMIN')}">
 						<li><s:link id="management" action="management" value="#{messages['navbar.management']}" /></li>
 					</s:fragment>
 				</ul>

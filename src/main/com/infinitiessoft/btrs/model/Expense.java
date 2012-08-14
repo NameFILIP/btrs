@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.validator.Digits;
+
 import com.infinitiessoft.btrs.enums.ParameterEnum;
 
 /**
@@ -31,6 +33,8 @@ public class Expense implements java.io.Serializable {
 	private ExpenseType expenseType;
 	private Report report;
 	private String comment;
+	private Integer totalAmount;
+	private Integer taxAmount;
 	
 	private List<ParameterValue> parameterValues;
 	
@@ -78,6 +82,26 @@ public class Expense implements java.io.Serializable {
 		this.comment = comment;
 	}
 
+	@Digits(integerDigits = 6)
+	@Column(name = "total_amount", nullable = false)
+	public Integer getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(Integer totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+
+	@Digits(integerDigits = 6)
+	@Column(name = "tax_amount", nullable = false)
+	public Integer getTaxAmount() {
+		return taxAmount;
+	}
+
+	public void setTaxAmount(Integer taxAmount) {
+		this.taxAmount = taxAmount;
+	}
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "expense", cascade = CascadeType.ALL)
 	public List<ParameterValue> getParameterValues() {
 		if (parameterValues == null) {
@@ -107,20 +131,8 @@ public class Expense implements java.io.Serializable {
 	}
 	
 	@Transient
-	public Integer getTotalAmount() {
-		ParameterValue amountParam = getParameterValue(ParameterEnum.AMOUNT);
-		return amountParam == null ? 0 : Integer.valueOf(amountParam.getValue());
-	}
-	
-	@Transient
-	public Integer getTax() {
-		ParameterValue taxParam = getParameterValue(ParameterEnum.TAX);
-		return taxParam == null ? 0 : Integer.valueOf(taxParam.getValue());
-	}
-	
-	@Transient
 	public Integer getAmountWithoutTax() {
-		return getTotalAmount() - getTax();
+		return getTotalAmount() - getTaxAmount();
 	}
 	
 }

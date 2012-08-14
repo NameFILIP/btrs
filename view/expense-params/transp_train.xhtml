@@ -8,9 +8,9 @@
 				xmlns:rich="http://richfaces.org/rich" 
 				xmlns:s="http://jboss.com/products/seam/taglib" 
 				contentType="text/html">
-	
-	<s:decorate id="otherField" template="/layout/edit.xhtml">
-		<ui:define name="label">#{messages['parameter.other']}</ui:define>
+
+	<s:decorate id="amountField" template="/layout/edit.xhtml">
+		<ui:define name="label">#{messages['parameter.amount']}</ui:define>
 		<h:inputText id="amount" required="true" size="20" maxlength="100" value="#{expense.totalAmount}">
 			<a:support event="onkeyup" reRender="taxFragment" ignoreDupResponses="true" requestDelay="50" ajaxSingle="true" oncomplete="setCaretToEnd(event);" />
 		</h:inputText>
@@ -24,5 +24,5 @@
 											= #{expenseAmountCalculator.calculateTax(expense.totalAmount, expense.expenseType.taxPercent)}" />
 		</s:decorate>
 	</a:outputPanel>
-	
+
 </ui:composition>

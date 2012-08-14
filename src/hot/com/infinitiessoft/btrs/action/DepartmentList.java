@@ -24,6 +24,7 @@ public class DepartmentList extends EntityQuery<Department> {
 		setEjbql(EJBQL);
 		setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
 		setMaxResults(25);
+		setOrder("name");
 	}
 
 	public Department getDepartment() {

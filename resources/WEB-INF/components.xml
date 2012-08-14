@@ -47,10 +47,6 @@
 	<factory name="typeParameter" value="#{typeParameterHome.instance}" scope="STATELESS" />
 	<factory name="user" value="#{userHome.instance}" scope="STATELESS" />
 
-	<component name="expenseAmountCalculator">
-		<property name="taxPercent">@taxPercent@</property>
-	</component>
-
 	<component name="passwordManager">
 		<property name="digestAlgorithm">@passDigestAlgorithm@</property>
 		<property name="charset">@passCharset@</property>

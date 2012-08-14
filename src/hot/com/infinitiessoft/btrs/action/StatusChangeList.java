@@ -22,6 +22,7 @@ public class StatusChangeList extends EntityQuery<StatusChange> {
 		setEjbql(EJBQL);
 		setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
 		setMaxResults(25);
+		setOrder("createdDate");
 	}
 
 	public StatusChange getStatusChange() {

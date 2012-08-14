@@ -37,5 +37,11 @@
 			<f:param name="type" value="all" />
 		</s:link>
 	</li>
+	
+	<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
+		<li>
+			<s:link id="statistics" view="/statistics.xhtml" value="Statistics" />
+		</li>
+	</s:fragment>
 
 </ui:composition>

@@ -12,9 +12,9 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 
-import com.infinitiessoft.btrs.custom.ExpenseAmountCalculator;
 import com.infinitiessoft.btrs.enums.HighSpeedRailEnum;
 import com.infinitiessoft.btrs.enums.ParameterEnum;
+import com.infinitiessoft.btrs.logic.ExpenseAmountCalculator;
 import com.infinitiessoft.btrs.logic.HighSpeedRailPrices;
 import com.infinitiessoft.btrs.model.Expense;
 import com.infinitiessoft.btrs.model.ExpenseType;
@@ -37,7 +37,7 @@ public class ExpenseHome extends EntityHome<Expense> {
 	ReportHome reportHome;
 
 	@Out(required = false, scope = ScopeType.EVENT)
-	private Integer hsrPrice;
+	Integer hsrPrice;
 	@In(create = true)
 	HighSpeedRailPrices highSpeedRailPrices;
 	@In(create = true)
@@ -121,7 +121,7 @@ public class ExpenseHome extends EntityHome<Expense> {
 	
 	public void addToReportAndClear() {
 		Expense expense = getInstance();
-		expenseAmountCalculator.calculateTaxAndAmount();
+		expenseAmountCalculator.calculateTaxAndAmount(expense);
 		if ( ! reportHome.getInstance().getExpenses().contains(expense)) {
 			addToReport();
 		}

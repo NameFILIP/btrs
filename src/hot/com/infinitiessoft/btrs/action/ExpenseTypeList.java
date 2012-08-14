@@ -1,19 +1,26 @@
 package com.infinitiessoft.btrs.action;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jboss.seam.annotations.Factory;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
 import org.jboss.seam.log.Log;
 
+import com.infinitiessoft.btrs.enums.ExpenseTypeEnum;
 import com.infinitiessoft.btrs.model.ExpenseType;
 
 @Name("expenseTypeList")
 public class ExpenseTypeList extends EntityQuery<ExpenseType> {
 
 	@Logger Log log;
+	
+	@In(required = false)
+	ExpenseTypeHome expenseTypeHome;
 	
 	private static final long serialVersionUID = -1508828451706319531L;
 
@@ -27,6 +34,7 @@ public class ExpenseTypeList extends EntityQuery<ExpenseType> {
 		setEjbql(EJBQL);
 		setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
 		setMaxResults(25);
+		setOrder("value");
 	}
 
 	public ExpenseType getExpenseType() {
@@ -37,6 +45,23 @@ public class ExpenseTypeList extends EntityQuery<ExpenseType> {
 		String[] restrictions = {"expenseType.expenseCategory.id = #{expenseCategory.id}"};
 		setRestrictionExpressionStrings(Arrays.asList(restrictions));
 		return getResultList();
+	}
+	
+	@Factory(value = "expenseTypes")
+	public List<ExpenseTypeEnum> getExpenseTypes() {
+		List<ExpenseType> usedExpenseTypes = getResultList();
+		List<ExpenseTypeEnum> availableExpenseTypes =
+				new ArrayList<ExpenseTypeEnum>(Arrays.asList(ExpenseTypeEnum.values()));
+		
+		for (ExpenseType expenseType : usedExpenseTypes) {
+			availableExpenseTypes.remove(expenseType.getValue());
+		}
+		
+		ExpenseType currentExpenseType = expenseTypeHome.getDefinedInstance();
+		if (currentExpenseType != null) {
+			availableExpenseTypes.add(currentExpenseType.getValue());
+		}
+		return availableExpenseTypes;
 	}
 }
 	

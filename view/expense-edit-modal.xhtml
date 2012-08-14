@@ -10,7 +10,7 @@
 				contentType="text/html">
 
 
-	<rich:modalPanel id="expense-edit-modal" width="600" height="500">
+	<rich:modalPanel id="expense-edit-modal" width="475" height="385">
 		<f:facet name="header">Expense Details</f:facet>
 		<f:facet name="controls">
 			<h:panelGroup>
@@ -22,7 +22,7 @@
 
 		<h:form id="expense-edit-form">
 
-			<a:outputPanel id="inputs-modal" ajaxRendered="true">
+			<a:outputPanel id="inputs-modal" layout="block">
 
 				<s:decorate id="ajaxStatusField" template="layout/display.xhtml">
 					<ui:define name="label">Ajax Status</ui:define>
@@ -51,9 +51,9 @@
 					<h:inputTextarea id="comment" cols="40" rows="3" value="#{expense.comment}" />
 				</s:decorate>
 
-				<a:outputPanel id="parametersArea" layout="none">
+				<a:outputPanel id="parametersArea">
 					<ui:fragment rendered="#{expenseTypeHome.managed}">
-						<ui:include src="expense-params/#{expenseTypeHome.managed ? expenseType.value.name().toLowerCase() : 'default'}.xhtml" />
+						<ui:include src="expense-params/#{expenseTypeHome.managed ? expenseType.value.name().toLowerCase() : 'other'}.xhtml" />
 					</ui:fragment>
 				</a:outputPanel>
 
@@ -62,11 +62,11 @@
 
 
 			<div class="actionButtons" style="clear: both">
-				<a:commandButton id="save-modal" value="Save" actionListener="#{expenseHome.addToReportAndClear()}" reRender="expense-table, hack-panel" oncomplete="closeWindow();"/>
+				<a:commandButton id="save-modal" value="Save" actionListener="#{expenseHome.addToReportAndClear()}" reRender="inputs-modal, expense-table, hack-panel" oncomplete="closeWindow();"/>
 				
-				<a:commandButton id="save-and-add-modal" value="Save and Add new" actionListener="#{expenseHome.addToReportAndClear()}" reRender="expense-table" />
+				<a:commandButton id="save-and-add-modal" value="Save and Add new" actionListener="#{expenseHome.addToReportAndClear()}" reRender="inputs-modal, expense-table" />
 
-				<a:commandButton id="cancel-modal" value="Cancel" actionListener="#{expenseHome.clear()}" immediate="true" onclick="Richfaces.hideModalPanel('expense-edit-modal');" />
+				<a:commandButton id="cancel-modal" value="Cancel" actionListener="#{expenseHome.clear()}" reRender="inputs-modal" ajaxSingle="true" immediate="true" onclick="Richfaces.hideModalPanel('expense-edit-modal');" />
 			</div>
 			
 			<!-- Hack for closing modal window if validation after Save successful -->
@@ -80,8 +80,22 @@
 						Richfaces.hideModalPanel('expense-edit-modal');
 					};
 				};
+
+				function setCaretToEnd (e) {
+            		var control = $((e.target ? e.target : e.srcElement).id);
+            		if (control.createTextRange) {
+                		var range = control.createTextRange();
+                		range.collapse(false);
+                		range.select();
+            		} else if (control.setSelectionRange) {
+                		control.focus();
+                		var length = control.value.length;
+                		control.setSelectionRange(length, length);
+            		}
+            		control.selectionStart = control.selectionEnd = control.value.length;
+        		};
      		</script>
-     		
+
 		</h:form>
 
 		

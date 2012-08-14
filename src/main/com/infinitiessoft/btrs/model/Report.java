@@ -235,7 +235,7 @@ public class Report implements java.io.Serializable {
 	public Integer getTotalTaxAmount() {
 		int totalTax = 0;
 		for (Expense expense : expenses) {
-			totalTax += expense.getTax();
+			totalTax += expense.getTaxAmount();
 		}
 		return totalTax;
 	}

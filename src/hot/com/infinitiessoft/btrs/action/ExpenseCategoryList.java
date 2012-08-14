@@ -22,6 +22,7 @@ public class ExpenseCategoryList extends EntityQuery<ExpenseCategory> {
 		setEjbql(EJBQL);
 		setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
 		setMaxResults(25);
+		setOrder("code");
 	}
 
 	public ExpenseCategory getExpenseCategory() {

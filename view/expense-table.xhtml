@@ -59,7 +59,7 @@
 				<h:column>
 					<f:facet name="header">Amount</f:facet>
 					<h:outputText value="Total amount - #{_expense.totalAmount}" /><br />
-					<h:outputText value="Tax - #{_expense.tax}" /><br />
+					<h:outputText value="Tax - #{_expense.taxAmount}" /><br />
 					<h:outputText value="Without Tax - #{_expense.amountWithoutTax}" />
 				</h:column>
 		
@@ -67,7 +67,7 @@
 				<rich:column styleClass="action" rendered="#{editable}">
 					<f:facet name="header">Action</f:facet>
 					<h:form>
-						<a:commandLink value="Edit" id="expense-edit" actionListener="#{expenseHome.load(_expense)}" onclick="Richfaces.showModalPanel('expense-edit-modal');" />
+						<a:commandLink value="Edit" id="expense-edit" actionListener="#{expenseHome.load(_expense)}" reRender="inputs-modal" oncomplete="Richfaces.showModalPanel('expense-edit-modal');" />
 						#{' '}
 						<a:commandLink value="Delete" id="expense-delete" actionListener="#{report.removeExpense(_expense)}" reRender="expense-table" />
 					</h:form>

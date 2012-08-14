@@ -22,6 +22,7 @@ public class TypeParameterList extends EntityQuery<TypeParameter> {
 		setEjbql(EJBQL);
 		setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
 		setMaxResults(25);
+		setOrder("value");
 	}
 
 	public TypeParameter getTypeParameter() {
