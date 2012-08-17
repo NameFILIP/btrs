@@ -74,7 +74,9 @@
 			<div style="clear: both" />
 
 		</rich:panel>
-
+		
+		<ui:include src="status-change-table.xhtml" />
+			
 		<div class="actionButtons">
 			<h:form id="report-view-form">
 				<a:commandButton id="approve" value="Approve" oncomplete="Richfaces.showModalPanel('approve-reject-modal');" 

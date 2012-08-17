@@ -11,7 +11,7 @@
 				<redirect view-id="/user-list.xhtml" />
 			</rule>
 			<rule if-outcome="management" if="#{s:hasRole('ACCOUNTANT')}">
-				<redirect view-id="/manage-variables.xhtml" />
+				<redirect view-id="/manage-variables-view.xhtml" />
 			</rule>
 		</navigation>
 	</page>

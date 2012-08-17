@@ -41,6 +41,11 @@
 						<a:support event="onblur" reRender="reasonField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputTextarea>
 				</s:decorate>
+				
+				<!-- s:decorate id="reason2Field" template="layout/edit.xhtml">
+					<ui:define name="label">Reason test</ui:define>
+					<rich:editor value="#{report.reason}" />
+				</s:decorate-->
 
 				<s:decorate id="routeField" template="layout/edit.xhtml">
 					<ui:define name="label">Route</ui:define>
@@ -88,6 +93,8 @@
 				</div>
 
 			</rich:panel>
+			
+			<ui:include src="status-change-table.xhtml" />
 
 			<div class="actionButtons">
 				<h:commandButton id="save" value="Save" action="#{reportHome.persist}" rendered="#{!reportHome.managed}" />

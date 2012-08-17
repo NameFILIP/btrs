@@ -15,8 +15,9 @@ import org.hibernate.validator.ValidatorClass;
 @Documented
 @ValidatorClass(UniqueValidator.class)
 public @interface Unique {
-	String message() default "#{messages['validation.unique']}";
 
+	String message() default "{validation.unique}";
+	
 	String entityName();
 
 	String fieldName();

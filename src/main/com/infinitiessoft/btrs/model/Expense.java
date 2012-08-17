@@ -82,7 +82,7 @@ public class Expense implements java.io.Serializable {
 		this.comment = comment;
 	}
 
-	@Digits(integerDigits = 6)
+	@Digits(integerDigits = 9)
 	@Column(name = "total_amount", nullable = false)
 	public Integer getTotalAmount() {
 		return totalAmount;
@@ -92,7 +92,7 @@ public class Expense implements java.io.Serializable {
 		this.totalAmount = totalAmount;
 	}
 
-	@Digits(integerDigits = 6)
+	@Digits(integerDigits = 9)
 	@Column(name = "tax_amount", nullable = false)
 	public Integer getTaxAmount() {
 		return taxAmount;

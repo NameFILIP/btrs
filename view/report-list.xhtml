@@ -13,7 +13,6 @@
 
 	<ui:define name="data-main-title">All Reports</ui:define>
 	<ui:define name="data-main-body">
-
 		<rich:panel>
 			<f:facet name="header">List of Reports (#{empty preparedReports ? 0 : (reportList.paginated ? reportList.resultCount : preparedReports.size)})</f:facet>
 			<div class="results" id="reportList">
@@ -111,7 +110,7 @@
 						<f:facet name="header">
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{reportList}" />
-								<ui:param name="propertyLabel" value="Owner name" />
+								<ui:param name="propertyLabel" value="Employee" />
 								<ui:param name="propertyPath" value="report.owner.firstName" />
 							</ui:include>
 						</f:facet>
@@ -120,17 +119,23 @@
 					
 					<h:column>
 						<f:facet name="header">Total amount</f:facet>
-						<h:outputText value="#{_report.totalAmount}" />
+						<h:outputText value="#{_report.totalAmount}">
+							<f:convertNumber pattern="$#,##0.00"/>
+						</h:outputText>
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">Total tax</f:facet>
-						<h:outputText value="#{_report.totalTaxAmount}" />
+						<h:outputText value="#{_report.totalTaxAmount}">
+							<f:convertNumber pattern="$#,##0.00"/>
+						</h:outputText>
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">Total w/o tax</f:facet>
-						<h:outputText value="#{_report.totalAmountWithoutTax}" />
+						<h:outputText value="#{_report.totalAmountWithoutTax}">
+							<f:convertNumber pattern="$#,##0.00"/>
+						</h:outputText>
 					</h:column>
 					
 					<h:column>

@@ -2,6 +2,7 @@ package com.infinitiessoft.btrs.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
@@ -15,7 +16,7 @@ import org.jboss.seam.log.Log;
 import com.infinitiessoft.btrs.enums.HighSpeedRailEnum;
 import com.infinitiessoft.btrs.enums.ParameterEnum;
 import com.infinitiessoft.btrs.logic.ExpenseAmountCalculator;
-import com.infinitiessoft.btrs.logic.HighSpeedRailPrices;
+import com.infinitiessoft.btrs.model.ApplicationVariable;
 import com.infinitiessoft.btrs.model.Expense;
 import com.infinitiessoft.btrs.model.ExpenseType;
 import com.infinitiessoft.btrs.model.ParameterValue;
@@ -38,10 +39,12 @@ public class ExpenseHome extends EntityHome<Expense> {
 
 	@Out(required = false, scope = ScopeType.EVENT)
 	Integer hsrPrice;
-	@In(create = true)
-	HighSpeedRailPrices highSpeedRailPrices;
+
 	@In(create = true)
 	ExpenseAmountCalculator expenseAmountCalculator;
+	
+	@In(create = true)
+	Map<String, ApplicationVariable> allVariables;
 	
 	
 	public void setExpenseId(Long id) {
@@ -139,7 +142,7 @@ public class ExpenseHome extends EntityHome<Expense> {
 		if (hsrDataReady) {
 			HighSpeedRailEnum source = HighSpeedRailEnum.valueOf(sourceParam);
 			HighSpeedRailEnum destination = HighSpeedRailEnum.valueOf(destinationParam);
-			hsrPrice = highSpeedRailPrices.getNonReservedPrice(source, destination);
+			hsrPrice = Integer.valueOf(allVariables.get(source + "_" + destination).getValue());
 		}
 		return hsrDataReady;
 	}

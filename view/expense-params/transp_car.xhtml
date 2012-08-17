@@ -15,11 +15,11 @@
 			<h:inputText id="distance" required="true" size="10" maxlength="100" value="#{expense.getParameterValue('DISTANCE').value}">
 				<a:support event="onkeyup" reRender="auto-distance" ignoreDupResponses="true" requestDelay="50" ajaxSingle="true" oncomplete="setCaretToEnd(event);" />
 			</h:inputText>
-			<h:outputText id="auto-distance" value=" km * 6 = #{expense.getParameterValue('DISTANCE').value * 6}" />
+			<h:outputText id="auto-distance" value=" km * #{allVariables['carCoefficient'].value} = #{expense.getParameterValue('DISTANCE').value * allVariables['carCoefficient'].value}" />
 		</s:decorate>
 		
 		<s:decorate id="amountField" template="/layout/edit.xhtml">
-			<ui:define name="label">#{messages['parameter.invoice']}</ui:define>
+			<ui:define name="label">#{messages['parameter.amount']}</ui:define>
 			<h:inputText id="amount" required="true" size="20" maxlength="100" value="#{expense.totalAmount}">
 				<a:support event="onkeyup" reRender="taxFragment" ignoreDupResponses="true" requestDelay="50" ajaxSingle="true" oncomplete="setCaretToEnd(event);" />
 			</h:inputText>

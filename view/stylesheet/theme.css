@@ -363,3 +363,22 @@ div {
 .hidden {
 	display:none;
 }
+
+
+.hsr-prices-cell {
+	width: 50px;
+	height: 21px;
+	margin: 2px;
+	display: inline-block;
+	line-height: 23px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.rich-panel-body {
+	overflow-y: scroll;
+}

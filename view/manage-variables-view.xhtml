@@ -1,0 +1,69 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+	<ui:define name="title">Management Console</ui:define>
+
+	<ui:define name="data-navbar">
+		<ui:include src="layout/admin-sidebar.xhtml" />
+	</ui:define>
+	<ui:define name="data-main-title">Manage Variables</ui:define>
+
+    <ui:define name="data-main-body">
+
+		<rich:panel>
+			<f:facet name="header">Application Variables</f:facet>
+
+			<s:decorate id="carCoefficientField" template="layout/display.xhtml">
+				<ui:define name="label">Car Coefficient</ui:define>
+				<h:outputText value="#{allVariables['carCoefficient'].value}" />
+			</s:decorate>
+
+			<s:decorate id="separatorField" template="layout/display.xhtml" />
+
+			<s:decorate id="hsrPricesField" template="layout/display.xhtml">
+				<ui:define name="label">High Speed Rail Prices</ui:define>
+
+				<h:panelGrid columns="2">
+					<h:outputText value=" " />
+					<h:panelGroup>
+						<ui:repeat var="station" value="#{hsrStations}">
+							<h:outputText value="#{messages[station.label]}" styleClass="hsr-prices-cell bold" />
+						</ui:repeat>
+					</h:panelGroup>
+					<h:panelGroup>
+						<ui:repeat var="station" value="#{hsrStations}">
+							<h:outputText value="#{messages[station.label]}" styleClass="hsr-prices-cell bold" />
+							<br />
+						</ui:repeat>
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:panelGrid columns="8">
+							<ui:repeat var="source" value="#{hsrStations}">
+								<ui:repeat var="destination" value="#{hsrStations}">
+									<h:outputText value="#{allVariables[source.name().concat('_').concat(destination.name())].value}" styleClass="hsr-prices-cell" />
+								</ui:repeat>
+								<br />
+							</ui:repeat>
+						</h:panelGrid>
+					</h:panelGroup>
+
+				</h:panelGrid>
+			</s:decorate>
+
+			<div style="clear: both" />
+		</rich:panel>
+
+		<div class="actionButtons">
+			<s:button id="edit" view="/manage-variables-edit.xhtml" value="Edit" />
+		</div>
+
+	</ui:define>
+</ui:composition>

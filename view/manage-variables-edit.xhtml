@@ -1,0 +1,76 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+	<ui:define name="title">Management Console</ui:define>
+
+	<ui:define name="data-navbar">
+		<ui:include src="layout/admin-sidebar.xhtml" />
+	</ui:define>
+	<ui:define name="data-main-title">Manage Variables</ui:define>
+
+    <ui:define name="data-main-body">
+    	
+    	<h:form id="variables" styleClass="edit">
+
+			<rich:panel>
+				<f:facet name="header">Application Variables</f:facet>
+	
+				<s:decorate id="carCoefficientField" template="layout/edit.xhtml">
+					<ui:define name="label">Car Coefficient</ui:define>
+					<h:inputText id="carCoefficient" required="true" size="20" maxlength="100" value="#{allVariables['carCoefficient'].value}">
+						<a:support event="onblur" reRender="carCoefficientField" bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
+				
+				<rich:spacer height="50" />   
+			
+				<s:decorate id="hsrPricesField" template="layout/edit.xhtml">
+					<ui:define name="label">High Speed Rail Prices</ui:define>
+					
+					<h:panelGrid columns="2">
+						<h:outputText value=" " />
+						<h:panelGroup>
+							<ui:repeat var="station" value="#{hsrStations}">
+								<h:outputText value="#{messages[station.label]}" styleClass="hsr-prices-cell bold" />
+							</ui:repeat>
+						</h:panelGroup>
+						<h:panelGroup>
+							<ui:repeat var="station" value="#{hsrStations}">
+								<h:outputText value="#{messages[station.label]}" styleClass="hsr-prices-cell bold" /> <br />
+							</ui:repeat>
+						</h:panelGroup>
+						<h:panelGroup>
+							<h:panelGrid columns="8">
+								<ui:repeat var="source" value="#{hsrStations}">
+									<ui:repeat var="destination" value="#{hsrStations}">
+										<h:inputText size="5" maxlength="9" required="true"
+												value="#{allVariables[source.name().concat('_').concat(destination.name())].value}" />
+									</ui:repeat>
+									<br />
+								</ui:repeat>
+							</h:panelGrid>
+						</h:panelGroup>
+						
+					</h:panelGrid>
+				</s:decorate>
+			
+				<div style="clear: both" />
+			</rich:panel>
+			
+			<div class="actionButtons">
+				<h:commandButton id="save" value="Save" action="#{applicationVariableHome.updateAllVariables}" />
+				<s:button id="cancel" value="Cancel" propagation="end" view="/manage-variables-view.xhtml" />
+			</div>
+			
+		</h:form>
+    
+    </ui:define>
+</ui:composition>

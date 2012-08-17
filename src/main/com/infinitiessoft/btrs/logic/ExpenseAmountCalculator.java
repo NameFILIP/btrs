@@ -1,19 +1,26 @@
 package com.infinitiessoft.btrs.logic;
 
+import java.util.Map;
+
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.log.Log;
 
 import com.infinitiessoft.btrs.enums.ExpenseTypeEnum;
 import com.infinitiessoft.btrs.enums.HighSpeedRailEnum;
 import com.infinitiessoft.btrs.enums.ParameterEnum;
+import com.infinitiessoft.btrs.model.ApplicationVariable;
 import com.infinitiessoft.btrs.model.Expense;
 import com.infinitiessoft.btrs.model.ParameterValue;
 
 @Name("expenseAmountCalculator")
 public class ExpenseAmountCalculator {
 	
-	@In(create = true)
-	HighSpeedRailPrices highSpeedRailPrices;
+	@Logger Log log;
+	
+	@In
+	Map<String, ApplicationVariable> allVariables;
 	
 	public void calculateTaxAndAmount(Expense expense) {
 		Integer amount = expense.getTotalAmount();
@@ -27,14 +34,17 @@ public class ExpenseAmountCalculator {
 			
 			HighSpeedRailEnum source = HighSpeedRailEnum.valueOf(sourceValue);
 			HighSpeedRailEnum destination = HighSpeedRailEnum.valueOf(destinationValue);
-			Integer price = highSpeedRailPrices.getNonReservedPrice(source, destination);
+			Integer price = Integer.valueOf(allVariables.get(source + "_" + destination).getValue());
 			
 			amount = price * ticketsValueSafe;
 			
 		} else if (ExpenseTypeEnum.TRANSP_CAR.equals(expense.getExpenseType().getValue())) {
 			ParameterValue freewayToll = expense.getParameterValue(ParameterEnum.FREEWAY_TOLL);
-			amount += Integer.valueOf(freewayToll.getValue());
-			
+			try {
+				amount += Integer.valueOf(freewayToll.getValue());
+			} catch (NumberFormatException e) {
+				log.info("Error while converting Freeway Toll to number", e);
+			}
 		}
 		
 		Integer taxPercent = expense.getExpenseType().getTaxPercent();
