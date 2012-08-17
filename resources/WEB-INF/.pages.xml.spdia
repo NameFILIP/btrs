@@ -64,7 +64,12 @@
  <item ID="*" NAME="*" PATH="*" SHAPE="344,953,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
   <output ID="/user-list.xhtml" NAME="output" PATH="/user-list.xhtml"
    TARGET="#xuser-list.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/manage-variables-view.xhtml" NAME="output1"
+   PATH="/manage-variables-view.xhtml"
+   TARGET="#xmanage-variables-view.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
  </item>
  <item NAME="#xuser-list.xhtml" PATH="/user-list.xhtml"
   SHAPE="664,953,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xmanage-variables-view.xhtml"
+  PATH="/manage-variables-view.xhtml" SHAPE="696,1081,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
 </diagram>
