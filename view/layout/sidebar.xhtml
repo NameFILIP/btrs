@@ -40,8 +40,25 @@
 	
 	<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
 		<li>
-			<s:link id="statistics" view="/statistics.xhtml" value="Statistics" propagation="none" />
+			<s:link id="reporting" view="/reporting.xhtml" value="Reporting" propagation="none" />
 		</li>
+		<ul>
+			<li>
+				<s:link id="by-year" view="/reporting.xhtml" value="by Year" propagation="none">
+					<f:param name="type" value="year" />
+				</s:link>
+			</li>
+			<li>
+				<s:link id="by-quarter" view="/reporting.xhtml" value="by Quarter" propagation="none">
+					<f:param name="type" value="quarter" />
+				</s:link>
+			</li>
+			<li>
+				<s:link id="by-month" view="/reporting.xhtml" value="by Month" propagation="none">
+					<f:param name="type" value="month" />
+				</s:link>
+			</li>
+		</ul>
 	</s:fragment>
 
 </ui:composition>

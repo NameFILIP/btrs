@@ -1,0 +1,145 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:s="http://jboss.com/products/seam/taglib"
+				xmlns:ui="http://java.sun.com/jsf/facelets" 
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:c="http://java.sun.com/jstl/core" 
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:rich="http://richfaces.org/rich"
+				xmlns:a="http://richfaces.org/a4j"
+				template="layout/template.xhtml">
+
+<ui:define name="title">Reporting</ui:define>
+
+	<ui:define name="data-main-title">Reporting by #{type}</ui:define>
+	<ui:define name="data-main-body">
+		<rich:panel>
+			<f:facet name="header">Reporting</f:facet>
+			
+			
+			<rich:dataTable id="reportingTable" var="_subreportingKey" value="#{reportingPreparatorAction.getReportingByType(type).filteredSubReportingsKeys()}" rendered="#{not empty reportingPreparatorAction.getReportingByType(type).filteredSubReportingsKeys()}"
+					onRowMouseOver="this.style.backgroundColor='#F1F1F1'" onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">
+				<f:facet name="header">
+					<rich:columnGroup>
+						<rich:column rowspan="2">
+							Employee
+						</rich:column>
+						<rich:columns var="categ" value="#{expenseCategoryList.resultList}" colspan="#{categ.expenseTypes.size()}" rowspan="#{categ.expenseTypes.size() eq 1 ? 2 : 1}">
+							#{messages[categ.nameKey]}
+								
+							<rich:column rendered="#{categ.expenseTypes.size() gt 1}" rowspan="2">
+								#{messages['reporting.total']}
+							</rich:column>
+						</rich:columns>
+						
+						<rich:column rowspan="2">
+								#{messages['reporting.grand.total']}
+						</rich:column>
+							
+						<c:forEach var="categ" items="#{expenseCategoryList.resultList}" varStatus="varStatus">
+							<rich:columns var="categType" value="#{categ.expenseTypes}" index="tInd" id="type-column#{varStatus.index}-#{tInd}" breakBefore="#{varStatus.index eq 0 and tInd eq 0}" rendered="#{categ.expenseTypes.size() gt 1}">
+								#{messages[categType.value.label]}
+							</rich:columns>
+						</c:forEach>		
+						
+					</rich:columnGroup>
+				</f:facet>
+
+				<rich:column colspan="#{reportingPreparatorAction.tableColumnsSize()}" styleClass="centered">
+					<h:outputText value="#{_subreportingKey}" />
+				</rich:column>
+
+				<rich:subTable var="_reportingRowKey" value="#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].reportingRowsKeys}"
+						onRowMouseOver="this.style.backgroundColor='#F8F8F8'" onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">
+					<rich:column>
+						<h:outputText value="#{_reportingRowKey.fullName}"></h:outputText>
+						<f:facet name="footer">
+							<rich:spacer />
+						</f:facet>
+					</rich:column>
+					
+					<c:forEach var="categ" items="#{expenseCategoryList.resultList}" varStatus="varStatus">
+						<rich:columns var="categType" value="#{categ.expenseTypes}">
+							#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].reportingRows[_reportingRowKey].getAmount(categ.code, categType.value)}
+							<f:facet name="footer">
+								#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].getTotalCategoryType(categ.code, categType.value)}
+							</f:facet>
+						</rich:columns>
+						<rich:column rendered="#{categ.expenseTypes.size() gt 1}" styleClass="subTotal">
+							#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].reportingRows[_reportingRowKey].getTotalCategory(categ.code)}
+							<f:facet name="footer">
+								#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].getTotalCategory(categ.code)}
+							</f:facet>
+						</rich:column>
+					</c:forEach>
+					<rich:column styleClass="grandTotal">
+						#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].reportingRows[_reportingRowKey].getTotalEmployee()}
+						<f:facet name="footer">
+							#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].subGrandTotal}
+						</f:facet>
+					</rich:column>
+				</rich:subTable>
+
+				<f:facet name="footer">
+
+					<rich:columnGroup>
+						<rich:column>Totals</rich:column>
+						<c:forEach var="categ" items="#{expenseCategoryList.resultList}" varStatus="varStatus">
+							<rich:columns var="categType" value="#{categ.expenseTypes}">
+								#{reportingPreparatorAction.getReportingByType(type).getTotalCategoryTypeGlobal(categ.code, categType.value)}
+							</rich:columns>
+							<rich:column rendered="#{categ.expenseTypes.size() gt 1}">
+								#{reportingPreparatorAction.getReportingByType(type).getTotalCategoryGlobal(categ.code)}
+							</rich:column>
+						</c:forEach>
+						<rich:column>
+							#{reportingPreparatorAction.getReportingByType(type).grandTotal}
+						</rich:column>
+
+
+						<!-- rich:column>
+							<h:outputText value="#{report.expReport.totalMeals}">
+								<f:convertNumber pattern="$####.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column>
+							<h:outputText value="#{report.expReport.totalHotels}">
+								<f:convertNumber pattern="$####.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column>
+							<h:outputText value="#{report.expReport.totalTransport}">
+								<f:convertNumber pattern="$####.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column>
+							<h:outputText value="#{report.expReport.grandTotal}">
+								<f:convertNumber pattern="$####.00" />
+							</h:outputText>
+						</rich:column-->
+					</rich:columnGroup>
+				</f:facet>
+
+			</rich:dataTable>
+			
+			
+		</rich:panel>
+
+		<div class="tableControl">
+			<s:link view="/report-list.xhtml" rendered="#{reportList.previousExists}" value="#{messages.left}#{messages.left} First Page" id="firstPage">
+				<f:param name="firstResult" value="0" />
+			</s:link>
+			<s:link view="/report-list.xhtml" rendered="#{reportList.previousExists}" value="#{messages.left} Previous Page" id="previousPage">
+				<f:param name="firstResult" value="#{reportList.previousFirstResult}" />
+			</s:link>
+			<s:link view="/report-list.xhtml" rendered="#{reportList.nextExists}" value="Next Page #{messages.right}" id="nextPage">
+				<f:param name="firstResult" value="#{reportList.nextFirstResult}" />
+			</s:link>
+			<s:link view="/report-list.xhtml" rendered="#{reportList.nextExists}" value="Last Page #{messages.right}#{messages.right}" id="lastPage">
+				<f:param name="firstResult" value="#{reportList.lastFirstResult}" />
+			</s:link>
+		</div>
+
+	</ui:define>
+</ui:composition>

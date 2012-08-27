@@ -382,3 +382,15 @@ div {
 .rich-panel-body {
 	overflow-y: scroll;
 }
+
+.subTotal {
+	background-color: #F1F1F1;
+}
+
+.grandTotal {
+	background-color: #CCC;
+}
+
+.centered {
+	text-align: center;
+}

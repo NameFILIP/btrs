@@ -12,7 +12,11 @@
 
 	<ui:define name="content">
 
-		<h:form id="loginForm">
+		<s:div rendered="#{identity.loggedIn}">
+			<h3>#{messages['already.loggedIn']}</h3>
+		</s:div>
+
+		<h:form id="loginForm" rendered="#{not identity.loggedIn}">
 			<rich:panel>
 				<f:facet name="header">Login</f:facet>
 

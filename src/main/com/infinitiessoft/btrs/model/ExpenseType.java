@@ -130,4 +130,12 @@ public class ExpenseType implements java.io.Serializable {
 		this.typeParameters = typeParameters;
 	}
 
+	@Override
+	public String toString() {
+		return "ExpenseType [id=" + id + ", expenseCategories=" + expenseCategories + ", value=" + value + ", taxPercent="
+				+ taxPercent + ", typeParameters=" + typeParameters + "]";
+	}
+	
+	
+
 }

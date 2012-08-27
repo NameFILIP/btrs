@@ -49,7 +49,9 @@
 
 	<component name="passwordManager">
 		<property name="digestAlgorithm">@passDigestAlgorithm@</property>
-		<property name="charset">@passCharset@</property>
+		<property name="charset">@charset@</property>
 	</component>
+	
+	<web:character-encoding-filter encoding="@charset@" override-client="true" url-pattern="*.seam" />
 	
 </components>

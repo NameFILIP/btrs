@@ -115,6 +115,14 @@ public class Expense implements java.io.Serializable {
 	}
 	
 	
+	
+	
+	@Override
+	public String toString() {
+		return "Expense [expenseType=" + expenseType + ", comment=" + comment + ", totalAmount=" + totalAmount
+				+ ", taxAmount=" + taxAmount + ", parameterValues=" + parameterValues + "]";
+	}
+
 	@Transient
 	public ParameterValue getParameterValue(ParameterEnum parameter) {
 		for (ParameterValue param : parameterValues) {
