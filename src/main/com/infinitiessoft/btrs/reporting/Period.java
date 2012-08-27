@@ -1,11 +1,12 @@
 package com.infinitiessoft.btrs.reporting;
 
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
 
 import com.infinitiessoft.btrs.enums.PeriodTypeEnum;
 
-public class Period {
+public class Period implements Comparable<Period>{
 	
 	private Integer year;
 	private Integer quarter;
@@ -94,7 +95,8 @@ public class Period {
 			period.append(", Quarter ").append(quarter);
 		}
 		if (month != null) {
-			period.append(", Month ").append(month);
+//			period.append(", Month ").append(month + 1);
+			period.append(getMonthForInt(month));
 		}
 		return period.toString();
 	}
@@ -119,6 +121,27 @@ public class Period {
 		} else {
 			return 4;
 		}
+	}
+
+	@Override
+	public int compareTo(Period other) {
+		int result = this.year.compareTo(other.year);
+		if (result == 0) {
+			result = this.quarter.compareTo(other.quarter);
+		}
+		if (result == 0) {
+			result = this.month.compareTo(other.month);
+		}
+		return result;
+	}
+	
+	private String getMonthForInt(int month) {
+	    DateFormatSymbols dfs = new DateFormatSymbols();
+	    String[] months = dfs.getMonths();
+	    if (month >= 0 && month <= 11 ) {
+	        return months[month];
+	    }
+	    return null;
 	}
 	
 }

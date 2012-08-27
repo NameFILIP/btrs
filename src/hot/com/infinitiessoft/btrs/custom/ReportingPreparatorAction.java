@@ -37,7 +37,7 @@ public class ReportingPreparatorAction {
 	
 //	@Factory("reportingRows")
 	private List<ReportingRow> constructReportingRows() {
-		long beginTime = System.currentTimeMillis();
+//		long beginTime = System.currentTimeMillis();
 		List<ReportingRow> reportingRows = new ArrayList<ReportingRow>();
 		
 		reportList.setMaxResults(null);
@@ -58,8 +58,8 @@ public class ReportingPreparatorAction {
 			log.debug("New ReportingRow object is constructed: #0", reportingRow);
 		}
 		
-		long endTime = System.currentTimeMillis();
-		log.debug("Constructing reporting rows took: #0 ms", endTime - beginTime);
+//		long endTime = System.currentTimeMillis();
+//		log.debug("Constructing reporting rows took: #0 ms", endTime - beginTime);
 		return reportingRows;
 	}
 	
@@ -87,7 +87,7 @@ public class ReportingPreparatorAction {
 		
 		List<ExpenseCategory> expenseCategories = expenseCategoryList.getResultList();
 		for (ExpenseCategory expenseCategory : expenseCategories) {
-			for (ExpenseType expenseType : expenseCategory.getExpenseTypes()) {
+			for (int i = 0; i < expenseCategory.getExpenseTypes().size(); i++) {
 				columnsSize++; // each type column
 			}
 			if (expenseCategory.getExpenseTypes().size() > 1) {

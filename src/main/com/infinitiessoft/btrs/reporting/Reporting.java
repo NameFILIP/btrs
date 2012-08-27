@@ -1,6 +1,7 @@
 package com.infinitiessoft.btrs.reporting;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,6 @@ public class Reporting {
 
 	private static final LogProvider log = Logging.getLogProvider(Reporting.class);
 	
-	// private PeriodTypeEnum periodType;
 	private Date filterStart;
 	private Date filterEnd;
 	private Map<Period, SubReporting> subReportings = new HashMap<Period, SubReporting>();
@@ -155,7 +155,9 @@ public class Reporting {
 	}
 	
 	public List<Period> filteredSubReportingsKeys() {
-		return new ArrayList<Period>(subReportings.keySet());
+		List<Period> keysList = new ArrayList<Period>(subReportings.keySet());
+		Collections.sort(keysList);
+		return keysList;
 	}
 	
 }

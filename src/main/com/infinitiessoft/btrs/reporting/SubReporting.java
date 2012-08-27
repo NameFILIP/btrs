@@ -1,6 +1,7 @@
 package com.infinitiessoft.btrs.reporting;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,11 +11,13 @@ import org.jboss.seam.log.Logging;
 
 import com.infinitiessoft.btrs.enums.ExpenseTypeEnum;
 import com.infinitiessoft.btrs.logic.CustomUtils;
+import com.infinitiessoft.btrs.logic.UserComparator;
 import com.infinitiessoft.btrs.model.User;
 
 public class SubReporting {
 
 	private static final LogProvider log = Logging.getLogProvider(SubReporting.class);
+	private static final UserComparator userComparator = new UserComparator();
 	
 	private Map<User, ReportingRow> reportingRows = new HashMap<User, ReportingRow>();
 
@@ -32,7 +35,9 @@ public class SubReporting {
 	}
 	
 	public List<User> getReportingRowsKeys() {
-		return new ArrayList<User>(reportingRows.keySet());
+		List<User> reportingRowsKeys = new ArrayList<User>(reportingRows.keySet());
+		Collections.sort(reportingRowsKeys, userComparator);
+		return reportingRowsKeys;
 	}
 
 	public Map<String, Map<ExpenseTypeEnum, Integer>> getTotalCategoryType() {
@@ -182,7 +187,6 @@ public class SubReporting {
 		
 		return merged;
 	}
-	
 	
 
 }
