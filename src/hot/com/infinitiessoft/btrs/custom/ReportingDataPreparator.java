@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.log.Log;
 
-import com.infinitiessoft.btrs.action.ExpenseCategoryList;
 import com.infinitiessoft.btrs.action.ReportList;
 import com.infinitiessoft.btrs.enums.PeriodTypeEnum;
 import com.infinitiessoft.btrs.model.Expense;
@@ -20,24 +22,38 @@ import com.infinitiessoft.btrs.reporting.Period;
 import com.infinitiessoft.btrs.reporting.Reporting;
 import com.infinitiessoft.btrs.reporting.ReportingRow;
 
-@Name("reportingPreparatorAction")
-public class ReportingPreparatorAction {
+@Name("reportingDataPreparator")
+@Scope(ScopeType.SESSION)
+public class ReportingDataPreparator {
 
 	@Logger Log log;
 	
 	@In(create = true)
 	ReportList reportList;
 	
-	@In(create = true)
-	ExpenseCategoryList expenseCategoryList;
+	Reporting reportingsByYear = new Reporting(PeriodTypeEnum.YEAR);
+	Reporting reportingsByQuarter = new Reporting(PeriodTypeEnum.QUARTER);
+	Reporting reportingsByMonth = new Reporting(PeriodTypeEnum.MONTH);
 	
-	Reporting reportingsByYear = new Reporting();
-	Reporting reportingsByQuarter = new Reporting();
-	Reporting reportingsByMonth = new Reporting();
+	@In(required = false)
+	@Out(required = false, scope = ScopeType.CONVERSATION)
+	Reporting currentReporting;
 	
-//	@Factory("reportingRows")
+	private boolean constructed = false;
+	
+	
+	public boolean isConstructed() {
+		return constructed;
+	}
+	
+
+	public void setConstructed(boolean constructed) {
+		this.constructed = constructed;
+	}
+	
+
 	private List<ReportingRow> constructReportingRows() {
-//		long beginTime = System.currentTimeMillis();
+		long beginTime = System.currentTimeMillis();
 		List<ReportingRow> reportingRows = new ArrayList<ReportingRow>();
 		
 		reportList.setMaxResults(null);
@@ -50,61 +66,56 @@ public class ReportingPreparatorAction {
 				Integer amount = expense.getTotalAmount();
 				for (ExpenseCategory expenseCategory : expenseType.getExpenseCategories()) {
 					reportingRow.addCategoryTypeAmount(expenseCategory.getCode(), expenseType.getValue(), amount);
-					reportingRow.addTotalCategoryEmployee(expenseCategory.getCode(), amount);
+					reportingRow.addTotalCategory(expenseCategory.getCode(), amount);
 				}
-				reportingRow.addTotalEmployee(amount);
+				reportingRow.addTotal(amount);
 			}
 			reportingRows.add(reportingRow);
-			log.debug("New ReportingRow object is constructed: #0", reportingRow);
 		}
 		
-//		long endTime = System.currentTimeMillis();
-//		log.debug("Constructing reporting rows took: #0 ms", endTime - beginTime);
+		long endTime = System.currentTimeMillis();
+		log.info("Constructing reporting rows took: #0 ms", endTime - beginTime);
 		return reportingRows;
 	}
 	
 	public void constructReportings() {
+		long beginTime = System.currentTimeMillis();
 		List<ReportingRow> reportingRows = constructReportingRows();
-		
+
 		for (ReportingRow reportingRow : reportingRows) {
 			Date date = reportingRow.getTripEndDate();
 			Period year = new Period(date, PeriodTypeEnum.YEAR);
 			Period quarter = new Period(date, PeriodTypeEnum.QUARTER);
 			Period month = new Period(date, PeriodTypeEnum.MONTH);
-			
+
 			reportingsByYear.addReportingRow(year, reportingRow);
 			reportingsByQuarter.addReportingRow(quarter, reportingRow);
 			reportingsByMonth.addReportingRow(month, reportingRow);
-			
-			log.debug("Periods: year #0, quarter #1, month #2", year, quarter, month);
-			log.debug("Reportings are: year #0, quarter #1, month #2", reportingsByYear, reportingsByQuarter, reportingsByMonth);
+
 		}
-		
+		reportingsByYear.recalculateTotals();
+		reportingsByQuarter.recalculateTotals();
+		reportingsByMonth.recalculateTotals();
+
+		constructed = true;
+		long endTime = System.currentTimeMillis();
+		log.info("Constructing Reportings took: #0 ms", endTime - beginTime);
 	}
 	
-	public Integer tableColumnsSize() {
-		int columnsSize = 2; // Employee, Row Total
-		
-		List<ExpenseCategory> expenseCategories = expenseCategoryList.getResultList();
-		for (ExpenseCategory expenseCategory : expenseCategories) {
-			for (int i = 0; i < expenseCategory.getExpenseTypes().size(); i++) {
-				columnsSize++; // each type column
-			}
-			if (expenseCategory.getExpenseTypes().size() > 1) {
-				columnsSize++; // category total
-			}
-		}
-		return columnsSize;
+	
+	public void loadCurrentReporting(String periodType) {
+		currentReporting = getReportingByType(periodType);
 	}
 	
-	public Reporting getReportingByType(String periodType) {
-		PeriodTypeEnum periodTypeEnum = null;
+	public PeriodTypeEnum getPeriodType(String periodType) {
 		try {
-			periodTypeEnum = PeriodTypeEnum.valueOf(periodType.toUpperCase());
+			return PeriodTypeEnum.valueOf(periodType.toUpperCase());
 		} catch (Exception e) {
-			periodTypeEnum = PeriodTypeEnum.YEAR;
+			return PeriodTypeEnum.YEAR;
 		}
-		
+	}
+	
+	public Reporting getReportingByType(PeriodTypeEnum periodTypeEnum) {
 		if (periodTypeEnum == PeriodTypeEnum.MONTH) {
 			return reportingsByMonth;
 		} else if (periodTypeEnum == PeriodTypeEnum.QUARTER) {
@@ -113,4 +124,12 @@ public class ReportingPreparatorAction {
 			return reportingsByYear;
 		}
 	}
+	
+	public Reporting getReportingByType(String periodType) {
+		PeriodTypeEnum periodTypeEnum = getPeriodType(periodType);
+		return getReportingByType(periodTypeEnum);
+	}
+	
+	
+	
 }

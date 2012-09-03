@@ -30,8 +30,7 @@ public class AuthenticationManager {
 	@In
 	private PasswordManager passwordManager;
 	
-	@In(required = false)
-	@Out(required = false, scope = ScopeType.SESSION)
+	@Out(scope = ScopeType.SESSION)
 	private User currentUser;
 	
 	@Transactional
@@ -61,7 +60,7 @@ public class AuthenticationManager {
 		}
 	}
 	
-	public boolean validatePassword(String password, User user) {
+	private boolean validatePassword(String password, User user) {
 		return passwordManager.hash(password).equals(user.getPassword());
 	}
 	

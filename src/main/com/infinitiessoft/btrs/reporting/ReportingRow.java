@@ -12,10 +12,10 @@ public class ReportingRow {
 	
 	private Date tripEndDate;
 	private User employee;
-	private Map<String, Map<ExpenseTypeEnum, Integer>> categoryTypeAmount = new HashMap<String, Map<ExpenseTypeEnum, Integer>>();
+	private Map<String, Map<ExpenseTypeEnum, Integer>> totalCategoryType = new HashMap<String, Map<ExpenseTypeEnum, Integer>>();
 	
-	private Map<String, Integer> totalCategoryEmployee = new HashMap<String, Integer>();
-	private Integer totalEmployee = 0;
+	private Map<String, Integer> totalCategory = new HashMap<String, Integer>();
+	private Integer total = 0;
 
 	
 	public ReportingRow() {}
@@ -28,9 +28,9 @@ public class ReportingRow {
 	public ReportingRow(ReportingRow original) {
 		this.tripEndDate = original.getTripEndDate();
 		this.employee = original.getEmployee();
-		this.categoryTypeAmount = CustomUtils.deepCopy(original.getCategoryTypeAmount());
-		this.totalCategoryEmployee = new HashMap<String, Integer>(original.getTotalCategoryEmployee());
-		this.totalEmployee = original.getTotalEmployee();
+		this.totalCategoryType = CustomUtils.deepCopy(original.getTotalCategoryType());
+		this.totalCategory = new HashMap<String, Integer>(original.getTotalCategory());
+		this.total = original.getTotal();
 	}
 
 	public Date getTripEndDate() {
@@ -49,20 +49,20 @@ public class ReportingRow {
 		this.employee = employee;
 	}
 
-	public Map<String, Map<ExpenseTypeEnum, Integer>> getCategoryTypeAmount() {
-		return categoryTypeAmount;
+	public Map<String, Map<ExpenseTypeEnum, Integer>> getTotalCategoryType() {
+		return totalCategoryType;
 	}
 
-	public void setCategoryTypeAmount(Map<String, Map<ExpenseTypeEnum, Integer>> categoryTypeAmount) {
-		this.categoryTypeAmount = categoryTypeAmount;
+	public void setTotalCategoryType(Map<String, Map<ExpenseTypeEnum, Integer>> totalCategoryType) {
+		this.totalCategoryType = totalCategoryType;
 	}
 	
 	public Map<ExpenseTypeEnum, Integer> getTypeAmount(String categoryCode) {
-		return categoryTypeAmount.get(categoryCode);
+		return totalCategoryType.get(categoryCode);
 	}
 	
 	public Integer getAmount(String categoryCode, ExpenseTypeEnum expenseType) {
-		Map<ExpenseTypeEnum, Integer> typeAmount = categoryTypeAmount.get(categoryCode);
+		Map<ExpenseTypeEnum, Integer> typeAmount = totalCategoryType.get(categoryCode);
 		if (typeAmount != null) {
 			return typeAmount.get(expenseType);
 		} else {
@@ -70,55 +70,52 @@ public class ReportingRow {
 		}
 	}
 
-	public Map<String, Integer> getTotalCategoryEmployee() {
-		return totalCategoryEmployee;
+	public Map<String, Integer> getTotalCategory() {
+		return totalCategory;
 	}
 
-	public void setTotalCategoryEmployee(Map<String, Integer> totalCategoryEmployee) {
-		this.totalCategoryEmployee = totalCategoryEmployee;
+	public void setTotalCategory(Map<String, Integer> totalCategory) {
+		this.totalCategory = totalCategory;
 	}
 	
 	public Integer getTotalCategory(String categoryCode) {
-		return totalCategoryEmployee.get(categoryCode);
+		return totalCategory.get(categoryCode);
 	}
 
-	public Integer getTotalEmployee() {
-		return totalEmployee;
+	public Integer getTotal() {
+		return total;
 	}
 
-	public void setTotalEmployee(Integer totalEmployee) {
-		this.totalEmployee = totalEmployee;
+	public void setTotal(Integer total) {
+		this.total = total;
 	}
-	
-	// put logic (if exists - increment, else put)
 	
 	public void addCategoryTypeAmount(String categoryCode, ExpenseTypeEnum expenseType, Integer amount) {
-		Map<ExpenseTypeEnum, Integer> typeAmountMap = categoryTypeAmount.get(categoryCode);
-		if (typeAmountMap == null) {
-			typeAmountMap = new HashMap<ExpenseTypeEnum, Integer>();
-			categoryTypeAmount.put(categoryCode, typeAmountMap);
+		Map<ExpenseTypeEnum, Integer> typeAmount = totalCategoryType.get(categoryCode);
+		if (typeAmount == null) {
+			typeAmount = new HashMap<ExpenseTypeEnum, Integer>();
+			totalCategoryType.put(categoryCode, typeAmount);
 		}
 		
-		Integer amountSum = typeAmountMap.get(expenseType);
+		Integer amountSum = typeAmount.get(expenseType);
 		amountSum = amountSum == null ? amount : amountSum + amount;
-		typeAmountMap.put(expenseType, amountSum);
+		typeAmount.put(expenseType, amountSum);
 	}
 	
-	public void addTotalCategoryEmployee(String categoryCode, Integer amount) {
-		Integer amountSum = totalCategoryEmployee.get(categoryCode);
+	public void addTotalCategory(String categoryCode, Integer amount) {
+		Integer amountSum = totalCategory.get(categoryCode);
 		amountSum = amountSum == null ? amount : amountSum + amount;
-		totalCategoryEmployee.put(categoryCode, amountSum);
+		totalCategory.put(categoryCode, amountSum);
 	}
 	
-	public void addTotalEmployee(Integer amount) {
-		totalEmployee += amount;
+	public void addTotal(Integer amount) {
+		total += amount;
 	}
 
 	@Override
 	public String toString() {
-		return "ReportingRow [tripEndDate=" + tripEndDate + ", employee=" + employee + ", categoryTypeAmount="
-				+ categoryTypeAmount + ", totalCategoryEmployee=" + totalCategoryEmployee + ", totalEmployee="
-				+ totalEmployee + "]";
+		return "ReportingRow [tripEndDate=" + tripEndDate + ", employee=" + employee + ", totalCategoryType="
+				+ totalCategoryType + ", totalCategory=" + totalCategory + ", total=" + total + "]";
 	}
 	
 	

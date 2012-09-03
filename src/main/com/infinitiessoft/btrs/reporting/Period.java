@@ -24,6 +24,14 @@ public class Period implements Comparable<Period>{
 		}
 	}
 	
+	public Period() {}
+	
+	public Period(Integer year, Integer quarter, Integer month) {
+		this.year = year;
+		this.quarter = quarter;
+		this.month = month;
+	}
+	
 	
 	public Integer getYear() {
 		return year;
@@ -95,8 +103,8 @@ public class Period implements Comparable<Period>{
 			period.append(", Quarter ").append(quarter);
 		}
 		if (month != null) {
-//			period.append(", Month ").append(month + 1);
-			period.append(getMonthForInt(month));
+			period.append(", Month ").append(month + 1);
+//			period.append(", ").append(getMonthForInt(month));
 		}
 		return period.toString();
 	}
@@ -126,10 +134,10 @@ public class Period implements Comparable<Period>{
 	@Override
 	public int compareTo(Period other) {
 		int result = this.year.compareTo(other.year);
-		if (result == 0) {
+		if (result == 0 && quarter != null) {
 			result = this.quarter.compareTo(other.quarter);
 		}
-		if (result == 0) {
+		if (result == 0 && month != null) {
 			result = this.month.compareTo(other.month);
 		}
 		return result;

@@ -12,13 +12,62 @@
 
 <ui:define name="title">Reporting</ui:define>
 
-	<ui:define name="data-main-title">Reporting by #{type}</ui:define>
+	<ui:define name="data-main-title">Reporting by #{type == null ? 'year' : type}</ui:define>
 	<ui:define name="data-main-body">
 		<rich:panel>
 			<f:facet name="header">Reporting</f:facet>
-			
-			
-			<rich:dataTable id="reportingTable" var="_subreportingKey" value="#{reportingPreparatorAction.getReportingByType(type).filteredSubReportingsKeys()}" rendered="#{not empty reportingPreparatorAction.getReportingByType(type).filteredSubReportingsKeys()}"
+			<h:form>
+				<rich:simpleTogglePanel switchType="client" label="Filter" opened="#{reportingFilter.useFilterFixed}">
+
+					<s:decorate id="startPeriodField" template="layout/edit.xhtml">
+						<ui:define name="label">Start period</ui:define>
+						<h:selectOneMenu id="startPeriod" value="#{reportingFilter.startPeriod}" converter="periodConverter">
+							<s:selectItems var="p" value="#{reportingFilter.getAvailablePeriods(type)}" label="#{p}" noSelectionLabel="[Select]" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<s:decorate id="endPeriodField" template="layout/edit.xhtml">
+						<ui:define name="label">End period</ui:define>
+						<h:selectOneMenu id="endPeriod" value="#{reportingFilter.endPeriod}" converter="periodConverter">
+							<s:selectItems var="p" value="#{reportingFilter.getAvailablePeriods(type)}" label="#{p}" noSelectionLabel="[Select]" />
+							<s:validateEquality for="startPeriod" required="false" operator="greater_or_equal" messageId="validation.end.period" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<s:decorate id="employeesField" template="layout/edit.xhtml">
+						<ui:define name="label">Employees</ui:define>
+						<h:selectManyListbox value="#{reportingFilter.users}" size="5">
+							<s:selectItems value="#{userList.resultList}" var="u" label="#{u.fullName}" />
+							<s:convertEntity />
+						</h:selectManyListbox>
+					</s:decorate>
+
+					<s:decorate id="expenseTypesField" template="layout/edit.xhtml">
+						<ui:define name="label">Columns</ui:define>
+						<h:selectManyListbox value="#{reportingFilter.expenseTypes}" size="5">
+							<s:selectItems value="#{expenseTypeList.resultList}" var="et" label="#{messages[et.nameKey]}" />
+							<s:convertEntity />
+						</h:selectManyListbox>
+					</s:decorate>
+
+					<div style="clear: both" />
+
+					<div class="actionButtons">
+						<h:commandButton value="Filter" action="#{reportingFilter.turnOn()}">
+							<s:conversationPropagation type="join" />
+						</h:commandButton>
+					
+						<s:button value="Clear Filter" action="#{reportingFilter.clear()}" />
+					</div>
+
+				</rich:simpleTogglePanel>
+			</h:form>
+
+			<rich:spacer height="10" />
+
+			<h:outputText value="No results have been found." rendered="#{empty currentReporting.subReportingsKeys}" />
+
+			<rich:dataTable id="reportingTable" var="_subReportingKey" value="#{currentReporting.subReportingsKeys}" rendered="#{not empty currentReporting.subReportingsKeys}"
 					onRowMouseOver="this.style.backgroundColor='#F1F1F1'" onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">
 				<f:facet name="header">
 					<rich:columnGroup>
@@ -41,16 +90,16 @@
 							<rich:columns var="categType" value="#{categ.expenseTypes}" index="tInd" id="type-column#{varStatus.index}-#{tInd}" breakBefore="#{varStatus.index eq 0 and tInd eq 0}" rendered="#{categ.expenseTypes.size() gt 1}">
 								#{messages[categType.value.label]}
 							</rich:columns>
-						</c:forEach>		
+						</c:forEach>
 						
 					</rich:columnGroup>
 				</f:facet>
 
-				<rich:column colspan="#{reportingPreparatorAction.tableColumnsSize()}" styleClass="centered">
-					<h:outputText value="#{_subreportingKey}" />
+				<rich:column colspan="#{reportingUtils.tableColumnsSize()}" styleClass="bold centered">
+					<h:outputText value="#{_subReportingKey}" />
 				</rich:column>
 
-				<rich:subTable var="_reportingRowKey" value="#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].reportingRowsKeys}"
+				<rich:subTable var="_reportingRowKey" value="#{currentReporting.getSubReporting(_subReportingKey).reportingRowsKeys}"
 						onRowMouseOver="this.style.backgroundColor='#F8F8F8'" onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">
 					<rich:column>
 						<h:outputText value="#{_reportingRowKey.fullName}"></h:outputText>
@@ -61,22 +110,22 @@
 					
 					<c:forEach var="categ" items="#{expenseCategoryList.resultList}" varStatus="varStatus">
 						<rich:columns var="categType" value="#{categ.expenseTypes}">
-							#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].reportingRows[_reportingRowKey].getAmount(categ.code, categType.value)}
+							#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).getAmount(categ.code, categType.value)}
 							<f:facet name="footer">
-								#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].getTotalCategoryType(categ.code, categType.value)}
+								#{currentReporting.getSubReporting(_subReportingKey).getTotalCategoryType(categ.code, categType.value)}
 							</f:facet>
 						</rich:columns>
 						<rich:column rendered="#{categ.expenseTypes.size() gt 1}" styleClass="subTotal">
-							#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].reportingRows[_reportingRowKey].getTotalCategory(categ.code)}
+							#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).getTotalCategory(categ.code)}
 							<f:facet name="footer">
-								#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].getTotalCategory(categ.code)}
+								#{currentReporting.getSubReporting(_subReportingKey).getTotalCategory(categ.code)}
 							</f:facet>
 						</rich:column>
 					</c:forEach>
 					<rich:column styleClass="grandTotal">
-						#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].reportingRows[_reportingRowKey].getTotalEmployee()}
+						#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).total}
 						<f:facet name="footer">
-							#{reportingPreparatorAction.getReportingByType(type).filteredSubReportings()[_subreportingKey].subGrandTotal}
+							#{currentReporting.getSubReporting(_subReportingKey).total}
 						</f:facet>
 					</rich:column>
 				</rich:subTable>
@@ -87,14 +136,14 @@
 						<rich:column>Totals</rich:column>
 						<c:forEach var="categ" items="#{expenseCategoryList.resultList}" varStatus="varStatus">
 							<rich:columns var="categType" value="#{categ.expenseTypes}">
-								#{reportingPreparatorAction.getReportingByType(type).getTotalCategoryTypeGlobal(categ.code, categType.value)}
+								#{currentReporting.getTotalCategoryType(categ.code, categType.value)}
 							</rich:columns>
 							<rich:column rendered="#{categ.expenseTypes.size() gt 1}">
-								#{reportingPreparatorAction.getReportingByType(type).getTotalCategoryGlobal(categ.code)}
+								#{currentReporting.getTotalCategory(categ.code)}
 							</rich:column>
 						</c:forEach>
 						<rich:column>
-							#{reportingPreparatorAction.getReportingByType(type).grandTotal}
+							#{currentReporting.total}
 						</rich:column>
 
 
@@ -102,22 +151,8 @@
 							<h:outputText value="#{report.expReport.totalMeals}">
 								<f:convertNumber pattern="$####.00" />
 							</h:outputText>
-						</rich:column>
-						<rich:column>
-							<h:outputText value="#{report.expReport.totalHotels}">
-								<f:convertNumber pattern="$####.00" />
-							</h:outputText>
-						</rich:column>
-						<rich:column>
-							<h:outputText value="#{report.expReport.totalTransport}">
-								<f:convertNumber pattern="$####.00" />
-							</h:outputText>
-						</rich:column>
-						<rich:column>
-							<h:outputText value="#{report.expReport.grandTotal}">
-								<f:convertNumber pattern="$####.00" />
-							</h:outputText>
 						</rich:column-->
+						
 					</rich:columnGroup>
 				</f:facet>
 

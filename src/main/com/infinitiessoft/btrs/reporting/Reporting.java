@@ -2,7 +2,6 @@ package com.infinitiessoft.btrs.reporting;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,38 +10,25 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 import com.infinitiessoft.btrs.enums.ExpenseTypeEnum;
-import com.infinitiessoft.btrs.logic.CustomUtils;
+import com.infinitiessoft.btrs.enums.PeriodTypeEnum;
 
 public class Reporting {
 
 	private static final LogProvider log = Logging.getLogProvider(Reporting.class);
 	
-	private Date filterStart;
-	private Date filterEnd;
+	private PeriodTypeEnum periodType;
 	private Map<Period, SubReporting> subReportings = new HashMap<Period, SubReporting>();
 
-	private Map<String, Map<ExpenseTypeEnum, Integer>> totalCategoryTypeGlobal = new HashMap<String, Map<ExpenseTypeEnum, Integer>>();
-	private Map<String, Integer> totalCategoryGlobal = new HashMap<String, Integer>();
-	private Integer grandTotal = 0;
+	private Map<String, Map<ExpenseTypeEnum, Integer>> totalCategoryType = new HashMap<String, Map<ExpenseTypeEnum, Integer>>();
+	private Map<String, Integer> totalCategory = new HashMap<String, Integer>();
+	private Integer total = 0;
 
 	
 	public Reporting() {
 	}
-
-	public Date getFilterStart() {
-		return filterStart;
-	}
-
-	public void setFilterStart(Date filterStart) {
-		this.filterStart = filterStart;
-	}
-
-	public Date getFilterEnd() {
-		return filterEnd;
-	}
-
-	public void setFilterEnd(Date filterEnd) {
-		this.filterEnd = filterEnd;
+	
+	public Reporting(PeriodTypeEnum periodType) {
+		this.periodType = periodType;
 	}
 
 	public Map<Period, SubReporting> getSubReportings() {
@@ -52,17 +38,21 @@ public class Reporting {
 	public void setSubReportings(Map<Period, SubReporting> subReportings) {
 		this.subReportings = subReportings;
 	}
-
-	public Map<String, Map<ExpenseTypeEnum, Integer>> getTotalCategoryTypeGlobal() {
-		return totalCategoryTypeGlobal;
+	
+	public SubReporting getSubReporting(Period period) {
+		return subReportings.get(period);
 	}
 
-	public void setTotalCategoryTypeGlobal(Map<String, Map<ExpenseTypeEnum, Integer>> totalCategoryTypeGlobal) {
-		this.totalCategoryTypeGlobal = totalCategoryTypeGlobal;
+	public Map<String, Map<ExpenseTypeEnum, Integer>> getTotalCategoryType() {
+		return totalCategoryType;
+	}
+
+	public void setTotalCategoryType(Map<String, Map<ExpenseTypeEnum, Integer>> totalCategoryType) {
+		this.totalCategoryType = totalCategoryType;
 	}
 	
-	public Integer getTotalCategoryTypeGlobal(String categoryCode, ExpenseTypeEnum expenseType) {
-		Map<ExpenseTypeEnum, Integer> typeAmount = totalCategoryTypeGlobal.get(categoryCode);
+	public Integer getTotalCategoryType(String categoryCode, ExpenseTypeEnum expenseType) {
+		Map<ExpenseTypeEnum, Integer> typeAmount = totalCategoryType.get(categoryCode);
 		if (typeAmount != null) {
 			return typeAmount.get(expenseType);
 		} else {
@@ -70,94 +60,110 @@ public class Reporting {
 		}
 	}
 
-	public Map<String, Integer> getTotalCategoryGlobal() {
-		return totalCategoryGlobal;
+	public Map<String, Integer> getTotalCategory() {
+		return totalCategory;
 	}
 
-	public void setTotalCategoryGlobal(Map<String, Integer> totalCategoryGlobal) {
-		this.totalCategoryGlobal = totalCategoryGlobal;
+	public void setTotalCategory(Map<String, Integer> totalCategory) {
+		this.totalCategory = totalCategory;
 	}
 
-	public Integer getTotalCategoryGlobal(String categoryCode) {
-		return totalCategoryGlobal.get(categoryCode);
+	public Integer getTotalCategory(String categoryCode) {
+		return totalCategory.get(categoryCode);
 	}
 	
-	public Integer getGrandTotal() {
-		return grandTotal;
+	public Integer getTotal() {
+		return total;
 	}
 
-	public void setGrandTotal(Integer grandTotal) {
-		this.grandTotal = grandTotal;
+	public void setTotal(Integer total) {
+		this.total = total;
 	}
 
 	
+	public PeriodTypeEnum getPeriodType() {
+		return periodType;
+	}
+
+	public void setPeriodType(PeriodTypeEnum periodType) {
+		this.periodType = periodType;
+	}
+
 	public void addReportingRow(Period period, ReportingRow reportingRow) {
-		log.debug("Addming ReportingRow: " + reportingRow + " with Period: " + period + " to Reporting");
 		SubReporting subReporting = subReportings.get(period);
 		if (subReporting == null) {
 			subReporting = new SubReporting();
 			subReportings.put(period, subReporting);
 		}
-		
-		// before update
-		Map<String, Map<ExpenseTypeEnum, Integer>> existingCategoryType = CustomUtils.deepCopy(subReporting.getTotalCategoryType());
-		Map<String, Integer> existingCategory = new HashMap<String, Integer>(subReporting.getTotalCategory());
-		Integer existingSubGrandTotal = subReporting.getSubGrandTotal();
-		
 		subReporting.addReportingRow(reportingRow);
-		
-		// after update
-		Map<String, Map<ExpenseTypeEnum, Integer>> updatedCategoryType = subReporting.getTotalCategoryType();
-		Map<String, Integer> updatedCategory = subReporting.getTotalCategory();
-		Integer updatedSubGrandTotal = subReporting.getSubGrandTotal();
-		
-		// recalculate totals
-		for (String categoryCode : updatedCategoryType.keySet()) {
-			
-			// totalCategoryType
-			Map<ExpenseTypeEnum, Integer> updatedType = updatedCategoryType.get(categoryCode);
-			Map<ExpenseTypeEnum, Integer> existingType = existingCategoryType.get(categoryCode);
-			Map<ExpenseTypeEnum, Integer> totalType = totalCategoryTypeGlobal.get(categoryCode);
-			if (totalType == null) {
-				totalType = new HashMap<ExpenseTypeEnum, Integer>();
-				totalCategoryTypeGlobal.put(categoryCode, totalType);
-			}
-			
-			for (ExpenseTypeEnum expenseType : updatedType.keySet()) {
-				Integer existingTotalTypeAmount = existingType != null ? existingType.get(expenseType) : null;
-				Integer updatedTotalTypeAmount = updatedType.get(expenseType);
-				
-				Integer newTotalTypeAmount = CustomUtils.safeSum(totalType.get(expenseType), CustomUtils.safeDifference(existingTotalTypeAmount, updatedTotalTypeAmount));
-				totalType.put(expenseType, newTotalTypeAmount);
-			}
-			
-			// totalCategory
-			Integer existingCategoryAmount = existingCategory.get(categoryCode);
-			Integer updatedCategoryAmount = updatedCategory.get(categoryCode);
-			Integer newTotalCategoryAmount = CustomUtils.safeSum(totalCategoryGlobal.get(categoryCode), CustomUtils.safeDifference(existingCategoryAmount, updatedCategoryAmount));
-			totalCategoryGlobal.put(categoryCode, newTotalCategoryAmount);
-		}
-		
-		// grandTotal
-		grandTotal += CustomUtils.safeDifference(existingSubGrandTotal, updatedSubGrandTotal);
-		
 	}
 
 	@Override
 	public String toString() {
-		return "Reporting [filterStart=" + filterStart + ", filterEnd=" + filterEnd + ", subReportings=" + subReportings
-				+ ", totalCategoryTypeGlobal=" + totalCategoryTypeGlobal + ", totalCategoryGlobal=" + totalCategoryGlobal
-				+ ", grandTotal=" + grandTotal + "]";
+		return "Reporting [subReportings=" + subReportings
+				+ ", totalCategoryType=" + totalCategoryType + ", totalCategory=" + totalCategory
+				+ ", total=" + total + "]";
 	}
 	
-	public Map<Period, SubReporting> filteredSubReportings() {
-		return subReportings;
-	}
-	
-	public List<Period> filteredSubReportingsKeys() {
+	public List<Period> getSubReportingsKeys() {
 		List<Period> keysList = new ArrayList<Period>(subReportings.keySet());
 		Collections.sort(keysList);
 		return keysList;
+	}
+	
+	private void clearTotals() {
+		totalCategoryType.clear();
+		totalCategory.clear();
+		total = 0;
+	}
+	
+	private void addAmountToTotalCategoryType(String categoryCode, ExpenseTypeEnum expenseType, Integer amount) {
+		Map<ExpenseTypeEnum, Integer> totalTypeAmount = totalCategoryType.get(categoryCode);
+		if (totalTypeAmount == null) {
+			totalTypeAmount = new HashMap<ExpenseTypeEnum, Integer>();
+			totalCategoryType.put(categoryCode, totalTypeAmount);
+		}
+		Integer existingAmount = totalTypeAmount.get(expenseType);
+		Integer updatedAmount = null;
+		if (existingAmount == null) {
+			updatedAmount = amount;
+		} else {
+			updatedAmount = existingAmount + amount;
+		}
+		totalTypeAmount.put(expenseType, updatedAmount);
+	}
+	
+	private void addAmountToTotalCategory(String categoryCode, Integer amount) {
+		Integer existingAmount = totalCategory.get(categoryCode);
+		Integer updatedAmount = null;
+		if (existingAmount == null) {
+			updatedAmount = amount;
+		} else {
+			updatedAmount = existingAmount + amount;
+		}
+		totalCategory.put(categoryCode, updatedAmount);
+	}
+	
+	private void addAmountToTotal(Integer amount) {
+		total += amount;
+	}
+	
+	
+	public void recalculateTotals() {
+		clearTotals();
+		for (SubReporting subReporting : subReportings.values()) {
+			subReporting.recalculateTotals();
+			for (String categoryCode : subReporting.getTotalCategoryType().keySet()) {
+				for (ExpenseTypeEnum expenseType : subReporting.getTotalTypeAmount(categoryCode).keySet()) {
+					Integer amount = subReporting.getTotalCategoryType(categoryCode, expenseType);
+					addAmountToTotalCategoryType(categoryCode, expenseType, amount);
+				}
+				Integer totalCategory = subReporting.getTotalCategory(categoryCode);
+				addAmountToTotalCategory(categoryCode, totalCategory);
+			}
+			Integer totalRow = subReporting.getTotal();
+			addAmountToTotal(totalRow);
+		}
 	}
 	
 }

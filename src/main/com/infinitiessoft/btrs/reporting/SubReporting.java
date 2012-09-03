@@ -10,7 +10,6 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 import com.infinitiessoft.btrs.enums.ExpenseTypeEnum;
-import com.infinitiessoft.btrs.logic.CustomUtils;
 import com.infinitiessoft.btrs.logic.UserComparator;
 import com.infinitiessoft.btrs.model.User;
 
@@ -23,7 +22,7 @@ public class SubReporting {
 
 	private Map<String, Map<ExpenseTypeEnum, Integer>> totalCategoryType = new HashMap<String, Map<ExpenseTypeEnum, Integer>>();
 	private Map<String, Integer> totalCategory = new HashMap<String, Integer>();
-	private Integer subGrandTotal = 0;
+	private Integer total = 0;
 
 	
 	public Map<User, ReportingRow> getReportingRows() {
@@ -32,6 +31,10 @@ public class SubReporting {
 
 	public void setReportingRows(Map<User, ReportingRow> reportingRows) {
 		this.reportingRows = reportingRows;
+	}
+	
+	public ReportingRow getReportingRow(User user) {
+		return reportingRows.get(user);
 	}
 	
 	public List<User> getReportingRowsKeys() {
@@ -46,6 +49,10 @@ public class SubReporting {
 
 	public void setTotalCategoryType(Map<String, Map<ExpenseTypeEnum, Integer>> totalCategoryType) {
 		this.totalCategoryType = totalCategoryType;
+	}
+	
+	public Map<ExpenseTypeEnum, Integer> getTotalTypeAmount(String categoryCode) {
+		return totalCategoryType.get(categoryCode);
 	}
 	
 	public Integer getTotalCategoryType(String categoryCode, ExpenseTypeEnum expenseType) {
@@ -70,100 +77,42 @@ public class SubReporting {
 		return totalCategory.get(categoryCode);
 	}
 
-	public Integer getSubGrandTotal() {
-		return subGrandTotal;
+	public Integer getTotal() {
+		return total;
 	}
 
-	public void setSubGrandTotal(Integer subGrandTotal) {
-		this.subGrandTotal = subGrandTotal;
+	public void setTotal(Integer total) {
+		this.total = total;
 	}
 
 	public void addReportingRow(ReportingRow reportingRow) {
-		log.debug("Adding ReporingRow: " + reportingRow + " to subReporting");
-		
 		User user = reportingRow.getEmployee();
 		ReportingRow existingRow = reportingRows.get(user);
-		ReportingRow updatedRow = null;
-		if (existingRow == null) {
-			log.debug("Adding new RR to subReporting");
-			updatedRow = reportingRow;
-			for (String categoryCode : updatedRow.getCategoryTypeAmount().keySet()) {
-				
-				// totalCategoryType
-				Map<ExpenseTypeEnum, Integer> totalTypeAmount = totalCategoryType.get(categoryCode);
-				if (totalTypeAmount == null) {
-					totalTypeAmount = new HashMap<ExpenseTypeEnum, Integer>();
-					totalCategoryType.put(categoryCode, totalTypeAmount);
-				}
-				Map<ExpenseTypeEnum, Integer> rowTypeAmount = updatedRow.getTypeAmount(categoryCode);
-				
-				for (ExpenseTypeEnum expenseType : rowTypeAmount.keySet()) {
-					Integer newAmount = CustomUtils.safeSum(totalTypeAmount.get(expenseType), rowTypeAmount.get(expenseType));
-					totalTypeAmount.put(expenseType, newAmount);
-				}
-				
-				// totalCategory
-				Integer newTotalCategory = CustomUtils.safeSum(totalCategory.get(categoryCode), updatedRow.getTotalCategory(categoryCode));
-				totalCategory.put(categoryCode, newTotalCategory);
-			}
-			// subGrandTotal
-			subGrandTotal += updatedRow.getTotalEmployee();
-		} else {
-			log.debug("Updating existing RR in subReporting");
-			updatedRow = mergeTwoReportingRows(existingRow, reportingRow);
-			for (String categoryCode : updatedRow.getCategoryTypeAmount().keySet()) {
-				
-				// totalCategoryType
-				Map<ExpenseTypeEnum, Integer> totalTypeAmount = totalCategoryType.get(categoryCode);
-				if (totalTypeAmount == null) {
-					totalTypeAmount = new HashMap<ExpenseTypeEnum, Integer>();
-					totalCategoryType.put(categoryCode, totalTypeAmount);
-				}
-				Map<ExpenseTypeEnum, Integer> existingTypeAmount = existingRow.getTypeAmount(categoryCode);
-				
-				Map<ExpenseTypeEnum, Integer> updatedTypeAmount = updatedRow.getTypeAmount(categoryCode);
-				for (ExpenseTypeEnum expenseType : updatedTypeAmount.keySet()) {
-					Integer existingAmount = existingTypeAmount != null ? existingTypeAmount.get(expenseType) : null;
-					Integer updatedAmount = updatedTypeAmount.get(expenseType);
-					
-					Integer newTotalAmount = CustomUtils.safeSum(totalTypeAmount.get(expenseType), CustomUtils.safeDifference(updatedAmount, existingAmount));
-					totalTypeAmount.put(expenseType, newTotalAmount);
-				}
-				
-				// totalCategory
-				Integer existingCategoryAmount = existingRow.getTotalCategory(categoryCode);
-				Integer updatedCategoryAmount = updatedRow.getTotalCategory(categoryCode);
-				Integer newTotalCategory = CustomUtils.safeSum(totalCategory.get(categoryCode), CustomUtils.safeDifference(existingCategoryAmount, updatedCategoryAmount));
-				totalCategory.put(categoryCode, newTotalCategory);
-			}
-			// subGrandTotal
-			subGrandTotal += CustomUtils.safeDifference(updatedRow.getTotalEmployee(), existingRow.getTotalEmployee());
-		}
+		ReportingRow updatedRow = existingRow == null ? reportingRow : mergeTwoReportingRows(existingRow, reportingRow);
 		reportingRows.put(user, updatedRow);
 	}
 	
 	private ReportingRow mergeTwoReportingRows(ReportingRow one, ReportingRow two) {
-		log.debug("Merging two RR: " + one + " with " + two);
 		
 		ReportingRow merged = new ReportingRow(one);
 		
 		// Merging categoryTypeAmount Map
-		for (String categoryCode : two.getCategoryTypeAmount().keySet()) {
-			Map<ExpenseTypeEnum, Integer> typeAmountMerged = merged.getCategoryTypeAmount().get(categoryCode);
-			Map<ExpenseTypeEnum, Integer> typeAmountTwo = two.getCategoryTypeAmount().get(categoryCode);
+		for (String categoryCode : two.getTotalCategoryType().keySet()) {
+			Map<ExpenseTypeEnum, Integer> typeAmountMerged = merged.getTotalCategoryType().get(categoryCode);
+			Map<ExpenseTypeEnum, Integer> typeAmountTwo = two.getTotalCategoryType().get(categoryCode);
 			
-			Integer totalCategoryEmployee = null;
-			Integer totalEmployee = null;
+			Integer totalCategory = null;
+			Integer total = null;
 			
 			if (typeAmountMerged == null) {
 				typeAmountMerged = new HashMap<ExpenseTypeEnum, Integer>(typeAmountTwo);
-				merged.getCategoryTypeAmount().put(categoryCode, typeAmountMerged);
+				merged.getTotalCategoryType().put(categoryCode, typeAmountMerged);
 				
 				// calculate totals
-				totalCategoryEmployee = two.getTotalCategoryEmployee().get(categoryCode);
-				totalEmployee = merged.getTotalEmployee() + totalCategoryEmployee;
+				totalCategory = two.getTotalCategory().get(categoryCode);
+				total = merged.getTotal() + totalCategory;
 			} else {
-				int totalCategoryEmployeeIncrement = 0;
+				int totalCategoryIncrement = 0;
 				for (ExpenseTypeEnum expenseType : typeAmountTwo.keySet()) {
 					Integer amountSum = typeAmountMerged.get(expenseType);
 					if (amountSum == null) {
@@ -173,20 +122,77 @@ public class SubReporting {
 					}
 					typeAmountMerged.put(expenseType, amountSum);
 					
-					totalCategoryEmployeeIncrement += typeAmountTwo.get(expenseType);
+					totalCategoryIncrement += typeAmountTwo.get(expenseType);
 				}
 				// calculate totals
-				totalCategoryEmployee = merged.getTotalCategoryEmployee().get(categoryCode) + totalCategoryEmployeeIncrement;
-				totalEmployee = merged.getTotalEmployee() + totalCategoryEmployeeIncrement;
+				totalCategory = merged.getTotalCategory().get(categoryCode) + totalCategoryIncrement;
+				total = merged.getTotal() + totalCategoryIncrement;
 			}
 			
 			// set totals
-			merged.getTotalCategoryEmployee().put(categoryCode, totalCategoryEmployee);
-			merged.setTotalEmployee(totalEmployee);
+			merged.getTotalCategory().put(categoryCode, totalCategory);
+			merged.setTotal(total);
 		}
 		
 		return merged;
 	}
+	
+	
+	
+	private void clearTotals() {
+		totalCategoryType.clear();
+		totalCategory.clear();
+		total = 0;
+	}
+	
+	private void addAmountToTotalCategoryType(String categoryCode, ExpenseTypeEnum expenseType, Integer amount) {
+		Map<ExpenseTypeEnum, Integer> totalTypeAmount = totalCategoryType.get(categoryCode);
+		if (totalTypeAmount == null) {
+			totalTypeAmount = new HashMap<ExpenseTypeEnum, Integer>();
+			totalCategoryType.put(categoryCode, totalTypeAmount);
+		}
+		Integer existingAmount = totalTypeAmount.get(expenseType);
+		Integer updatedAmount = null;
+		if (existingAmount == null) {
+			updatedAmount = amount;
+		} else {
+			updatedAmount = existingAmount + amount;
+		}
+		totalTypeAmount.put(expenseType, updatedAmount);
+	}
+	
+	private void addAmountToTotalCategory(String categoryCode, Integer amount) {
+		Integer existingAmount = totalCategory.get(categoryCode);
+		Integer updatedAmount = null;
+		if (existingAmount == null) {
+			updatedAmount = amount;
+		} else {
+			updatedAmount = existingAmount + amount;
+		}
+		totalCategory.put(categoryCode, updatedAmount);
+	}
+	
+	private void addAmountToTotal(Integer amount) {
+		total += amount;
+	}
+	
+	public void recalculateTotals() {
+		clearTotals();
+		for (ReportingRow reportingRow : reportingRows.values()) {
+			for (String categoryCode : reportingRow.getTotalCategoryType().keySet()) {
+				for (ExpenseTypeEnum expenseType : reportingRow.getTypeAmount(categoryCode).keySet()) {
+					Integer amount = reportingRow.getAmount(categoryCode, expenseType);
+					addAmountToTotalCategoryType(categoryCode, expenseType, amount);
+				}
+				Integer totalCategory = reportingRow.getTotalCategory(categoryCode);
+				addAmountToTotalCategory(categoryCode, totalCategory);
+			}
+			Integer total = reportingRow.getTotal();
+			addAmountToTotal(total);
+		}
+	}
+	
+	
 	
 
 }
