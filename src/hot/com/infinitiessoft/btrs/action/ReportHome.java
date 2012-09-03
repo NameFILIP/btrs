@@ -98,6 +98,10 @@ public class ReportHome extends EntityHome<Report> {
 		report.setCurrentStatus(StatusEnum.SUBMITTED);
 		return super.persist();
 	}
+	
+//	public String generatorPersist() {
+//		return super.persist();
+//	}
 
 	@Override
 	public String update() {
