@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 
+import com.infinitiessoft.btrs.custom.ReportingDataPreparator;
 import com.infinitiessoft.btrs.enums.StatusEnum;
 import com.infinitiessoft.btrs.model.Expense;
 import com.infinitiessoft.btrs.model.Report;
@@ -114,18 +116,10 @@ public class ReportHome extends EntityHome<Report> {
 		return super.update();
 	}
 	
-	public String approve(Long reportId) {
-		setReportId(reportId);
-		return approve();
-	}
-	
-	public String reject(Long reportId) {
-		setReportId(reportId);
-		return reject();
-	}
-	
 	public String approve() {
 		changeStatus(StatusEnum.APPROVED);
+		ReportingDataPreparator reportingDataPreparator = (ReportingDataPreparator) Component.getInstance(ReportingDataPreparator.class);
+		reportingDataPreparator.setDirty(true);
 		return "approved";
 	}
 	
@@ -137,7 +131,7 @@ public class ReportHome extends EntityHome<Report> {
 	private void changeStatus(StatusEnum status) {
 		Report report = getInstance();
 		
-		log.debug("Changing status of Report({0}) to {1}, with comment {2}", report, status, comment);
+		log.info("Changing status of Report({0}) to {1}, with comment {2}", report, status, comment);
 		
 		StatusChange statusChange = new StatusChange(currentUser, status, report, comment, new Date());
 		report.addStatusChange(statusChange);

@@ -1,5 +1,28 @@
 package com.infinitiessoft.btrs.custom;
 
+//import java.util.ArrayList;
+//import java.util.Date;
+//import java.util.List;
+//import java.util.Random;
+//
+//import org.jboss.seam.annotations.In;
+//import org.jboss.seam.annotations.Logger;
+//import org.jboss.seam.annotations.Name;
+//import org.jboss.seam.international.StatusMessages;
+//import org.jboss.seam.log.Log;
+//
+//import com.infinitiessoft.btrs.action.ExpenseHome;
+//import com.infinitiessoft.btrs.action.ExpenseTypeList;
+//import com.infinitiessoft.btrs.action.ReportHome;
+//import com.infinitiessoft.btrs.action.RoleList;
+//import com.infinitiessoft.btrs.action.UserList;
+//import com.infinitiessoft.btrs.enums.StatusEnum;
+//import com.infinitiessoft.btrs.logic.ExpenseAmountCalculator;
+//import com.infinitiessoft.btrs.model.Expense;
+//import com.infinitiessoft.btrs.model.ExpenseType;
+//import com.infinitiessoft.btrs.model.Report;
+//import com.infinitiessoft.btrs.model.User;
+
 
 //@Name("reportsGenerator")
 public class GenerateRandomReports {
@@ -113,5 +136,5 @@ public class GenerateRandomReports {
 //		StatusMessages.instance().clear();
 //		StatusMessages.instance().add(amount + " reports generated");
 //	}
-	
+//
 }

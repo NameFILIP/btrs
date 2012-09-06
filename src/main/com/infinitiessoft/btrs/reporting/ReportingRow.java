@@ -2,13 +2,20 @@ package com.infinitiessoft.btrs.reporting;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.jboss.seam.Component;
+
+import com.infinitiessoft.btrs.custom.ReportingFilter;
 import com.infinitiessoft.btrs.enums.ExpenseTypeEnum;
 import com.infinitiessoft.btrs.logic.CustomUtils;
+import com.infinitiessoft.btrs.model.ExpenseCategory;
+import com.infinitiessoft.btrs.model.ExpenseType;
 import com.infinitiessoft.btrs.model.User;
 
 public class ReportingRow {
+	
 	
 	private Date tripEndDate;
 	private User employee;
@@ -116,6 +123,66 @@ public class ReportingRow {
 	public String toString() {
 		return "ReportingRow [tripEndDate=" + tripEndDate + ", employee=" + employee + ", totalCategoryType="
 				+ totalCategoryType + ", totalCategory=" + totalCategory + ", total=" + total + "]";
+	}
+	
+	private void clearTotals() {
+		totalCategory.clear();
+		total = 0;
+	}
+	
+	private void addAmountToTotalCategory(String categoryCode, Integer amount) {
+		Integer existingAmount = totalCategory.get(categoryCode);
+		Integer updatedAmount = null;
+		if (existingAmount == null) {
+			updatedAmount = amount;
+		} else {
+			updatedAmount = existingAmount + amount;
+		}
+		totalCategory.put(categoryCode, updatedAmount);
+	}
+	
+	private void addAmountToTotal(Integer amount) {
+		total += amount;
+	}
+	
+	public void recalculateTotals() {
+		clearTotals();
+		
+		// Inject
+		ReportingFilter reportingFilter = (ReportingFilter) Component.getInstance("reportingFilter");
+		
+		for (String categoryCode : totalCategoryType.keySet()) {
+			if (reportingFilter.getExpenseTypes().isEmpty()) {
+				for (ExpenseTypeEnum expenseType : totalCategoryType.get(categoryCode).keySet()) {
+					
+					Integer amount = getAmount(categoryCode, expenseType);
+					addAmountToTotalCategory(categoryCode, amount);
+					addAmountToTotal(amount);
+				}
+			} else {
+				ExpenseCategory currentCategory = null;
+				for (ExpenseCategory expenseCategory : reportingFilter.getFilteredCategoryTypes().keySet()) {
+					if (expenseCategory.getCode().equals(categoryCode)) {
+						currentCategory = expenseCategory;
+					}
+				}
+				if (currentCategory != null) {
+					List<ExpenseType> selectedTypes = reportingFilter.getFilteredCategoryTypes().get(currentCategory);
+					for (ExpenseTypeEnum expenseTypeEnum : totalCategoryType.get(categoryCode).keySet()) {
+						for (ExpenseType selectedExpenseType : selectedTypes) {
+							if (selectedExpenseType.getValue().equals(expenseTypeEnum)) {
+								Integer amount = getAmount(categoryCode, expenseTypeEnum);
+								addAmountToTotalCategory(categoryCode, amount);
+								addAmountToTotal(amount);
+							}
+						}
+						
+					}
+				}
+				
+			}
+			
+		}
 	}
 	
 	

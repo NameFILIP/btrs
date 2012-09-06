@@ -75,7 +75,6 @@ public class StatusChange implements java.io.Serializable {
 		return this.value.getLabel();
 	}
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
 	@Enumerated(EnumType.STRING)
 	@Column(name = "value", nullable = false)
 	@NotNull

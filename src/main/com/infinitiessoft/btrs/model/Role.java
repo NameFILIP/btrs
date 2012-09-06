@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -63,7 +62,7 @@ public class Role implements java.io.Serializable {
 		this.value = value;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+	@ManyToMany(mappedBy = "roles")
 	public List<User> getUsers() {
 		if (users == null) {
 			users = new ArrayList<User>(0);

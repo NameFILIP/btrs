@@ -9,11 +9,15 @@
 	
 	
 	<action execute="#{reportingDataPreparator.constructReportings()}" 
-			if="#{not reportingDataPreparator.constructed}" />
+			if="#{reportingDataPreparator.dirty}"/>
+	
+	<action execute="#{reportingFilter.filterColumns()}" />
 	
 	<action execute="#{reportingDataPreparator.loadCurrentReporting(type)}" />
 	
 	<action execute="#{reportingFilter.filter()}" 
 			if="#{reportingFilter.useFilter and reportingFilter.filterIsNotEmpty()}"/>
+	
+	
 	
 </page>

@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -63,7 +62,7 @@ public class Department implements java.io.Serializable {
 		this.comment = comment;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
+	@OneToMany(mappedBy = "department")
 	public Set<User> getUsers() {
 		if (users == null) {
 			users = new HashSet<User>(0);

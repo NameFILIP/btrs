@@ -3,41 +3,38 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:rich="http://richfaces.org/rich">
-	
-	<s:fragment rendered="#{s:hasRole('EMPLOYEE')}">
-		<li>
-			<s:link id="outgoing" view="/report-list.xhtml" value="Outgoing Reports(#{reportsCounts['outgoing']})" propagation="none">
-				<f:param name="type" value="outgoing" />
-			</s:link>
-		</li>
-		<ul>
-			<li>
-				<s:link id="submitted" view="/report-list.xhtml" value="Submitted(#{reportsCounts['submitted']})" propagation="none">
-					<f:param name="type" value="submitted" />
-				</s:link>
-			</li>
-			<li>
-				<s:link id="rejected" view="/report-list.xhtml" value="Rejected(#{reportsCounts['rejected']})" propagation="none">
-					<f:param name="type" value="rejected" />
-				</s:link>
-			</li>
-		</ul>
-	</s:fragment>
-	
-	<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
-		<li>
-			<s:link id="incoming" view="/report-list.xhtml" value="Incoming Reports(#{reportsCounts['incoming']})" propagation="none">
-				<f:param name="type" value="incoming" />
-			</s:link>
-		</li>
-	</s:fragment>
-	
+
 	<li>
-		<s:link id="all-my-reports" view="/report-list.xhtml" value="All My Reports(#{reportsCounts['all']})" propagation="none">
-			<f:param name="type" value="all" />
+		<s:link id="open" view="/report-list.xhtml" value="Open Reports(#{reportsCounts['Open']})" propagation="none">
+			<f:param name="type" value="Open" />
 		</s:link>
 	</li>
-	
+	<ul>
+		<li>
+			<s:link id="submitted" view="/report-list.xhtml" value="Submitted(#{reportsCounts['Submitted']})" propagation="none">
+				<f:param name="type" value="Submitted" />
+			</s:link>
+		</li>
+		<li>
+			<s:link id="rejected-emp" view="/report-list.xhtml" value="Rejected(#{reportsCounts['Rejected']})" propagation="none">
+				<f:param name="type" value="Rejected" />
+			</s:link>
+		</li>
+	</ul>
+
+	<li>
+		<s:link id="all-my-reports" view="/report-list.xhtml" value="All My Reports(#{reportsCounts['All']})" propagation="none">
+			<f:param name="type" value="All" />
+		</s:link>
+	</li>
+	<ul>
+		<li>
+			<s:link id="approved" view="/report-list.xhtml" value="Approved(#{reportsCounts['Approved']})" propagation="none">
+				<f:param name="type" value="Approved" />
+			</s:link>
+		</li>
+	</ul>
+
 	<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
 		<li>
 			<s:link id="reporting" view="/reporting.xhtml" value="Reporting" propagation="none" />
@@ -45,17 +42,17 @@
 		<ul>
 			<li>
 				<s:link id="by-year" view="/reporting.xhtml" value="by Year" propagation="none">
-					<f:param name="type" value="year" />
+					<f:param name="type" value="Year" />
 				</s:link>
 			</li>
 			<li>
 				<s:link id="by-quarter" view="/reporting.xhtml" value="by Quarter" propagation="none">
-					<f:param name="type" value="quarter" />
+					<f:param name="type" value="Quarter" />
 				</s:link>
 			</li>
 			<li>
 				<s:link id="by-month" view="/reporting.xhtml" value="by Month" propagation="none">
-					<f:param name="type" value="month" />
+					<f:param name="type" value="Month" />
 				</s:link>
 			</li>
 		</ul>

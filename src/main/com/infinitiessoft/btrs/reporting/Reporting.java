@@ -156,10 +156,14 @@ public class Reporting {
 			for (String categoryCode : subReporting.getTotalCategoryType().keySet()) {
 				for (ExpenseTypeEnum expenseType : subReporting.getTotalTypeAmount(categoryCode).keySet()) {
 					Integer amount = subReporting.getTotalCategoryType(categoryCode, expenseType);
-					addAmountToTotalCategoryType(categoryCode, expenseType, amount);
+					if (amount != null) {
+						addAmountToTotalCategoryType(categoryCode, expenseType, amount);
+					}
 				}
 				Integer totalCategory = subReporting.getTotalCategory(categoryCode);
-				addAmountToTotalCategory(categoryCode, totalCategory);
+				if (totalCategory != null) {
+					addAmountToTotalCategory(categoryCode, totalCategory);
+				}
 			}
 			Integer totalRow = subReporting.getTotal();
 			addAmountToTotal(totalRow);

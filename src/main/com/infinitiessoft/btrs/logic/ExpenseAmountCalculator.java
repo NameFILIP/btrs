@@ -39,11 +39,14 @@ public class ExpenseAmountCalculator {
 			amount = price * ticketsValueSafe;
 			
 		} else if (ExpenseTypeEnum.TRANSP_CAR.equals(expense.getExpenseType().getValue())) {
-			ParameterValue freewayToll = expense.getParameterValue(ParameterEnum.FREEWAY_TOLL);
-			try {
-				amount += Integer.valueOf(freewayToll.getValue());
-			} catch (NumberFormatException e) {
-				log.info("Error while converting Freeway Toll to number", e);
+			// only when created, not when edited
+			if (expense.getTaxAmount() == null) {
+				ParameterValue freewayToll = expense.getParameterValue(ParameterEnum.FREEWAY_TOLL);
+				try {
+					amount += Integer.valueOf(freewayToll.getValue());
+				} catch (NumberFormatException e) {
+					log.info("Error while converting Freeway Toll to number", e);
+				}
 			}
 		}
 		

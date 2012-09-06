@@ -133,6 +133,10 @@ public class Period implements Comparable<Period>{
 
 	@Override
 	public int compareTo(Period other) {
+		if (other == null) {
+			// in case start is empty, end is selected. ValidateEquality needs it.
+			return 1;
+		}
 		int result = this.year.compareTo(other.year);
 		if (result == 0 && quarter != null) {
 			result = this.quarter.compareTo(other.quarter);

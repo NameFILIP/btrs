@@ -2,12 +2,13 @@ package com.infinitiessoft.btrs.enums;
 
 public enum ReportTypeEnum {
 
-	ALL("all"),
-	SUBMITTED("submitted"),
-	REJECTED("rejected"),
+	OPEN("Open"),
+	SUBMITTED("Submitted"),
+	REJECTED("Rejected"),
 	
-	INCOMING("incoming"),
-	OUTGOING("outgoing");
+	ALL("All"),
+	APPROVED("Approved");
+	
 	
 	private final String label;
 

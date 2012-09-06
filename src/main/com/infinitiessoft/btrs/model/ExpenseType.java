@@ -1,7 +1,6 @@
 package com.infinitiessoft.btrs.model;
 // Generated Jul 9, 2012 10:51:06 AM by Hibernate Tools 3.2.4.GA
 
-import static javax.persistence.FetchType.LAZY;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -61,7 +59,7 @@ public class ExpenseType implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToMany(fetch = LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(name = "exp_category_exp_type",
 		joinColumns = @JoinColumn(name = "type_id"),
 		inverseJoinColumns = @JoinColumn(name = "category_id"))
@@ -102,7 +100,7 @@ public class ExpenseType implements java.io.Serializable {
 		this.taxPercent = taxPercent;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "expenseType", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "expenseType", cascade = CascadeType.ALL)
 	public Set<Expense> getExpenses() {
 		if (expenses == null) {
 			expenses = new HashSet<Expense>(0);
@@ -115,7 +113,7 @@ public class ExpenseType implements java.io.Serializable {
 	}
 	
 	@OrderBy("value")
-	@ManyToMany(targetEntity = TypeParameter.class, fetch = FetchType.LAZY)
+	@ManyToMany
 	@JoinTable(name = "exp_types_type_parameters",
 		joinColumns = @JoinColumn(name = "type_id"),
 		inverseJoinColumns = @JoinColumn(name = "parameter_id"))

@@ -179,13 +179,18 @@ public class SubReporting {
 	public void recalculateTotals() {
 		clearTotals();
 		for (ReportingRow reportingRow : reportingRows.values()) {
+			reportingRow.recalculateTotals();
 			for (String categoryCode : reportingRow.getTotalCategoryType().keySet()) {
 				for (ExpenseTypeEnum expenseType : reportingRow.getTypeAmount(categoryCode).keySet()) {
 					Integer amount = reportingRow.getAmount(categoryCode, expenseType);
-					addAmountToTotalCategoryType(categoryCode, expenseType, amount);
+					if (amount != null) {
+						addAmountToTotalCategoryType(categoryCode, expenseType, amount);
+					}
 				}
 				Integer totalCategory = reportingRow.getTotalCategory(categoryCode);
-				addAmountToTotalCategory(categoryCode, totalCategory);
+				if (totalCategory != null) {
+					addAmountToTotalCategory(categoryCode, totalCategory);
+				}
 			}
 			Integer total = reportingRow.getTotal();
 			addAmountToTotal(total);

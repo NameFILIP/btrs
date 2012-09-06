@@ -1,7 +1,14 @@
 package com.infinitiessoft.btrs.custom;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.End;
@@ -12,7 +19,9 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.log.Log;
 
+import com.infinitiessoft.btrs.action.ExpenseCategoryList;
 import com.infinitiessoft.btrs.enums.PeriodTypeEnum;
+import com.infinitiessoft.btrs.model.ExpenseCategory;
 import com.infinitiessoft.btrs.model.ExpenseType;
 import com.infinitiessoft.btrs.model.User;
 import com.infinitiessoft.btrs.reporting.Period;
@@ -31,7 +40,17 @@ public class ReportingFilter {
 	
 	private List<User> users = new ArrayList<User>();
 	private List<ExpenseType> expenseTypes = new ArrayList<ExpenseType>();
+	 
+	@In(create = true)
+	ExpenseCategoryList expenseCategoryList;
+	
+	@Out(required = false, scope = ScopeType.EVENT)
+	Map<ExpenseCategory, List<ExpenseType>> filteredCategoryTypes;
+	
 
+	@Out(required = false, scope = ScopeType.EVENT)
+	List<ExpenseCategory> filteredCategoryTypesKeys;
+	
 	private boolean useFilter = false;
 	
 	@In(required = false)
@@ -84,6 +103,14 @@ public class ReportingFilter {
 
 	public void setUseFilter(boolean useFilter) {
 		this.useFilter = useFilter;
+	}
+	
+	public Map<ExpenseCategory, List<ExpenseType>> getFilteredCategoryTypes() {
+		return filteredCategoryTypes;
+	}
+
+	public void setFilteredCategoryTypes(Map<ExpenseCategory, List<ExpenseType>> filteredCategoryTypes) {
+		this.filteredCategoryTypes = filteredCategoryTypes;
 	}
 	
 	
@@ -146,6 +173,15 @@ public class ReportingFilter {
 				
 		}
 		filteredReporting.recalculateTotals();
+		
+		// Remove empty SubReportings
+		Set<Period> keysDuplicate = new HashSet<Period>(filteredReporting.getSubReportings().keySet());
+		for (Period period : keysDuplicate) {
+			if (filteredReporting.getSubReporting(period).getTotal() == 0) {
+				filteredReporting.getSubReportings().remove(period);
+			}
+		}
+		
 		currentReporting = filteredReporting;
 	}
 	
@@ -168,7 +204,7 @@ public class ReportingFilter {
 //	}
 	
 	public boolean filterIsNotEmpty() {
-		return ! (startPeriod == null && endPeriod == null && users.isEmpty());
+		return ! (startPeriod == null && endPeriod == null && users.isEmpty() && expenseTypes.isEmpty());
 	}
 	
 	public List<Period> getAvailablePeriods(String type) {
@@ -187,6 +223,36 @@ public class ReportingFilter {
 	
 	public String getReportingType() {
 		return currentReporting.getPeriodType().toString().toLowerCase();
+	}
+	
+	public void filterColumns() {
+		filteredCategoryTypes = new HashMap<ExpenseCategory, List<ExpenseType>>();
+		List<ExpenseCategory> expenseCategories = expenseCategoryList.getResultList();
+		for (ExpenseCategory expenseCategory : expenseCategories) {
+			if (expenseTypes.isEmpty()) {
+				filteredCategoryTypes.put(expenseCategory, expenseCategory.getExpenseTypes());
+			} else {
+				List<ExpenseType> fullList = new ArrayList<ExpenseType>(expenseCategory.getExpenseTypes());
+				
+				Iterator<ExpenseType> iter = fullList.iterator();
+				while (iter.hasNext()) {
+					ExpenseType expenseType = iter.next();
+					if ( ! expenseTypes.contains(expenseType)) {
+						iter.remove();
+					}
+				}
+				if ( ! fullList.isEmpty()) {
+					filteredCategoryTypes.put(expenseCategory, fullList);
+				}
+			}
+		}
+		filteredCategoryTypesKeys = new ArrayList<ExpenseCategory>(filteredCategoryTypes.keySet());
+		
+		Collections.sort(filteredCategoryTypesKeys, Collections.reverseOrder(new Comparator<ExpenseCategory>(){
+		       @Override
+			public int compare(ExpenseCategory a, ExpenseCategory b){
+		           return ((Integer)a.getExpenseTypes().size()).compareTo(b.getExpenseTypes().size());
+		        }}));
 	}
 	
 }

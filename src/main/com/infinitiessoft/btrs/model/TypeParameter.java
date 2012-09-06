@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -60,7 +59,7 @@ public class TypeParameter implements java.io.Serializable {
 		this.value = value;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "typeParameters")
+	@ManyToMany(mappedBy = "typeParameters")
 	public Set<ExpenseType> getExpenseTypes() {
 		if (expenseTypes == null) {
 			expenseTypes = new HashSet<ExpenseType>(0);
@@ -72,7 +71,7 @@ public class TypeParameter implements java.io.Serializable {
 		this.expenseTypes = expenseTypes;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "typeParameter")
+	@OneToMany(mappedBy = "typeParameter")
 	public Set<ParameterValue> getParameterValues() {
 		if (parameterValues == null) {
 			parameterValues = new HashSet<ParameterValue>(0);

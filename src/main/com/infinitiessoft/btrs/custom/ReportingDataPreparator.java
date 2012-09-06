@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.log.Log;
 
 import com.infinitiessoft.btrs.action.ReportList;
@@ -23,43 +24,42 @@ import com.infinitiessoft.btrs.reporting.Reporting;
 import com.infinitiessoft.btrs.reporting.ReportingRow;
 
 @Name("reportingDataPreparator")
-@Scope(ScopeType.SESSION)
+@Scope(ScopeType.APPLICATION)
+@Startup
 public class ReportingDataPreparator {
 
 	@Logger Log log;
 	
-	@In(create = true)
+	@In
 	ReportList reportList;
 	
-	Reporting reportingsByYear = new Reporting(PeriodTypeEnum.YEAR);
-	Reporting reportingsByQuarter = new Reporting(PeriodTypeEnum.QUARTER);
-	Reporting reportingsByMonth = new Reporting(PeriodTypeEnum.MONTH);
+	Reporting reportingsByYear;
+	Reporting reportingsByQuarter;
+	Reporting reportingsByMonth;
 	
 	@In(required = false)
 	@Out(required = false, scope = ScopeType.CONVERSATION)
 	Reporting currentReporting;
 	
-	private boolean constructed = false;
+	private boolean dirty = true;
 	
 	
-	public boolean isConstructed() {
-		return constructed;
+	public boolean isDirty() {
+		return dirty;
 	}
-	
 
-	public void setConstructed(boolean constructed) {
-		this.constructed = constructed;
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
 	}
-	
 
 	private List<ReportingRow> constructReportingRows() {
 		long beginTime = System.currentTimeMillis();
 		List<ReportingRow> reportingRows = new ArrayList<ReportingRow>();
 		
-		reportList.setMaxResults(null);
-		List<Report> allReports = reportList.getResultList();
+		List<Report> approvedReports = reportList.getApprovedReportsJoinExpenses();
+		log.info("#0 Approved Reports used for Reporting", approvedReports.size());
 		
-		for (Report report : allReports) {
+		for (Report report : approvedReports) {
 			ReportingRow reportingRow = new ReportingRow(report.getEndDate(), report.getOwner());
 			for (Expense expense : report.getExpenses()) {
 				ExpenseType expenseType = expense.getExpenseType();
@@ -80,6 +80,11 @@ public class ReportingDataPreparator {
 	
 	public void constructReportings() {
 		long beginTime = System.currentTimeMillis();
+
+		reportingsByYear = new Reporting(PeriodTypeEnum.YEAR);
+		reportingsByQuarter = new Reporting(PeriodTypeEnum.QUARTER);
+		reportingsByMonth = new Reporting(PeriodTypeEnum.MONTH);
+		
 		List<ReportingRow> reportingRows = constructReportingRows();
 
 		for (ReportingRow reportingRow : reportingRows) {
@@ -97,7 +102,8 @@ public class ReportingDataPreparator {
 		reportingsByQuarter.recalculateTotals();
 		reportingsByMonth.recalculateTotals();
 
-		constructed = true;
+		dirty = false;
+		
 		long endTime = System.currentTimeMillis();
 		log.info("Constructing Reportings took: #0 ms", endTime - beginTime);
 	}

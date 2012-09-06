@@ -2,7 +2,6 @@ package com.infinitiessoft.btrs.model;
 
 // Generated Jul 9, 2012 10:51:06 AM by Hibernate Tools 3.2.4.GA
 
-import static javax.persistence.FetchType.LAZY;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +74,7 @@ public class ExpenseCategory implements java.io.Serializable {
 	}
 
 	@OrderBy("value")
-	@ManyToMany(fetch = LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(name = "exp_category_exp_type",
 		joinColumns = @JoinColumn(name = "category_id"),
 		inverseJoinColumns = @JoinColumn(name = "type_id"))

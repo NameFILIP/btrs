@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -67,7 +66,7 @@ public class Report implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "owner_id")
 	public User getOwner() {
 		return this.owner;
@@ -152,7 +151,7 @@ public class Report implements java.io.Serializable {
 		this.lastUpdatedDate = lastUpdatedDate;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "reviewer_id")
 	public User getReviewer() {
 		return reviewer;
@@ -178,7 +177,7 @@ public class Report implements java.io.Serializable {
 	}
 
 	@OrderBy("createdDate")
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "report", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
 	public List<StatusChange> getStatusChanges() {
 		if (statusChanges == null) {
 			statusChanges = new ArrayList<StatusChange>(0);
@@ -190,7 +189,7 @@ public class Report implements java.io.Serializable {
 		this.statusChanges = statusChanges;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "report", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
 	public List<Expense> getExpenses() {
 		if (expenses == null) {
 			expenses = new ArrayList<Expense>(0);
@@ -249,4 +248,5 @@ public class Report implements java.io.Serializable {
 		}
 		return totalWithoutTax;
 	}
+	
 }

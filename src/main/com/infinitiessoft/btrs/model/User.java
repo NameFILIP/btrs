@@ -74,7 +74,7 @@ public class User implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToMany(targetEntity = Role.class, fetch = FetchType.LAZY)
+	@ManyToMany
 	@JoinTable(name = "users_roles",
 		joinColumns = @JoinColumn(name = "user_id"),
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -94,7 +94,7 @@ public class User implements java.io.Serializable {
 		return this.getRoles().add(role);
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "department_id")
 	public Department getDepartment() {
 		return this.department;
@@ -208,7 +208,7 @@ public class User implements java.io.Serializable {
 		this.enabled = enabled;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	public Set<StatusChange> getStatusChanges() {
 		if (statusChanges == null) {
 			statusChanges = new HashSet<StatusChange>(0);
@@ -220,7 +220,7 @@ public class User implements java.io.Serializable {
 		this.statusChanges = statusChanges;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	public Set<Report> getOutgoingReports() {
 		if (outgoingReports == null) {
 			outgoingReports = new HashSet<Report>(0);
@@ -232,7 +232,7 @@ public class User implements java.io.Serializable {
 		this.outgoingReports = outgoingReports;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reviewer", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL)
 	public Set<Report> getIncomingReports() {
 		if (incomingReports == null) {
 			incomingReports = new HashSet<Report>(0);

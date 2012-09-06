@@ -102,7 +102,7 @@ public class Expense implements java.io.Serializable {
 		this.taxAmount = taxAmount;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "expense", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "expense", cascade = CascadeType.ALL)
 	public List<ParameterValue> getParameterValues() {
 		if (parameterValues == null) {
 			parameterValues = new ArrayList<ParameterValue>(0);

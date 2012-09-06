@@ -74,10 +74,10 @@
 						<rich:column rowspan="2">
 							Employee
 						</rich:column>
-						<rich:columns var="categ" value="#{expenseCategoryList.resultList}" colspan="#{categ.expenseTypes.size()}" rowspan="#{categ.expenseTypes.size() eq 1 ? 2 : 1}">
+						<rich:columns var="categ" value="#{filteredCategoryTypesKeys}" colspan="#{filteredCategoryTypes[categ].size()}" rowspan="#{filteredCategoryTypes[categ].size() eq 1 ? 2 : 1}">
 							#{messages[categ.nameKey]}
 								
-							<rich:column rendered="#{categ.expenseTypes.size() gt 1}" rowspan="2">
+							<rich:column rendered="#{filteredCategoryTypes[categ].size() gt 1}" rowspan="2">
 								#{messages['reporting.total']}
 							</rich:column>
 						</rich:columns>
@@ -86,8 +86,8 @@
 								#{messages['reporting.grand.total']}
 						</rich:column>
 							
-						<c:forEach var="categ" items="#{expenseCategoryList.resultList}" varStatus="varStatus">
-							<rich:columns var="categType" value="#{categ.expenseTypes}" index="tInd" id="type-column#{varStatus.index}-#{tInd}" breakBefore="#{varStatus.index eq 0 and tInd eq 0}" rendered="#{categ.expenseTypes.size() gt 1}">
+						<c:forEach var="categ" items="#{filteredCategoryTypesKeys}" varStatus="varStatus">
+							<rich:columns var="categType" value="#{filteredCategoryTypes[categ]}" index="tInd" breakBefore="#{varStatus.index eq 0 and tInd eq 0}" rendered="#{filteredCategoryTypes[categ].size() gt 1}">
 								#{messages[categType.value.label]}
 							</rich:columns>
 						</c:forEach>
@@ -108,14 +108,14 @@
 						</f:facet>
 					</rich:column>
 					
-					<c:forEach var="categ" items="#{expenseCategoryList.resultList}" varStatus="varStatus">
-						<rich:columns var="categType" value="#{categ.expenseTypes}">
+					<c:forEach var="categ" items="#{filteredCategoryTypesKeys}" varStatus="varStatus">
+						<rich:columns var="categType" value="#{filteredCategoryTypes[categ]}">
 							#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).getAmount(categ.code, categType.value)}
 							<f:facet name="footer">
 								#{currentReporting.getSubReporting(_subReportingKey).getTotalCategoryType(categ.code, categType.value)}
 							</f:facet>
 						</rich:columns>
-						<rich:column rendered="#{categ.expenseTypes.size() gt 1}" styleClass="subTotal">
+						<rich:column rendered="#{filteredCategoryTypes[categ].size() gt 1}" styleClass="subTotal">
 							#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).getTotalCategory(categ.code)}
 							<f:facet name="footer">
 								#{currentReporting.getSubReporting(_subReportingKey).getTotalCategory(categ.code)}
@@ -134,11 +134,11 @@
 
 					<rich:columnGroup>
 						<rich:column>Totals</rich:column>
-						<c:forEach var="categ" items="#{expenseCategoryList.resultList}" varStatus="varStatus">
-							<rich:columns var="categType" value="#{categ.expenseTypes}">
+						<c:forEach var="categ" items="#{filteredCategoryTypesKeys}" varStatus="varStatus">
+							<rich:columns var="categType" value="#{filteredCategoryTypes[categ]}">
 								#{currentReporting.getTotalCategoryType(categ.code, categType.value)}
 							</rich:columns>
-							<rich:column rendered="#{categ.expenseTypes.size() gt 1}">
+							<rich:column rendered="#{filteredCategoryTypes[categ].size() gt 1}">
 								#{currentReporting.getTotalCategory(categ.code)}
 							</rich:column>
 						</c:forEach>
@@ -147,15 +147,15 @@
 						</rich:column>
 
 
-						<!-- rich:column>
+						
+						
+					</rich:columnGroup>
+				</f:facet>
+<!-- rich:column>
 							<h:outputText value="#{report.expReport.totalMeals}">
 								<f:convertNumber pattern="$####.00" />
 							</h:outputText>
 						</rich:column-->
-						
-					</rich:columnGroup>
-				</f:facet>
-
 			</rich:dataTable>
 			
 			
