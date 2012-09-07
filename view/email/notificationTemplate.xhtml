@@ -1,0 +1,15 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml" 
+		   xmlns:m="http://jboss.com/products/seam/mail" 
+		   xmlns:ui="http://java.sun.com/jsf/facelets">
+		   
+	<m:header name="X-Composed-By" value="Business Trip Report System" />
+	<m:from name="Notification Agent" address="noreply@infinitiessoft.com" />
+	<m:replyTo address="noreply@infinitiessoft.com" />
+	
+	<m:to name="#{recipientName}">#{recipientAddress}</m:to>
+	<m:subject><ui:insert name="subject">Report notification</ui:insert></m:subject>
+
+	<m:body>
+		<ui:insert name="body" />
+	</m:body>
+</m:message>

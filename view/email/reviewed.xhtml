@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				template="notificationTemplate.xhtml">
+
+	<ui:param name="recipientName" value="#{report.owner.fullName}" />
+	<ui:param name="recipientAddress" value="#{report.owner.email}" />
+	<ui:define name="subject">Report reviewed notification</ui:define>
+
+	<ui:define name="body">
+	<html>
+<head>
+<style type="text/css">
+.center {
+	text-align: center;
+}
+
+p {
+	font-family: "Times New Roman";
+	font-size: 16px;
+}
+</style>
+</head>
+<body>
+	<p class="center">Business Trip Report System notification</p>
+	<p>Dear #{report.owner.fullName},</p>
+	<p>
+		Your <a href="#{urlBase}/report-view.seam?reportId=#{report.id}">report</a> 
+		has been #{report.currentStatus.name().toLowerCase()} by #{report.reviewer.fullName}.
+	</p>
+	<p>Have a nice day!</p>
+</body>
+		</html>
+
+		<f:facet name="alternative">Dear #{report.owner.fullName},
+
+Your report has been #{report.currentStatus.name().toLowerCase()} by #{report.reviewer.fullName}.
+
+Have a nice day!
+     	</f:facet>
+	</ui:define>
+
+</ui:composition>

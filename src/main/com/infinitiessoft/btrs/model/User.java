@@ -141,7 +141,7 @@ public class User implements java.io.Serializable {
 	@NotNull
 	@Email
 	@Length(max = 100)
-	@Unique(entityName = "User", fieldName = "email", idProvider = "userHome")
+//	@Unique(entityName = "User", fieldName = "email", idProvider = "userHome")
 	public String getEmail() {
 		return this.email;
 	}
