@@ -10,14 +10,16 @@
 				contentType="text/html"
 				template="layout/template.xhtml">
 
+	<ui:define name="title">#{messages['type.title']}</ui:define>
+
 	<ui:define name="content">
 		<h:form id="expenseType" styleClass="edit">
 
 			<rich:panel>
-				<f:facet name="header">#{expenseTypeHome.managed ? 'Edit' : 'Add'} Expense Type</f:facet>
+				<f:facet name="header">#{expenseTypeHome.managed ? messages['type.edit'] : messages['type.add']}</f:facet>
 
 				<s:decorate id="valueField" template="layout/edit.xhtml">
-					<ui:define name="label">Expense Type</ui:define>
+					<ui:define name="label">#{messages['type.name']}</ui:define>
 					<h:selectOneMenu id="department" required="true" value="#{expenseType.value}">
 						<s:selectItems value="#{expenseTypes}" var="et" itemValue="#{et}" label="#{messages[et.label]}" />
 						<s:convertEnum />
@@ -26,7 +28,7 @@
 				</s:decorate>
 				
 				<s:decorate id="taxPercentField" template="layout/edit.xhtml">
-					<ui:define name="label">Tax Percent</ui:define>
+					<ui:define name="label">#{messages['type.taxPercent']}</ui:define>
 					<h:inputText id="taxPercent" size="5" maxlength="5" value="#{expenseType.taxPercent}">
 						<a:support event="onblur" reRender="taxPercentField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
@@ -34,7 +36,7 @@
 
 
 				<s:decorate id="typeParametersField" template="layout/edit.xhtml">
-					<ui:define name="label">Parameters</ui:define>
+					<ui:define name="label">#{messages['type.parameters']}</ui:define>
 					<rich:pickList value="#{expenseType.typeParameters}">
 						<s:selectItems value="#{typeParameterList.resultList}" var="p" label="#{messages[p.nameKey]}" />
 						<s:convertEntity />
@@ -48,10 +50,10 @@
 			</rich:panel>
 
 			<div class="actionButtons">
-				<h:commandButton id="save" value="Save" action="#{expenseTypeHome.persist}" rendered="#{!expenseTypeHome.managed}" />
-				<h:commandButton id="update" value="Save" action="#{expenseTypeHome.update}" rendered="#{expenseTypeHome.managed}" />
-				<h:commandButton id="delete" value="Delete" action="#{expenseTypeHome.remove}" immediate="true" rendered="#{expenseTypeHome.managed}" />
-				<s:button id="cancel" value="Cancel" propagation="end" view="/expense-type-list.xhtml" />
+				<h:commandButton id="save" value="#{messages['common.save']}" action="#{expenseTypeHome.persist}" rendered="#{!expenseTypeHome.managed}" />
+				<h:commandButton id="update" value="#{messages['common.save']}" action="#{expenseTypeHome.update}" rendered="#{expenseTypeHome.managed}" />
+				<h:commandButton id="delete" value="#{messages['common.delete']}" action="#{expenseTypeHome.remove}" immediate="true" rendered="#{expenseTypeHome.managed}" />
+				<s:button id="cancel" value="#{messages['common.cancel']}" propagation="end" view="/expense-type-list.xhtml" />
 			</div>
 		</h:form>
 	</ui:define>

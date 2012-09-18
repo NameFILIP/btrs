@@ -9,104 +9,113 @@
 				xmlns:a="http://richfaces.org/a4j"
 				template="layout/template.xhtml">
 
-<ui:define name="title">Reports List</ui:define>
+	<ui:define name="title">#{messages['report.list.header']}</ui:define>
 
-	<ui:define name="data-main-title">#{empty type ? reportListDataPreparator.defaultType() : type} Reports</ui:define>
+	<ui:define name="data-main-title">#{messages['report.status.'.concat(empty type ? reportListDataPreparator.defaultType() : type)]} #{messages['report.reports']}</ui:define>
 	<ui:define name="data-main-body">
 		<rich:panel>
-			<f:facet name="header">List of Reports (#{empty preparedReports ? 0 : (reportList.paginated ? reportList.resultCount : preparedReports.size)})</f:facet>
+			<f:facet name="header">#{messages['report.list.header']} (#{empty preparedReports ? 0 : preparedReports.size})</f:facet>
 			<div class="results" id="reportList">
 
-				<h:outputText value="The are no reports." rendered="#{empty preparedReports}" />
+				<h:outputText value="#{messages['report.list.empty']}" rendered="#{empty preparedReports}" />
 				<h:form>
 					<rich:dataTable id="reportList" var="_report" value="#{preparedReports}" rendered="#{not empty preparedReports}" rows="20">
 
+						<rich:column rendered="#{s:hasRole('ACCOUNTANT')}">
+							<f:facet name="header">
+								<h:selectBooleanCheckbox id="selectAll" title="#{messages['report.selectAll']}" value="#{reportListDataPreparator.selectAll}" valueChangeListener="#{reportListDataPreparator.selectAllReports}">
+									<a:support event="onclick" reRender="reportList" />
+								</h:selectBooleanCheckbox>
+							</f:facet>
+							<h:selectBooleanCheckbox value="#{reportListDataPreparator.selectedRowsMap[_report]}" />
+						</rich:column>
+
 						<rich:column sortBy="#{_report.reason}">
-							<f:facet name="header">Reason</f:facet>
+							<f:facet name="header">#{messages['report.reason']}</f:facet>
 							<h:outputText value="#{_report.reason}" />
 						</rich:column>
 
 						<rich:column sortBy="#{_report.route}">
-							<f:facet name="header">Route</f:facet>
+							<f:facet name="header">#{messages['report.route']}</f:facet>
 							<h:outputText value="#{_report.route}" />
 						</rich:column>
 
 						<rich:column sortBy="#{_report.startDate}">
-							<f:facet name="header">Start date</f:facet>
+							<f:facet name="header">#{messages['report.start']}</f:facet>
 							<h:outputText value="#{_report.startDate}">
 								<s:convertDateTime type="date" dateStyle="short" />
 							</h:outputText>
 						</rich:column>
 
 						<rich:column sortBy="#{_report.endDate}">
-							<f:facet name="header">End date</f:facet>
+							<f:facet name="header">#{messages['report.end']}</f:facet>
 							<h:outputText value="#{_report.endDate}">
 								<s:convertDateTime type="date" dateStyle="short" />
 							</h:outputText>
 						</rich:column>
 
 						<rich:column sortBy="#{_report.comment}">
-							<f:facet name="header">Comment</f:facet>
+							<f:facet name="header">#{messages['report.comment']}</f:facet>
 							<h:outputText value="#{_report.comment}" />
 						</rich:column>
 
 						<rich:column sortBy="#{_report.createdDate}">
-							<f:facet name="header">Created date</f:facet>
+							<f:facet name="header">#{messages['report.created']}</f:facet>
 							<h:outputText value="#{_report.createdDate}">
 								<s:convertDateTime type="both" dateStyle="short" />
 							</h:outputText>
 						</rich:column>
 
 						<rich:column sortBy="#{_report.lastUpdatedDate}">
-							<f:facet name="header">Last updated date</f:facet>
+							<f:facet name="header">#{messages['report.updated']}</f:facet>
 							<h:outputText value="#{_report.lastUpdatedDate}">
 								<s:convertDateTime type="both" dateStyle="short" />
 							</h:outputText>
 						</rich:column>
 
 						<rich:column sortBy="#{_report.owner.fullName}">
-							<f:facet name="header">Employee</f:facet>
+							<f:facet name="header">#{messages['report.owner']}</f:facet>
 							<h:outputText value="#{_report.owner.fullName}" />
 						</rich:column>
 
 						<rich:column sortBy="#{_report.totalAmount}">
-							<f:facet name="header">Total amount</f:facet>
+							<f:facet name="header">#{messages['report.amountTotal']}</f:facet>
 							<h:outputText value="#{_report.totalAmount}">
 								<f:convertNumber pattern="$#,##0.00" />
 							</h:outputText>
 						</rich:column>
 
 						<rich:column sortBy="#{_report.totalTaxAmount}">
-							<f:facet name="header">Total tax</f:facet>
+							<f:facet name="header">#{messages['report.amountTax']}</f:facet>
 							<h:outputText value="#{_report.totalTaxAmount}">
 								<f:convertNumber pattern="$#,##0.00" />
 							</h:outputText>
 						</rich:column>
 
 						<rich:column sortBy="#{_report.totalAmountWithoutTax}">
-							<f:facet name="header">Total w/o tax</f:facet>
+							<f:facet name="header">#{messages['report.amountNoTax']}</f:facet>
 							<h:outputText value="#{_report.totalAmountWithoutTax}">
 								<f:convertNumber pattern="$#,##0.00" />
 							</h:outputText>
 						</rich:column>
 
 						<rich:column sortBy="#{messages[_report.currentStatus.label]}">
-							<f:facet name="header">Status</f:facet>
+							<f:facet name="header">#{messages['report.status']}</f:facet>
 							<h:outputText value="#{messages[_report.currentStatus.label]}" />
 						</rich:column>
 
 						<rich:column sortBy="#{_report.reviewer.fullName}">
-							<f:facet name="header">Accountant</f:facet>
+							<f:facet name="header">#{messages['report.accountant']}</f:facet>
 							<h:outputText value="#{_report.reviewer.fullName}" />
 						</rich:column>
 
 						<rich:column styleClass="action">
-							<f:facet name="header">Action</f:facet>
-							<s:link view="/report-view.xhtml" value="View" id="report-view">
+							<f:facet name="header">#{messages['common.action']}</f:facet>
+							<s:link view="/report-view.xhtml" value="#{messages['common.view']}" id="report-view">
 								<f:param name="reportId" value="#{_report.id}" />
 							</s:link>
             				#{' '}
-            				<s:link view="/report-edit.xhtml" value="Edit" propagation="none" id="report-edit">
+            				<s:link view="/report-edit.xhtml" value="#{messages['common.edit']}" propagation="none" id="report-edit">
 								<f:param name="reportId" value="#{_report.id}" />
 							</s:link>
 						</rich:column>
@@ -115,6 +124,9 @@
 							<rich:datascroller renderIfSinglePage="false" page="#{reportListDataPreparator.scrollerPage}" />
 						</f:facet>
 					</rich:dataTable>
+					
+					<h:commandButton action="#{excelExporter.download()}" value="#{messages['report.export']}" rendered="#{s:hasRole('ACCOUNTANT')}"/>
+
 				</h:form>
 			</div>
 		</rich:panel>

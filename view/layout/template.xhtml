@@ -10,7 +10,7 @@
 	<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title><ui:insert name="title">Business Trip Report System</ui:insert></title>
+<title><ui:insert name="title">#{messages['system.name']}</ui:insert></title>
 <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico" />
 <a:loadStyle src="/css/theme.xcss" />
 <a:loadStyle src="/css/theme.css" />
@@ -30,8 +30,8 @@
 							<f:param name="userFrom" value="/login.xhtml" />
 						</s:link>
 					</li>
-					<li>-</li>
-					<li><s:link id="forgot" view="/" value="#{messages['accountnav.forgot.password']}" /></li>
+					<!-- li>-</li>
+					<li><s:link id="forgot" view="/" value="#{messages['accountnav.forgot.password']}" /></li-->
 				</s:fragment>
 				<s:fragment rendered="#{identity.loggedIn}">
 					<li>
@@ -40,8 +40,17 @@
 							<f:param name="userFrom" value="#{facesContext.viewRoot.viewId}" />
 						</s:link>
 					</li>
+				</s:fragment>
 					<li>-</li>
-					<li><s:link id="help" view="/help.xhtml" value="#{messages['accountnav.help']}" propagation="none" /></li>
+					<li>
+						<h:form id="language">
+							<h:selectOneMenu value="#{localeSelector.localeString}" valueChangeListener="#{localeSelector.select}" onchange="submit()">
+								 <f:selectItems value="#{localeSelector.supportedLocales}"/>
+							</h:selectOneMenu>
+						</h:form>
+					</li>
+				<s:fragment rendered="#{identity.loggedIn}">
+					<!-- li><s:link id="help" view="/help.xhtml" value="#{messages['accountnav.help']}" propagation="none" /></li-->
 					<li>-</li>
 					<li><s:link id="logout" action="#{identity.logout}" value="#{messages['accountnav.logout']}" propagation="end" /></li>
 				</s:fragment>

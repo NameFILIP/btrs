@@ -18,7 +18,7 @@ public class ReportList extends EntityQuery<Report> {
 	
 	private static final long serialVersionUID = 3852316905644428617L;
 	
-	@In
+	@In(required = false)
 	User currentUser;
 	
 	private static final String EJBQL = "select report from Report report";

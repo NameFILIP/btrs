@@ -25,6 +25,11 @@ mvel2.jar
 richfaces-api.jar
 richfaces-impl.jar
 richfaces-ui.jar
+poi-3.8.jar
+poi-ooxml-3.8.jar
+poi-ooxml-schemas-3.8.jar
+xmlbeans-2.3.0.jar
+dom4j-1.6.1.jar
 # You can remove the JARs for themes you aren't using
 darkX.jar
 glassX.jar

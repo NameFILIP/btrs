@@ -5,31 +5,31 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 	<li>
-		<s:link id="open" view="/report-list.xhtml" value="Open Reports(#{reportsCounts['Open']})" propagation="none">
+		<s:link id="open" view="/report-list.xhtml" value="#{messages['menu.open']} (#{reportsCounts['Open']})" propagation="none">
 			<f:param name="type" value="Open" />
 		</s:link>
 	</li>
 	<ul>
 		<li>
-			<s:link id="submitted" view="/report-list.xhtml" value="Submitted(#{reportsCounts['Submitted']})" propagation="none">
+			<s:link id="submitted" view="/report-list.xhtml" value="#{messages['menu.submitted']} (#{reportsCounts['Submitted']})" propagation="none">
 				<f:param name="type" value="Submitted" />
 			</s:link>
 		</li>
 		<li>
-			<s:link id="rejected-emp" view="/report-list.xhtml" value="Rejected(#{reportsCounts['Rejected']})" propagation="none">
+			<s:link id="rejected-emp" view="/report-list.xhtml" value="#{messages['menu.rejected']} (#{reportsCounts['Rejected']})" propagation="none">
 				<f:param name="type" value="Rejected" />
 			</s:link>
 		</li>
 	</ul>
 
 	<li>
-		<s:link id="all-my-reports" view="/report-list.xhtml" value="All My Reports(#{reportsCounts['All']})" propagation="none">
+		<s:link id="all-my-reports" view="/report-list.xhtml" value="#{messages['menu.all']} (#{reportsCounts['All']})" propagation="none">
 			<f:param name="type" value="All" />
 		</s:link>
 	</li>
 	<ul>
 		<li>
-			<s:link id="approved" view="/report-list.xhtml" value="Approved(#{reportsCounts['Approved']})" propagation="none">
+			<s:link id="approved" view="/report-list.xhtml" value="#{messages['menu.approved']} (#{reportsCounts['Approved']})" propagation="none">
 				<f:param name="type" value="Approved" />
 			</s:link>
 		</li>
@@ -37,22 +37,24 @@
 
 	<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
 		<li>
-			<s:link id="reporting" view="/reporting.xhtml" value="Reporting" propagation="none" />
+			<s:link id="reporting" view="/reporting.xhtml" value="#{messages['menu.reporting']}" propagation="none">
+				<f:param name="type" />
+			</s:link>
 		</li>
 		<ul>
 			<li>
-				<s:link id="by-year" view="/reporting.xhtml" value="by Year" propagation="none">
-					<f:param name="type" value="Year" />
+				<s:link id="by-year" view="/reporting.xhtml" value="#{messages['menu.reporting.year']}" propagation="none">
+					<f:param name="type" value="year" />
 				</s:link>
 			</li>
 			<li>
-				<s:link id="by-quarter" view="/reporting.xhtml" value="by Quarter" propagation="none">
-					<f:param name="type" value="Quarter" />
+				<s:link id="by-quarter" view="/reporting.xhtml" value="#{messages['menu.reporting.quarter']}" propagation="none">
+					<f:param name="type" value="quarter" />
 				</s:link>
 			</li>
 			<li>
-				<s:link id="by-month" view="/reporting.xhtml" value="by Month" propagation="none">
-					<f:param name="type" value="Month" />
+				<s:link id="by-month" view="/reporting.xhtml" value="#{messages['menu.reporting.month']}" propagation="none">
+					<f:param name="type" value="month" />
 				</s:link>
 			</li>
 		</ul>

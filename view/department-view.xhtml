@@ -10,19 +10,21 @@
 				contentType="text/html" 
 				template="layout/template.xhtml">
 
+	<ui:define name="title">#{messages['department.title']}</ui:define>
+
 	<ui:define name="content">
 
 			<rich:panel>
-				<f:facet name="header">Department Details</f:facet>
+				<f:facet name="header">#{messages['department.details']}</f:facet>
 
 				<s:decorate id="nameField" template="layout/display.xhtml">
-					<ui:define name="label">Name</ui:define>
+					<ui:define name="label">#{messages['department.name']}</ui:define>
 					<h:outputText value="#{department.name}" />
 				</s:decorate>
 
 
 				<s:decorate id="commentField" template="layout/display.xhtml">
-					<ui:define name="label">Comment</ui:define>
+					<ui:define name="label">#{messages['department.comment']}</ui:define>
 					<h:outputText value="#{department.comment}" />
 				</s:decorate>
 
@@ -31,8 +33,8 @@
 			</rich:panel>
 
 			<div class="actionButtons">
-				<s:button id="edit" view="/department-edit.xhtml" value="Edit" />
-				<s:button id="done" view="/department-list.xhtml" value="Done" />
+				<s:button id="edit" view="/department-edit.xhtml" value="#{messages['common.edit']}" />
+				<s:button id="done" view="/department-list.xhtml" value="#{messages['common.done']}" />
 			</div>
 	</ui:define>
 </ui:composition>

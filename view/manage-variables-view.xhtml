@@ -9,27 +9,27 @@
     xmlns:rich="http://richfaces.org/rich"
     template="layout/template.xhtml">
 
-	<ui:define name="title">Management Console</ui:define>
+	<ui:define name="title">#{messages['variable.title']}</ui:define>
 
 	<ui:define name="data-navbar">
 		<ui:include src="layout/admin-sidebar.xhtml" />
 	</ui:define>
-	<ui:define name="data-main-title">Manage Variables</ui:define>
+	<ui:define name="data-main-title">#{messages['variable.title']}</ui:define>
 
     <ui:define name="data-main-body">
 
 		<rich:panel>
-			<f:facet name="header">Application Variables</f:facet>
+			<f:facet name="header">#{messages['variable.header']}</f:facet>
 
 			<s:decorate id="carCoefficientField" template="layout/display.xhtml">
-				<ui:define name="label">Car Coefficient</ui:define>
+				<ui:define name="label">#{messages['variable.carCoefficient']}</ui:define>
 				<h:outputText value="#{allVariables['carCoefficient'].value}" />
 			</s:decorate>
 
 			<s:decorate id="separatorField" template="layout/display.xhtml" />
 
 			<s:decorate id="hsrPricesField" template="layout/display.xhtml">
-				<ui:define name="label">High Speed Rail Prices</ui:define>
+				<ui:define name="label">#{messages['variable.hsrPrices']}</ui:define>
 
 				<h:panelGrid columns="2">
 					<h:outputText value=" " />
@@ -62,7 +62,7 @@
 		</rich:panel>
 
 		<div class="actionButtons">
-			<s:button id="edit" view="/manage-variables-edit.xhtml" value="Edit" />
+			<s:button id="edit" view="/manage-variables-edit.xhtml" value="#{messages['common.edit']}" />
 		</div>
 
 	</ui:define>

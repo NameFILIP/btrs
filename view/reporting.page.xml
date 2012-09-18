@@ -5,6 +5,8 @@
 						http://jboss.com/products/seam/pages-2.2.xsd"
 	login-required="true">
 
+	<restrict>#{s:hasRole('ADMIN') or s:hasRole('ACCOUNTANT')}</restrict>
+
 	<param name="type" />
 	
 	

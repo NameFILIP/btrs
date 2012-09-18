@@ -10,27 +10,27 @@
 				contentType="text/html">
 
 	<rich:panel id="status-change-table" rendered="#{not empty report.statusChanges}">
-		<f:facet name="header">History</f:facet>
+		<f:facet name="header">#{messages['statusChange.header']}</f:facet>
 
 		<rich:dataTable id="status-change-list" var="_statusChange" value="#{report.statusChanges}">
 
 			<h:column>
-				<f:facet name="header">User</f:facet>
+				<f:facet name="header">#{messages['statusChange.user']}</f:facet>
 				<h:outputText value="#{_statusChange.user.fullName}" />
 			</h:column>
 
 			<h:column>
-				<f:facet name="header">Comment</f:facet>
+				<f:facet name="header">#{messages['statusChange.comment']}</f:facet>
 				<h:outputText value="#{_statusChange.comment}" />
 			</h:column>
 
 			<h:column>
-				<f:facet name="header">Status</f:facet>
+				<f:facet name="header">#{messages['statusChange.status']}</f:facet>
 				<h:outputText value="#{messages[_statusChange.value.label]}" />
 			</h:column>
 
 			<h:column>
-				<f:facet name="header">Date</f:facet>
+				<f:facet name="header">#{messages['statusChange.date']}</f:facet>
 				<h:outputText value="#{_statusChange.createdDate}">
 					<s:convertDateTime type="both" dateStyle="short" />
 				</h:outputText>

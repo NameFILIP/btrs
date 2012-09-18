@@ -10,6 +10,8 @@
 	contentType="text/html" 
 	template="layout/template.xhtml">
 
+	<ui:define name="title">#{messages['login.title']}</ui:define>
+
 	<ui:define name="content">
 
 		<s:div rendered="#{identity.loggedIn}">
@@ -18,19 +20,17 @@
 
 		<h:form id="loginForm" rendered="#{not identity.loggedIn}">
 			<rich:panel>
-				<f:facet name="header">Login</f:facet>
-
-				<p>Please login here</p>
+				<f:facet name="header">#{messages['login.title']}</f:facet>
 
 				<div class="dialog">
 					<h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
-						<h:outputLabel for="username">Username</h:outputLabel>
+						<h:outputLabel for="username">#{messages['login.username']}</h:outputLabel>
 						<h:inputText id="username" value="#{credentials.username}" />
 
-						<h:outputLabel for="password">Password</h:outputLabel>
+						<h:outputLabel for="password">#{messages['login.password']}</h:outputLabel>
 						<h:inputSecret id="password" value="#{credentials.password}" />
 
-						<h:outputLabel for="rememberMe">Remember me</h:outputLabel>
+						<h:outputLabel for="rememberMe">#{messages['login.rememberMe']}</h:outputLabel>
 						<h:selectBooleanCheckbox id="rememberMe" value="#{rememberMe.enabled}" />
 					</h:panelGrid>
 				</div>
@@ -38,7 +38,7 @@
 			</rich:panel>
 
 			<div class="actionButtons">
-				<h:commandButton id="submit" value="Login" action="#{identity.login}" />
+				<h:commandButton id="submit" value="#{messages['login.login']}" action="#{identity.login}" />
 			</div>
 
 		</h:form>

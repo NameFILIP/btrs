@@ -10,14 +10,16 @@
 				contentType="text/html"
 				template="layout/template.xhtml">
 
+	<ui:define name="title">#{messages['category.title']}</ui:define>
+
 	<ui:define name="content">
 		<h:form id="expenseCategory" styleClass="edit">
 
 			<rich:panel>
-				<f:facet name="header">#{expenseCategoryHome.managed ? 'Edit' : 'Add'} Expense Category</f:facet>
+				<f:facet name="header">#{expenseCategoryHome.managed ? messages['category.edit'] : messages['category.add']}</f:facet>
 
 				<s:decorate id="nameKeyField" template="layout/edit.xhtml">
-					<ui:define name="label">Name Key</ui:define>
+					<ui:define name="label">#{messages['category.nameKey']}</ui:define>
 					<h:inputText id="nameKey" required="true" size="100" maxlength="100" value="#{expenseCategory.nameKey}">
 						<a:support event="onblur" reRender="nameKeyField" ajaxSingle="true" />
 					</h:inputText>
@@ -25,14 +27,14 @@
 				</s:decorate>
 				
 				<s:decorate id="codeField" template="layout/edit.xhtml">
-					<ui:define name="label">Code</ui:define>
+					<ui:define name="label">#{messages['category.code']}</ui:define>
 					<h:inputText id="code" size="100" maxlength="100" value="#{expenseCategory.code}">
 						<a:support event="onblur" reRender="codeField" bypassUpdates="true" ajaxSingle="true" />
 					</h:inputText>
 				</s:decorate>
 				
 				<s:decorate id="expenseTypesField" template="layout/edit.xhtml">
-					<ui:define name="label">Expense Types</ui:define>
+					<ui:define name="label">#{messages['category.expenseTypes']}</ui:define>
 					<rich:pickList value="#{expenseCategory.expenseTypes}">
 						<s:selectItems value="#{expenseTypeList.resultList}" var="et" label="#{messages[et.nameKey]}" />
 						<s:convertEntity />
@@ -41,16 +43,16 @@
 				</s:decorate>
 
 				<div style="clear: both">
-					<span class="required">*</span> required fields
+					<span class="required">*</span> #{messages['common.required']}
 				</div>
 
 			</rich:panel>
 
 			<div class="actionButtons">
-				<h:commandButton id="save" value="Save" action="#{expenseCategoryHome.persist}" rendered="#{!expenseCategoryHome.managed}" />
-				<h:commandButton id="update" value="Save" action="#{expenseCategoryHome.update}" rendered="#{expenseCategoryHome.managed}" />
-				<h:commandButton id="delete" value="Delete" action="#{expenseCategoryHome.remove}" immediate="true" rendered="#{expenseCategoryHome.managed}" />
-				<s:button id="cancel" value="Cancel" propagation="end" view="/expense-category-list.xhtml" />
+				<h:commandButton id="save" value="#{messages['common.save']}" action="#{expenseCategoryHome.persist}" rendered="#{!expenseCategoryHome.managed}" />
+				<h:commandButton id="update" value="#{messages['common.save']}" action="#{expenseCategoryHome.update}" rendered="#{expenseCategoryHome.managed}" />
+				<h:commandButton id="delete" value="#{messages['common.delete']}" action="#{expenseCategoryHome.remove}" immediate="true" rendered="#{expenseCategoryHome.managed}" />
+				<s:button id="cancel" value="#{messages['common.cancel']}" propagation="end" view="/expense-category-list.xhtml" />
 			</div>
 		</h:form>
 	</ui:define>

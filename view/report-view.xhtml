@@ -10,67 +10,69 @@
 				contentType="text/html"
 				template="layout/template.xhtml">
 
+	<ui:define name="title">#{messages['report.view.title']}</ui:define>
+
 	<ui:define name="content">
 
 		<rich:panel>
-			<f:facet name="header">Report Details</f:facet>
+			<f:facet name="header">#{messages['report.details']}</f:facet>
 
 			<s:decorate id="id" template="layout/display.xhtml">
-				<ui:define name="label">Report Id</ui:define>
+				<ui:define name="label">#{messages['report.id']}</ui:define>
 				<h:outputText value="#{report.id}" />
 			</s:decorate>
 
 			<s:decorate id="owner" template="layout/display.xhtml">
-				<ui:define name="label">Employee</ui:define>
+				<ui:define name="label">#{messages['report.owner']}</ui:define>
 				<h:outputText value="#{report.owner.fullName}" />
 			</s:decorate>
 
 			<s:decorate id="jobTitle" template="layout/display.xhtml">
-				<ui:define name="label">Job title</ui:define>
+				<ui:define name="label">#{messages['report.jobTitle']}</ui:define>
 				<h:outputText value="#{report.owner.jobTitle}" />
 			</s:decorate>
 
 			<s:decorate id="reviewerField" template="layout/display.xhtml">
-				<ui:define name="label">Accountant</ui:define>
+				<ui:define name="label">#{messages['report.accountant']}</ui:define>
 				<h:outputText value="#{report.reviewer.fullName}" />
 			</s:decorate>
 			
 			<s:decorate id="currentStatusField" template="layout/display.xhtml">
-				<ui:define name="label">Status</ui:define>
+				<ui:define name="label">#{messages['report.status']}</ui:define>
 				<h:outputText value="#{messages[report.currentStatus.label]}" />
 			</s:decorate>
 
 			<s:decorate id="reasonField" template="layout/display.xhtml">
-				<ui:define name="label">Reason</ui:define>
+				<ui:define name="label">#{messages['report.reason']}</ui:define>
 				<h:outputText value="#{report.reason}" />
 			</s:decorate>
 
 			<s:decorate id="routeField" template="layout/display.xhtml">
-				<ui:define name="label">Route</ui:define>
+				<ui:define name="label">#{messages['report.route']}</ui:define>
 				<h:outputText value="#{report.route}" />
 			</s:decorate>
 
 			<s:decorate id="startDateField" template="layout/display.xhtml">
-				<ui:define name="label">Start date</ui:define>
+				<ui:define name="label">#{messages['report.start']}</ui:define>
 				<h:outputText value="#{report.startDate}">
 					<s:convertDateTime type="both" dateStyle="short" />
 				</h:outputText>
 			</s:decorate>
 
 			<s:decorate id="endDateField" template="layout/display.xhtml">
-				<ui:define name="label">End date</ui:define>
+				<ui:define name="label">#{messages['report.end']}</ui:define>
 				<h:outputText value="#{report.endDate}">
 					<s:convertDateTime type="both" dateStyle="short" />
 				</h:outputText>
 			</s:decorate>
 
 			<s:decorate id="commentField" template="layout/display.xhtml">
-				<ui:define name="label">Comment</ui:define>
+				<ui:define name="label">#{messages['report.comment']}</ui:define>
 				<h:outputText value="#{report.comment}" />
 			</s:decorate>
 
 			<s:decorate id="expenseList" template="layout/display.xhtml">
-				<ui:define name="label">List of Expenses</ui:define>
+				<ui:define name="label">#{messages['report.expenses']}</ui:define>
 				<ui:include src="expense-table.xhtml">
 					<ui:param name="editable" value="false" />
 				</ui:include>
@@ -84,16 +86,16 @@
 			
 		<div class="actionButtons">
 			<h:form id="report-view-form">
-				<a:commandButton id="approve" value="Approve" oncomplete="Richfaces.showModalPanel('approve-reject-modal');" 
+				<a:commandButton id="approve" value="#{messages['report.approve']}" oncomplete="Richfaces.showModalPanel('approve-reject-modal');" 
 						rendered="#{s:hasRole('ACCOUNTANT') and report.currentStatus != 'APPROVED'}" reRender="modal-window">
 					<a:actionparam name="actionApprove" value="approve" assignTo="#{reportHome.actionName}" />
 				</a:commandButton>
-				<a:commandButton id="reject" value="Reject" oncomplete="Richfaces.showModalPanel('approve-reject-modal');" 
+				<a:commandButton id="reject" value="#{messages['report.reject']}" oncomplete="Richfaces.showModalPanel('approve-reject-modal');" 
 						rendered="#{s:hasRole('ACCOUNTANT') and report.currentStatus != 'REJECTED'}" reRender="modal-window">
 					<a:actionparam name="actionReject" value="reject" assignTo="#{reportHome.actionName}" />
 				</a:commandButton>
-				<s:button id="edit" view="/report-edit.xhtml" value="Edit" />
-				<s:button id="done" view="/report-list.xhtml" value="Done" />
+				<s:button id="edit" view="/report-edit.xhtml" value="#{messages['common.edit']}" />
+				<s:button id="done" view="/report-list.xhtml" value="#{messages['common.done']}" />
 			</h:form>
 		</div>
 		

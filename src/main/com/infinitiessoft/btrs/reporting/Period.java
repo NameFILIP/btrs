@@ -3,6 +3,9 @@ package com.infinitiessoft.btrs.reporting;
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.ResourceBundle;
+
+import org.jboss.seam.core.SeamResourceBundle;
 
 import com.infinitiessoft.btrs.enums.PeriodTypeEnum;
 
@@ -11,6 +14,13 @@ public class Period implements Comparable<Period>{
 	private Integer year;
 	private Integer quarter;
 	private Integer month;
+	
+	private static final String MSG_YEAR = "period.year";
+	private static final String MSG_QUARTER = "period.quarter";
+	private static final String MSG_MONTH = "period.month";
+	private static final String SPACE = " ";
+	private static final String SEPARATOR = ",";
+	
 	
 	public Period(Date date, PeriodTypeEnum type) {
 		Calendar calendar = Calendar.getInstance();
@@ -98,12 +108,17 @@ public class Period implements Comparable<Period>{
 
 	@Override
 	public String toString() {
-		StringBuilder period = new StringBuilder("Year ").append(year);
+		ResourceBundle resourceBundle = SeamResourceBundle.getBundle();
+		String yearLocalized = resourceBundle.getString(MSG_YEAR);
+		String quarterLocalized = resourceBundle.getString(MSG_QUARTER);
+		String monthLocalized = resourceBundle.getString(MSG_MONTH);
+		
+		StringBuilder period = new StringBuilder(yearLocalized).append(SPACE).append(year);
 		if (quarter != null) {
-			period.append(", Quarter ").append(quarter);
+			period.append(SEPARATOR).append(SPACE).append(quarterLocalized).append(SPACE).append(quarter);
 		}
 		if (month != null) {
-			period.append(", Month ").append(month + 1);
+			period.append(SEPARATOR).append(SPACE).append(monthLocalized).append(SPACE).append(month + 1);
 //			period.append(", ").append(getMonthForInt(month));
 		}
 		return period.toString();

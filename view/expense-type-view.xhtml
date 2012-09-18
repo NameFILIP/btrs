@@ -10,23 +10,25 @@
 				contentType="text/html"
 				template="layout/template.xhtml">
 
+	<ui:define name="title">#{messages['type.title']}</ui:define>
+
 	<ui:define name="content">
 
 			<rich:panel>
-				<f:facet name="header">Expense Type Details</f:facet>
+				<f:facet name="header">#{messages['type.details']}</f:facet>
 
 				<s:decorate id="nameKeyField" template="layout/display.xhtml">
-					<ui:define name="label">Expense Type</ui:define>
+					<ui:define name="label">#{messages['type.name']}</ui:define>
 					<h:outputText value="#{messages[expenseType.nameKey]}" />
 				</s:decorate>
 				
 				<s:decorate id="taxPercentField" template="layout/display.xhtml">
-					<ui:define name="label">Tax Percent</ui:define>
+					<ui:define name="label">#{messages['type.taxPercent']}</ui:define>
 					<h:outputText value="#{expenseType.taxPercent}" />
 				</s:decorate>
 				
 				<s:decorate id="typeParametersField" template="layout/display.xhtml">
-					<ui:define name="label">Parameters</ui:define>
+					<ui:define name="label">#{messages['type.parameters']}</ui:define>
 					<ui:repeat var="p" value="#{expenseType.typeParameters}">
 						<h:outputText value="#{messages[p.nameKey]}" /><br/>
 					</ui:repeat>
@@ -38,8 +40,8 @@
 			</rich:panel>
 
 			<div class="actionButtons">
-				<s:button id="edit" view="/expense-type-edit.xhtml" value="Edit" />
-				<s:button id="done" view="/expense-type-list.xhtml" value="Done" />
+				<s:button id="edit" view="/expense-type-edit.xhtml" value="#{messages['common.edit']}" />
+				<s:button id="done" view="/expense-type-list.xhtml" value="#{messages['common.done']}" />
 			</div>
 	</ui:define>
 </ui:composition>

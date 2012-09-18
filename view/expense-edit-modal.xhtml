@@ -11,7 +11,7 @@
 
 <!-- width="475" height="385" -->
 	<rich:modalPanel id="expense-edit-modal" width="475" height="100" autosized="true">
-		<f:facet name="header">Expense Details</f:facet>
+		<f:facet name="header">#{messages['expense.details']}</f:facet>
 		<f:facet name="controls">
 			<h:panelGroup>
 				<h:graphicImage value="/img/close.png" styleClass="hide-modal-link" id="hide-modal-link" />
@@ -25,24 +25,24 @@
 			<a:outputPanel id="inputs-modal" layout="block">
 				
 				<s:decorate id="expenseCategoryField" template="layout/edit.xhtml">
-					<ui:define name="label">Expense Category</ui:define>
+					<ui:define name="label">#{messages['category']}</ui:define>
 					<h:selectOneMenu id="category" value="#{expenseCategoryHome.expenseCategoryId}">
-						<s:selectItems value="#{expenseCategoryList.resultList}" var="c" itemValue="#{c.id}" label="#{messages[c.nameKey]}" noSelectionLabel="All Categories" />
+						<s:selectItems value="#{expenseCategoryList.resultList}" var="c" itemValue="#{c.id}" label="#{messages[c.nameKey]}" noSelectionLabel="#{messages['category.all']}" />
 						<a:support event="onchange" reRender="expenseTypeField" ajaxSingle="true" />
 					</h:selectOneMenu>
 				</s:decorate>
 
 				<s:decorate id="expenseTypeField" template="layout/edit.xhtml">
-					<ui:define name="label">Expense Type</ui:define>
+					<ui:define name="label">#{messages['type']}</ui:define>
 					<h:selectOneMenu id="type" required="true" value="#{expenseTypeHome.expenseTypeId}" hideNoSelectionOption="true">
 						<s:selectItems value="#{expenseCategoryHome.managed ? expenseCategoryHome.getExpenseTypes() : expenseTypeList.resultList}" 
-								var="t" itemValue="#{t.id}" label="#{messages[t.nameKey]}" noSelectionLabel="Please select..." />
+								var="t" itemValue="#{t.id}" label="#{messages[t.nameKey]}" noSelectionLabel="#{messages['common.prompt']}" />
 						<a:support event="onchange" reRender="parametersArea" ajaxSingle="true" action="#{expenseHome.wire}" />
 					</h:selectOneMenu>
 				</s:decorate>
 				
 				<s:decorate id="commentField" template="layout/edit.xhtml">
-					<ui:define name="label">Comment</ui:define>
+					<ui:define name="label">#{messages['expense.comment']}</ui:define>
 					<h:inputTextarea id="comment" cols="40" rows="3" value="#{expense.comment}" />
 				</s:decorate>
 
@@ -57,11 +57,11 @@
 
 
 			<div class="actionButtons" style="clear: both">
-				<a:commandButton id="save-modal" value="Save" actionListener="#{expenseHome.addToReportAndClear()}" reRender="inputs-modal, expense-table, hack-panel" oncomplete="closeWindow();"/>
+				<a:commandButton id="save-modal" value="#{messages['common.save']}" actionListener="#{expenseHome.addToReportAndClear()}" reRender="inputs-modal, expense-table, hack-panel" oncomplete="closeWindow();"/>
 				
-				<a:commandButton id="save-and-add-modal" value="Save and Add new" actionListener="#{expenseHome.addToReportAndClear()}" reRender="inputs-modal, expense-table" />
+				<a:commandButton id="save-and-add-modal" value="#{messages['expense.saveAndAdd']}" actionListener="#{expenseHome.addToReportAndClear()}" reRender="inputs-modal, expense-table" />
 
-				<a:commandButton id="cancel-modal" value="Cancel" actionListener="#{expenseHome.clear()}" reRender="inputs-modal" ajaxSingle="true" immediate="true" onclick="Richfaces.hideModalPanel('expense-edit-modal');" />
+				<a:commandButton id="cancel-modal" value="#{messages['common.cancel']}" actionListener="#{expenseHome.clear()}" reRender="inputs-modal" ajaxSingle="true" immediate="true" onclick="Richfaces.hideModalPanel('expense-edit-modal');" />
 			</div>
 			
 			<!-- Hack for closing modal window if validation after Save successful -->

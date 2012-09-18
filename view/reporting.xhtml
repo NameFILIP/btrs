@@ -10,32 +10,32 @@
 				xmlns:a="http://richfaces.org/a4j"
 				template="layout/template.xhtml">
 
-<ui:define name="title">Reporting</ui:define>
+	<ui:define name="title">#{messages['reporting']}</ui:define>
 
-	<ui:define name="data-main-title">Reporting by #{type == null ? 'year' : type}</ui:define>
+	<ui:define name="data-main-title">#{messages['reporting.by']} #{messages['reporting.type.'.concat(type == null ? 'year' : type)]}</ui:define>
 	<ui:define name="data-main-body">
 		<rich:panel>
-			<f:facet name="header">Reporting</f:facet>
+			<f:facet name="header">#{messages['reporting']}</f:facet>
 			<h:form>
-				<rich:simpleTogglePanel switchType="client" label="Filter" opened="#{reportingFilter.useFilterFixed}">
+				<rich:simpleTogglePanel switchType="client" label="#{messages['reporting.filter.header']}" opened="#{reportingFilter.useFilterFixed}">
 
 					<s:decorate id="startPeriodField" template="layout/edit.xhtml">
-						<ui:define name="label">Start period</ui:define>
+						<ui:define name="label">#{messages['reporting.filter.start']}</ui:define>
 						<h:selectOneMenu id="startPeriod" value="#{reportingFilter.startPeriod}" converter="periodConverter">
-							<s:selectItems var="p" value="#{reportingFilter.getAvailablePeriods(type)}" label="#{p}" noSelectionLabel="[Select]" />
+							<s:selectItems var="p" value="#{reportingFilter.getAvailablePeriods(type)}" label="#{p}" noSelectionLabel="#{messages['common.prompt']}" />
 						</h:selectOneMenu>
 					</s:decorate>
 
 					<s:decorate id="endPeriodField" template="layout/edit.xhtml">
-						<ui:define name="label">End period</ui:define>
+						<ui:define name="label">#{messages['reporting.filter.end']}</ui:define>
 						<h:selectOneMenu id="endPeriod" value="#{reportingFilter.endPeriod}" converter="periodConverter">
-							<s:selectItems var="p" value="#{reportingFilter.getAvailablePeriods(type)}" label="#{p}" noSelectionLabel="[Select]" />
+							<s:selectItems var="p" value="#{reportingFilter.getAvailablePeriods(type)}" label="#{p.toString()}" noSelectionLabel="#{messages['common.prompt']}" />
 							<s:validateEquality for="startPeriod" required="false" operator="greater_or_equal" messageId="validation.end.period" />
 						</h:selectOneMenu>
 					</s:decorate>
 
 					<s:decorate id="employeesField" template="layout/edit.xhtml">
-						<ui:define name="label">Employees</ui:define>
+						<ui:define name="label">#{messages['reporting.filter.employees']}</ui:define>
 						<h:selectManyListbox value="#{reportingFilter.users}" size="5">
 							<s:selectItems value="#{userList.resultList}" var="u" label="#{u.fullName}" />
 							<s:convertEntity />
@@ -43,7 +43,7 @@
 					</s:decorate>
 
 					<s:decorate id="expenseTypesField" template="layout/edit.xhtml">
-						<ui:define name="label">Columns</ui:define>
+						<ui:define name="label">#{messages['reporting.filter.columns']}</ui:define>
 						<h:selectManyListbox value="#{reportingFilter.expenseTypes}" size="5">
 							<s:selectItems value="#{expenseTypeList.resultList}" var="et" label="#{messages[et.nameKey]}" />
 							<s:convertEntity />
@@ -53,11 +53,11 @@
 					<div style="clear: both" />
 
 					<div class="actionButtons">
-						<h:commandButton value="Filter" action="#{reportingFilter.turnOn()}">
+						<h:commandButton value="#{messages['reporting.filter.filter']}" action="#{reportingFilter.turnOn()}">
 							<s:conversationPropagation type="join" />
 						</h:commandButton>
 					
-						<s:button value="Clear Filter" action="#{reportingFilter.clear()}" />
+						<s:button value="#{messages['reporting.filter.clear']}" action="#{reportingFilter.clear()}" />
 					</div>
 
 				</rich:simpleTogglePanel>
@@ -65,14 +65,14 @@
 
 			<rich:spacer height="10" />
 
-			<h:outputText value="No results have been found." rendered="#{empty currentReporting.subReportingsKeys}" />
+			<h:outputText value="#{messages['reporting.list.empty']}" rendered="#{empty currentReporting.subReportingsKeys}" />
 
 			<rich:dataTable id="reportingTable" var="_subReportingKey" value="#{currentReporting.subReportingsKeys}" rendered="#{not empty currentReporting.subReportingsKeys}"
 					onRowMouseOver="this.style.backgroundColor='#F1F1F1'" onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">
 				<f:facet name="header">
 					<rich:columnGroup>
 						<rich:column rowspan="2">
-							Employee
+							#{messages['reporting.employee']}
 						</rich:column>
 						<rich:columns var="categ" value="#{filteredCategoryTypesKeys}" colspan="#{filteredCategoryTypes[categ].size()}" rowspan="#{filteredCategoryTypes[categ].size() eq 1 ? 2 : 1}">
 							#{messages[categ.nameKey]}
@@ -83,7 +83,7 @@
 						</rich:columns>
 						
 						<rich:column rowspan="2">
-								#{messages['reporting.grand.total']}
+								#{messages['reporting.grandTotal']}
 						</rich:column>
 							
 						<c:forEach var="categ" items="#{filteredCategoryTypesKeys}" varStatus="varStatus">
@@ -133,7 +133,7 @@
 				<f:facet name="footer">
 
 					<rich:columnGroup>
-						<rich:column>Totals</rich:column>
+						<rich:column>#{messages['reporting.grandTotal']}</rich:column>
 						<c:forEach var="categ" items="#{filteredCategoryTypesKeys}" varStatus="varStatus">
 							<rich:columns var="categType" value="#{filteredCategoryTypes[categ]}">
 								#{currentReporting.getTotalCategoryType(categ.code, categType.value)}
@@ -160,21 +160,6 @@
 			
 			
 		</rich:panel>
-
-		<div class="tableControl">
-			<s:link view="/report-list.xhtml" rendered="#{reportList.previousExists}" value="#{messages.left}#{messages.left} First Page" id="firstPage">
-				<f:param name="firstResult" value="0" />
-			</s:link>
-			<s:link view="/report-list.xhtml" rendered="#{reportList.previousExists}" value="#{messages.left} Previous Page" id="previousPage">
-				<f:param name="firstResult" value="#{reportList.previousFirstResult}" />
-			</s:link>
-			<s:link view="/report-list.xhtml" rendered="#{reportList.nextExists}" value="Next Page #{messages.right}" id="nextPage">
-				<f:param name="firstResult" value="#{reportList.nextFirstResult}" />
-			</s:link>
-			<s:link view="/report-list.xhtml" rendered="#{reportList.nextExists}" value="Last Page #{messages.right}#{messages.right}" id="lastPage">
-				<f:param name="firstResult" value="#{reportList.lastFirstResult}" />
-			</s:link>
-		</div>
 
 	</ui:define>
 </ui:composition>

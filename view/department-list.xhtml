@@ -8,21 +8,21 @@
 				xmlns:rich="http://richfaces.org/rich"
 				template="layout/template.xhtml">
 
-	<ui:define name="title">Admin Console</ui:define>
+	<ui:define name="title">#{messages['department.title']}</ui:define>
 
 	<ui:define name="data-navbar">
 		<ui:include src="layout/admin-sidebar.xhtml" />
 	</ui:define>
 
 
-	<ui:define name="data-main-title">Manage Departments</ui:define>
+	<ui:define name="data-main-title">#{messages['department.title']}</ui:define>
 
 	<ui:define name="data-main-body">
 		<rich:panel>
-			<f:facet name="header">List of Departments (#{empty departmentList.resultList ? 0 : (departmentList.paginated ? departmentList.resultCount : departmentList.resultList.size)})</f:facet>
+			<f:facet name="header">#{messages['department.list.header']} (#{empty departmentList.resultList ? 0 : (departmentList.paginated ? departmentList.resultCount : departmentList.resultList.size)})</f:facet>
 			<div class="results" id="departmentList">
 
-				<h:outputText value="The are no departments." rendered="#{empty departmentList.resultList}" />
+				<h:outputText value="#{messages['department.list.empty']}" rendered="#{empty departmentList.resultList}" />
 
 				<rich:dataTable id="departmentList" var="_department" value="#{departmentList.resultList}" rendered="#{not empty departmentList.resultList}">
 
@@ -30,7 +30,7 @@
 						<f:facet name="header">
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{departmentList}" />
-								<ui:param name="propertyLabel" value="Name" />
+								<ui:param name="propertyLabel" value="#{messages['department.name']}" />
 								<ui:param name="propertyPath" value="department.name" />
 							</ui:include>
 						</f:facet>
@@ -41,7 +41,7 @@
 						<f:facet name="header">
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{departmentList}" />
-								<ui:param name="propertyLabel" value="Comment" />
+								<ui:param name="propertyLabel" value="#{messages['department.comment']}" />
 								<ui:param name="propertyPath" value="department.comment" />
 							</ui:include>
 						</f:facet>
@@ -49,12 +49,12 @@
 					</h:column>
 
 					<rich:column styleClass="action">
-						<f:facet name="header">Action</f:facet>
-						<s:link view="/department-view.xhtml" value="View" propagation="none" id="department-view">
+						<f:facet name="header">#{messages['common.action']}</f:facet>
+						<s:link view="/department-view.xhtml" value="#{messages['common.view']}" propagation="none" id="department-view">
 							<f:param name="departmentId" value="#{_department.id}" />
 						</s:link>
 						#{' '}
-						<s:link view="/department-edit.xhtml" value="Edit" propagation="none" id="department-edit">
+						<s:link view="/department-edit.xhtml" value="#{messages['common.edit']}" propagation="none" id="department-edit">
 							<f:param name="departmentId" value="#{_department.id}" />
 						</s:link>
 						#{' '}
@@ -66,26 +66,26 @@
 
 		<div class="tableControl">
 
-			<s:link view="/department-list.xhtml" rendered="#{departmentList.previousExists}" value="#{messages.left}#{messages.left} First Page" id="firstPage">
+			<s:link view="/department-list.xhtml" rendered="#{departmentList.previousExists}" value="#{messages.left}#{messages.left} #{messages['common.page.first']}" id="firstPage">
 				<f:param name="firstResult" value="0" />
 			</s:link>
 
-			<s:link view="/department-list.xhtml" rendered="#{departmentList.previousExists}" value="#{messages.left} Previous Page" id="previousPage">
+			<s:link view="/department-list.xhtml" rendered="#{departmentList.previousExists}" value="#{messages.left} #{messages['common.page.previous']}" id="previousPage">
 				<f:param name="firstResult" value="#{departmentList.previousFirstResult}" />
 			</s:link>
 
-			<s:link view="/department-list.xhtml" rendered="#{departmentList.nextExists}" value="Next Page #{messages.right}" id="nextPage">
+			<s:link view="/department-list.xhtml" rendered="#{departmentList.nextExists}" value="#{messages['common.page.next']} #{messages.right}" id="nextPage">
 				<f:param name="firstResult" value="#{departmentList.nextFirstResult}" />
 			</s:link>
 
-			<s:link view="/department-list.xhtml" rendered="#{departmentList.nextExists}" value="Last Page #{messages.right}#{messages.right}" id="lastPage">
+			<s:link view="/department-list.xhtml" rendered="#{departmentList.nextExists}" value="#{messages['common.page.last']} #{messages.right}#{messages.right}" id="lastPage">
 				<f:param name="firstResult" value="#{departmentList.lastFirstResult}" />
 			</s:link>
 
 		</div>
 
 		<s:div styleClass="actionButtons">
-			<s:button view="/department-edit.xhtml" id="create" propagation="none" value="Create department">
+			<s:button view="/department-edit.xhtml" id="create" propagation="none" value="#{messages['department.create']}">
 				<f:param name="departmentId" />
 			</s:button>
 		</s:div>

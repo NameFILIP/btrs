@@ -1,6 +1,13 @@
 package com.infinitiessoft.btrs.custom;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
@@ -14,7 +21,6 @@ import com.infinitiessoft.btrs.action.ReportList;
 import com.infinitiessoft.btrs.enums.ReportTypeEnum;
 import com.infinitiessoft.btrs.enums.StatusEnum;
 import com.infinitiessoft.btrs.exceptions.BtrsRuntimeException;
-import com.infinitiessoft.btrs.logic.CustomUtils;
 import com.infinitiessoft.btrs.model.Report;
 
 @Name("reportListDataPreparator")
@@ -29,7 +35,10 @@ public class ReportListDataPreparator {
 	@Out(required = false)
 	List<Report> preparedReports;
 	
-
+	private Map<Report, Boolean> selectedRowsMap;
+	private boolean selectAll;
+	
+	
 	private int scrollerPage = 1;
 
 
@@ -41,7 +50,45 @@ public class ReportListDataPreparator {
 		this.scrollerPage = scrollerPage;
 	}
 	
+	public Map<Report, Boolean> getSelectedRowsMap() {
+		if (selectedRowsMap == null) {
+			selectedRowsMap = new HashMap<Report, Boolean>();
+		}
+		return selectedRowsMap;
+	}
+
+	public void setSelectedRowsMap(Map<Report, Boolean> selectedRowsMap) {
+		this.selectedRowsMap = selectedRowsMap;
+	}
+
+	public List<Report> getSelectedRows() {
+		List<Report> selectedRows = new ArrayList<Report>();
+        for (Report key : getSelectedRowsMap().keySet()) {
+            if (getSelectedRowsMap().get(key) == true){
+                selectedRows.add(key);
+            }
+        }
+        log.debug("Selected for export reports are: #0", selectedRows);
+        return selectedRows;
+    }
 	
+	
+
+	public boolean isSelectAll() {
+		return selectAll;
+	}
+
+	public void setSelectAll(boolean selectAll) {
+		this.selectAll = selectAll;
+	}
+
+	public List<Report> getPreparedReports() {
+		return preparedReports;
+	}
+
+	public void setPreparedReports(List<Report> preparedReports) {
+		this.preparedReports = preparedReports;
+	}
 
 	public void prepareList(String type) {
 		long beginTime = System.currentTimeMillis();
@@ -72,8 +119,22 @@ public class ReportListDataPreparator {
 	}
 
 	public String defaultType() {
-		String type = ReportTypeEnum.SUBMITTED.name().toLowerCase();
-		return CustomUtils.capitalizeFirst(type);
+		return ReportTypeEnum.SUBMITTED.getLabel();
+	}
+
+	public void changeMap(Map<Report, Boolean> selectedRowsMap, Boolean blnValue) {
+		if (selectedRowsMap != null) {
+			Iterator<Report> itr = preparedReports.iterator();
+			while (itr.hasNext()) {
+				selectedRowsMap.put(itr.next(), blnValue);
+			}
+		}
 	}
 	
+	public void selectAllReports(ValueChangeEvent event) {
+		selectAll = !selectAll;
+		changeMap(getSelectedRowsMap(), selectAll);
+		FacesContext.getCurrentInstance().renderResponse();
+	}
+
 }

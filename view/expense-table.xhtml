@@ -11,7 +11,7 @@
 
 	<a:outputPanel id="expense-table" layout="block">
 		<a:region>
-			<h:outputText value="The are no Expenses yet." rendered="#{empty report.expenses}" />
+			<h:outputText value="#{messages['expense.list.empty']}" rendered="#{empty report.expenses}" />
 		
 			<rich:dataTable id="expense-list" var="_expense" value="#{report.expenses}" rendered="#{not empty report.expenses}">
 		
@@ -30,7 +30,7 @@
 					<f:facet name="header">
 						<ui:include src="layout/sort.xhtml">
 							<ui:param name="entityList" value="#{expenseList}" />
-							<ui:param name="propertyLabel" value="Expense Type" />
+							<ui:param name="propertyLabel" value="#{messages['type']}" />
 							<ui:param name="propertyPath" value="expenseType.value" />
 						</ui:include>
 					</f:facet>
@@ -38,7 +38,7 @@
 				</h:column>
 		
 				<h:column>
-					<f:facet name="header">Parameters</f:facet>
+					<f:facet name="header">#{messages['expense.parameters']}</f:facet>
 					<ui:repeat var="_param" value="#{_expense.parameterValues}">
 						<h:outputText value="#{messages[_param.typeParameter.nameKey]} - #{_param.value}" /><br />
 					</ui:repeat>
@@ -48,7 +48,7 @@
 					<f:facet name="header">
 						<ui:include src="layout/sort.xhtml">
 							<ui:param name="entityList" value="#{expenseList}" />
-							<ui:param name="propertyLabel" value="Comment" />
+							<ui:param name="propertyLabel" value="#{messages['expense.comment']}" />
 							<ui:param name="propertyPath" value="expense.comment" />
 						</ui:include>
 					</f:facet>
@@ -57,19 +57,19 @@
 		
 		
 				<h:column>
-					<f:facet name="header">Amount</f:facet>
-					<h:outputText value="Total amount - #{_expense.totalAmount}" /><br />
-					<h:outputText value="Tax - #{_expense.taxAmount}" /><br />
-					<h:outputText value="Without Tax - #{_expense.amountWithoutTax}" />
+					<f:facet name="header">#{messages['expense.amount']}</f:facet>
+					<h:outputText value="#{messages['expense.amountTotal']} - #{_expense.totalAmount}" /><br />
+					<h:outputText value="#{messages['expense.amountTax']} - #{_expense.taxAmount}" /><br />
+					<h:outputText value="#{messages['expense.amountNoTax']} - #{_expense.amountWithoutTax}" />
 				</h:column>
 		
 		
 				<rich:column styleClass="action" rendered="#{editable}">
-					<f:facet name="header">Action</f:facet>
+					<f:facet name="header">#{messages['common.action']}</f:facet>
 					<h:form>
-						<a:commandLink value="Edit" id="expense-edit" actionListener="#{expenseHome.load(_expense)}" reRender="inputs-modal" oncomplete="Richfaces.showModalPanel('expense-edit-modal');" />
+						<a:commandLink value="#{messages['common.edit']}" id="expense-edit" actionListener="#{expenseHome.load(_expense)}" reRender="inputs-modal" oncomplete="Richfaces.showModalPanel('expense-edit-modal');" />
 						#{' '}
-						<a:commandLink value="Delete" id="expense-delete" actionListener="#{report.removeExpense(_expense)}" reRender="expense-table" />
+						<a:commandLink value="#{messages['common.delete']}" id="expense-delete" actionListener="#{report.removeExpense(_expense)}" reRender="expense-table" />
 					</h:form>
 				</rich:column>
 			</rich:dataTable>

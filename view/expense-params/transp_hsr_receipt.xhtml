@@ -14,7 +14,7 @@
 	<s:decorate id="sourceField" template="/layout/edit.xhtml">
 		<ui:define name="label">#{messages['parameter.source']}</ui:define>
 		<h:selectOneMenu id="source" required="true" value="#{expense.getParameterValue('SOURCE').value}" >
-			<s:selectItems value="#{hsrStations}" var="s" itemValue="#{s.name()}" label="#{messages[s.label]}" noSelectionLabel="Please select..." />
+			<s:selectItems value="#{hsrStations}" var="s" itemValue="#{s.name()}" label="#{messages[s.label]}" noSelectionLabel="#{messages['common.prompt']}" />
 			<a:support event="onchange" reRender="autoFragment" ajaxSingle="true" process="tickets" />
 		</h:selectOneMenu>
 	</s:decorate>
@@ -22,7 +22,7 @@
 	<s:decorate id="destinationField" template="/layout/edit.xhtml">
 		<ui:define name="label">#{messages['parameter.destination']}</ui:define>
 		<h:selectOneMenu id="destination" required="true" value="#{expense.getParameterValue('DESTINATION').value}">
-			<s:selectItems value="#{hsrStations}" var="d" itemValue="#{d.name()}" label="#{messages[d.label]}" noSelectionLabel="Please select..." />
+			<s:selectItems value="#{hsrStations}" var="d" itemValue="#{d.name()}" label="#{messages[d.label]}" noSelectionLabel="#{messages['common.prompt']}" />
 			<a:support event="onchange" reRender="autoFragment" ajaxSingle="true" process="tickets" />
 		</h:selectOneMenu>
 	</s:decorate>

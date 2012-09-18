@@ -5,7 +5,7 @@
 
 	<ui:param name="recipientName" value="#{report.owner.fullName}" />
 	<ui:param name="recipientAddress" value="#{report.owner.email}" />
-	<ui:define name="subject">Report reviewed notification</ui:define>
+	<ui:define name="subject">#{messages['notification.subject.reviewed']}</ui:define>
 
 	<ui:define name="body">
 	<html>
@@ -22,21 +22,23 @@ p {
 </style>
 </head>
 <body>
-	<p class="center">Business Trip Report System notification</p>
-	<p>Dear #{report.owner.fullName},</p>
+	<p class="center">#{messages['notification.message.header']}</p>
+	<p>#{messages['notification.message.greeting']} #{report.owner.fullName},</p>
 	<p>
-		Your <a href="#{urlBase}/report-view.seam?reportId=#{report.id}">report</a> 
-		has been #{report.currentStatus.name().toLowerCase()} by #{report.reviewer.fullName}.
+		#{messages['notification.message.reviewed.part1']} <a href="#{urlBase}/report-view.seam?reportId=#{report.id}">#{messages['notification.message.reviewed.part2']}</a> 
+		#{messages['notification.message.reviewed.part3']} 
+		#{messages['notification.message.status.'.concat(report.currentStatus.name().toLowerCase())} 
+		#{messages['notification.message.reviewed.part4']} #{report.reviewer.fullName}.
 	</p>
-	<p>Have a nice day!</p>
+	<p>#{messages['notification.message.ending']}</p>
 </body>
 		</html>
 
-		<f:facet name="alternative">Dear #{report.owner.fullName},
+		<f:facet name="alternative">#{messages['notification.message.greeting']} #{report.owner.fullName},
 
-Your report has been #{report.currentStatus.name().toLowerCase()} by #{report.reviewer.fullName}.
+#{messages['notification.message.reviewed.part1']} #{messages['notification.message.reviewed.part2']} #{messages['notification.message.reviewed.part3']} #{messages['notification.message.status.'.concat(report.currentStatus.name().toLowerCase())} #{messages['notification.message.reviewed.part4']} #{report.reviewer.fullName}.
 
-Have a nice day!
+#{messages['notification.message.ending']}
      	</f:facet>
 	</ui:define>
 
