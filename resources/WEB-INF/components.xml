@@ -31,12 +31,15 @@
 	<persistence:managed-persistence-context name="entityManager" auto-create="true"
 		entity-manager-factory="@seamEmfRef@" persistence-unit-jndi-name="@puJndiName@" />
 
-	<security:identity authenticate-method="#{authenticationManager.authenticate}"/>
+	<security:identity authenticate-method="#{authenticationManager.authenticate}" />
+	<security:jpa-token-store token-class="com.infinitiessoft.btrs.model.AuthenticationToken" />
+	<security:remember-me mode="autoLogin"/>
 
 	<event type="org.jboss.seam.security.notLoggedIn">
 		<action execute="#{redirect.captureCurrentView}" />
+		<action execute="#{identity.tryLogin}" />
 	</event>
-	<event type="org.jboss.seam.security.loginSuccessful">
+	<event type="org.jboss.seam.security.postAuthenticate">
 		<action execute="#{redirect.returnToCapturedView}" />
 	</event>
 

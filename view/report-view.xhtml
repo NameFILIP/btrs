@@ -71,14 +71,11 @@
 				<h:outputText value="#{report.comment}" />
 			</s:decorate>
 
-			<s:decorate id="expenseList" template="layout/display.xhtml">
-				<ui:define name="label">#{messages['report.expenses']}</ui:define>
-				<ui:include src="expense-table.xhtml">
-					<ui:param name="editable" value="false" />
-				</ui:include>
-			</s:decorate>
-
 			<div style="clear: both" />
+
+			<ui:include src="expense-table.xhtml">
+				<ui:param name="editable" value="false" />
+			</ui:include>
 
 		</rich:panel>
 		

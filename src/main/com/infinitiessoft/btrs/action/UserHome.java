@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
@@ -25,7 +27,7 @@ public class UserHome extends EntityHome<User> {
 	
 	@Logger private Log log;
 
-	@In(required = false)
+	@Out(required = false, scope = ScopeType.SESSION)
 	User currentUser;
 	
 	@In
@@ -117,8 +119,11 @@ public class UserHome extends EntityHome<User> {
 		return ! getInstance().getPassword().equals(oldPassword);
 	}
 	
-	@Observer(Identity.EVENT_LOGIN_SUCCESSFUL)
+	@Observer(Identity.EVENT_POST_AUTHENTICATE)
 	public void updateLastLoginDate() {
+		currentUser = (User) getEntityManager()
+				.createQuery("select u from User u where u.username = #{identity.principal.name}")
+				.getSingleResult();
 		currentUser.setLastLogin(new Date());
 		setUserId(currentUser.getId());
 		super.update();

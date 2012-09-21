@@ -398,3 +398,24 @@ div {
 #language {
 	display: inline;
 }
+
+.report-expense {
+	border: 1px #7D9FCA solid;
+	margin-bottom: 5px;
+	float: left;
+	width: 50%;
+}
+
+.report-expense .header {
+	font-weight: bold;
+	font-size: 18px;
+	margin: 5px;
+}
+
+.expense-controls {
+	font-size: 12px;
+}
+
+.expense-table {
+	margin-top: 10px;
+}

@@ -9,71 +9,56 @@
 				xmlns:s="http://jboss.com/products/seam/taglib" 
 				contentType="text/html">
 
-	<a:outputPanel id="expense-table" layout="block">
-		<a:region>
+	
+
+	<a:outputPanel id="expense-table" layout="block" styleClass="expense-table">
+		
+			<a:region>
 			<h:outputText value="#{messages['expense.list.empty']}" rendered="#{empty report.expenses}" />
 		
-			<rich:dataTable id="expense-list" var="_expense" value="#{report.expenses}" rendered="#{not empty report.expenses}">
-		
-				<!-- h:column>
-					<f:facet name="header">
-						<ui:include src="layout/sort.xhtml">
-							<ui:param name="entityList" value="#{expenseList}" />
-							<ui:param name="propertyLabel" value="Expense Category name" />
-							<ui:param name="propertyPath" value="expense.expenseType.expenseCategory.nameKey" />
-						</ui:include>
-					</f:facet>
-					<h:outputText value="#{messages[_expense.expenseType.expenseCategory.nameKey]}" />
-				</h:column-->
-		
-				<h:column>
-					<f:facet name="header">
-						<ui:include src="layout/sort.xhtml">
-							<ui:param name="entityList" value="#{expenseList}" />
-							<ui:param name="propertyLabel" value="#{messages['type']}" />
-							<ui:param name="propertyPath" value="expenseType.value" />
-						</ui:include>
-					</f:facet>
-					<h:outputText value="#{messages[_expense.expenseType.nameKey]}" />
-				</h:column>
-		
-				<h:column>
-					<f:facet name="header">#{messages['expense.parameters']}</f:facet>
+			<ui:repeat var="_expense" value="#{report.expenses}" rendered="#{not empty report.expenses}">
+				<div class="report-expense">
+					
+					<div class="header">
+						<h:outputText value="#{messages[_expense.expenseType.nameKey]}" />
+						<a:outputPanel styleClass="expense-controls" rendered="#{editable}" layout="block">
+							<a:commandLink value="#{messages['common.edit']}" id="expense-edit" actionListener="#{expenseHome.load(_expense)}"
+								reRender="inputs-modal" oncomplete="Richfaces.showModalPanel('expense-edit-modal');" />
+							#{' '}
+							<a:commandLink value="#{messages['common.delete']}" id="expense-delete"
+									actionListener="#{report.removeExpense(_expense)}" reRender="expense-table" />
+						</a:outputPanel>
+					</div>
+					
 					<ui:repeat var="_param" value="#{_expense.parameterValues}">
-						<h:outputText value="#{messages[_param.typeParameter.nameKey]} - #{_param.value}" /><br />
+						<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">#{messages[_param.typeParameter.nameKey]}</ui:define>
+							<h:outputText value="#{(_param.typeParameter.value eq 'SOURCE' || _param.typeParameter.value eq 'DESTINATION') 
+									? messages['hsr.station.'.concat(_param.value.toLowerCase())] 
+									: _param.value}" />
+						</s:decorate>
 					</ui:repeat>
-				</h:column>
-		
-				<h:column>
-					<f:facet name="header">
-						<ui:include src="layout/sort.xhtml">
-							<ui:param name="entityList" value="#{expenseList}" />
-							<ui:param name="propertyLabel" value="#{messages['expense.comment']}" />
-							<ui:param name="propertyPath" value="expense.comment" />
-						</ui:include>
-					</f:facet>
-					<h:outputText value="#{_expense.comment}" />
-				</h:column>
-		
-		
-				<h:column>
-					<f:facet name="header">#{messages['expense.amount']}</f:facet>
-					<h:outputText value="#{messages['expense.amountTotal']} - #{_expense.totalAmount}" /><br />
-					<h:outputText value="#{messages['expense.amountTax']} - #{_expense.taxAmount}" /><br />
-					<h:outputText value="#{messages['expense.amountNoTax']} - #{_expense.amountWithoutTax}" />
-				</h:column>
-		
-		
-				<rich:column styleClass="action" rendered="#{editable}">
-					<f:facet name="header">#{messages['common.action']}</f:facet>
-					<h:form>
-						<a:commandLink value="#{messages['common.edit']}" id="expense-edit" actionListener="#{expenseHome.load(_expense)}" reRender="inputs-modal" oncomplete="Richfaces.showModalPanel('expense-edit-modal');" />
-						#{' '}
-						<a:commandLink value="#{messages['common.delete']}" id="expense-delete" actionListener="#{report.removeExpense(_expense)}" reRender="expense-table" />
-					</h:form>
-				</rich:column>
-			</rich:dataTable>
-		</a:region>
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">#{messages['expense.comment']}</ui:define>
+						<h:outputText value="#{_expense.comment}" />
+					</s:decorate>
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">#{messages['expense.amount']}</ui:define>
+						<h:outputText value="#{_expense.totalAmount}" />
+					</s:decorate>
+					<ui:fragment rendered="#{_expense.taxAmount gt 0}">
+						<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">#{messages['expense.amountTax']}</ui:define>
+							<h:outputText value="#{_expense.taxAmount}" />
+						</s:decorate>
+						<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">#{messages['expense.amountNoTax']}</ui:define>
+							<h:outputText value="#{_expense.amountWithoutTax}" />
+						</s:decorate>
+					</ui:fragment>
+				</div>
+			</ui:repeat>
+			</a:region>
 	</a:outputPanel>
 
 </ui:composition>

@@ -75,13 +75,6 @@
 					<h:inputTextarea id="comment" cols="80" rows="3" value="#{report.comment}" />
 				</s:decorate>
 
-				<s:decorate id="expenseList" template="layout/display.xhtml">
-					<ui:define name="label">#{messages['report.expenses']}</ui:define>
-					<ui:include src="expense-table.xhtml">
-						<ui:param name="editable" value="true" />
-					</ui:include>
-				</s:decorate>
-
 				<s:decorate id="expense-add" template="layout/display.xhtml">
 					<ui:define name="label"></ui:define>
 
@@ -93,7 +86,11 @@
 				<div style="clear: both">
 					<span class="required">*</span> #{messages['common.required']}
 				</div>
-
+				
+				<ui:include src="expense-table.xhtml">
+					<ui:param name="editable" value="true" />
+				</ui:include>
+				
 			</rich:panel>
 			
 			<ui:include src="status-change-table.xhtml" />

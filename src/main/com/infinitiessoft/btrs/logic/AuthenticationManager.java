@@ -3,11 +3,9 @@ package com.infinitiessoft.btrs.logic;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Credentials;
@@ -30,8 +28,6 @@ public class AuthenticationManager {
 	@In
 	private PasswordManager passwordManager;
 	
-	@Out(scope = ScopeType.SESSION)
-	private User currentUser;
 	
 	@Transactional
 	public boolean authenticate() {
@@ -52,7 +48,6 @@ public class AuthenticationManager {
 				identity.addRole(role.getValue().name());
 			}
 			
-			currentUser = user;
 			return true;
 		}
 		catch (NoResultException ex) {
