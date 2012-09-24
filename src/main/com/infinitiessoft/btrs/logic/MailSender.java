@@ -1,5 +1,8 @@
 package com.infinitiessoft.btrs.logic;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
@@ -8,8 +11,6 @@ import org.jboss.seam.annotations.async.Asynchronous;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.log.Log;
-
-import com.infinitiessoft.btrs.model.Report;
 
 @Name("mailSender")
 @AutoCreate
@@ -20,11 +21,11 @@ public class MailSender {
 	@In
 	private Renderer renderer;
 	
-	
-	private void sendEmail(Report report, String template, String urlBase) {
+	private void sendEmail(String template, Map<String, Object> info) {
 		try {
-			Contexts.getEventContext().set("report", report);
-			Contexts.getEventContext().set("urlBase", urlBase);
+			for (Entry<String, Object> entry : info.entrySet()) {
+				Contexts.getEventContext().set(entry.getKey(), entry.getValue());
+			}
 			renderer.render(template);
 			log.info("Mail has been sent using template: #0", template);
         } catch (Exception e) {
@@ -33,12 +34,12 @@ public class MailSender {
 	}
 	
 	@Asynchronous
-	public void sendSubmittedEmail(Report report, String urlBase) {
-		sendEmail(report, "/email/submitted.xhtml", urlBase);
+	public void sendSubmittedEmail(Map<String, Object> info) {
+		sendEmail("/email/submitted.xhtml", info);
 	}
 	
 	@Asynchronous
-	public void sendReviewedEmail(Report report, String urlBase) {
-		sendEmail(report, "/email/reviewed.xhtml", urlBase);
+	public void sendReviewedEmail(Map<String, Object> info) {
+		sendEmail("/email/reviewed.xhtml", info);
 	}
 }

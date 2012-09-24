@@ -2,7 +2,9 @@ package com.infinitiessoft.btrs.action;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +36,8 @@ public class ReportHome extends EntityHome<Report> {
 	@In
 	ReportingDataPreparator reportingDataPreparator;
 	
+	@In
+	Map<String, String> messages;
 	
 	@In
 	MailSender mailSender;
@@ -105,7 +109,7 @@ public class ReportHome extends EntityHome<Report> {
 		
 		String result = super.persist();
 		
-		mailSender.sendSubmittedEmail(report, getRequestURL());
+		mailSender.sendSubmittedEmail(prepareMailInfo());
 		return result;
 	}
 	
@@ -128,7 +132,7 @@ public class ReportHome extends EntityHome<Report> {
 		}
 		String result = super.update();
 		if (resubmitted) {
-			mailSender.sendSubmittedEmail(report, getRequestURL());
+			mailSender.sendSubmittedEmail(prepareMailInfo());
 		}
 		return result;
 	}
@@ -142,14 +146,14 @@ public class ReportHome extends EntityHome<Report> {
 		changeStatus(StatusEnum.APPROVED, comment);
 		reportingDataPreparator.setDirty(true);
 		update();
-		mailSender.sendReviewedEmail(getInstance(), getRequestURL());
+		mailSender.sendReviewedEmail(prepareMailInfo());
 		return "approved";
 	}
 	
 	public String reject() {
 		changeStatus(StatusEnum.REJECTED, comment);
 		update();
-		mailSender.sendReviewedEmail(getInstance(), getRequestURL());
+		mailSender.sendReviewedEmail(prepareMailInfo());
 		return "rejected";
 	}
 	
@@ -171,6 +175,15 @@ public class ReportHome extends EntityHome<Report> {
 		} else {
 			return "";
 		}
+	}
+	
+	private Map<String, Object> prepareMailInfo() {
+		Map<String, Object> info = new HashMap<String, Object>();
+		info.put("report", getInstance());
+		info.put("urlBase", getRequestURL());
+		// for localization
+		info.put("messages", new HashMap<String, String>(messages));
+		return info;
 	}
 	
 }

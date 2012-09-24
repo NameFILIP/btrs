@@ -11,14 +11,14 @@
 
 	<navigation from-action="#{reportHome.approve}">
 		<rule if-outcome="approved">
-			<end-conversation />
+			<end-conversation before-redirect="true" />
 			<redirect view-id="/report-list.xhtml" />
 		</rule>
 	</navigation>
 
 	<navigation from-action="#{reportHome.reject}">
 		<rule if-outcome="rejected">
-			<end-conversation />
+			<end-conversation before-redirect="true" />
 			<redirect view-id="/report-list.xhtml" />
 		</rule>
 	</navigation>

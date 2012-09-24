@@ -27,7 +27,7 @@ p {
 	<p>
 		#{messages['notification.message.reviewed.part1']} <a href="#{urlBase}/report-view.seam?reportId=#{report.id}">#{messages['notification.message.reviewed.part2']}</a> 
 		#{messages['notification.message.reviewed.part3']} 
-		#{messages['notification.message.status.'.concat(report.currentStatus.name().toLowerCase())} 
+		#{messages['notification.message.status.'.concat(report.currentStatus.name().toLowerCase())]} 
 		#{messages['notification.message.reviewed.part4']} #{report.reviewer.fullName}.
 	</p>
 	<p>#{messages['notification.message.ending']}</p>
@@ -36,7 +36,7 @@ p {
 
 		<f:facet name="alternative">#{messages['notification.message.greeting']} #{report.owner.fullName},
 
-#{messages['notification.message.reviewed.part1']} #{messages['notification.message.reviewed.part2']} #{messages['notification.message.reviewed.part3']} #{messages['notification.message.status.'.concat(report.currentStatus.name().toLowerCase())} #{messages['notification.message.reviewed.part4']} #{report.reviewer.fullName}.
+#{messages['notification.message.reviewed.part1']} #{messages['notification.message.reviewed.part2']} #{messages['notification.message.reviewed.part3']} #{messages['notification.message.status.'.concat(report.currentStatus.name().toLowerCase())]} #{messages['notification.message.reviewed.part4']} #{report.reviewer.fullName}.
 
 #{messages['notification.message.ending']}
      	</f:facet>
