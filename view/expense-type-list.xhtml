@@ -48,7 +48,9 @@
 				
 				<rich:column sortBy="#{_expenseType.taxPercent}">
 					<f:facet name="header">#{messages['type.taxPercent']}</f:facet>
-					<h:outputText value="#{_expenseType.taxPercent}" />
+					<h:outputText value="#{_expenseType.taxPercent}">
+						<f:convertNumber pattern="#{messages['pattern.percent']}" />
+					</h:outputText> 
 				</rich:column>
 				
 				<rich:column>
@@ -79,7 +81,7 @@
 			</rich:dataTable>
 
 			<rich:datascroller for="expenseTypeList" renderIfSinglePage="false" fastControls="hide" 
-					styleClass="row-fluid" tableStyleClass="offset2 span8 table table-bordered">
+					styleClass="row-fluid" tableStyleClass="table table-bordered">
 				<f:facet name="first">
 					#{messages['common.page.first']}
 				</f:facet>

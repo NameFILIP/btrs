@@ -110,6 +110,11 @@
 	-moz-border-radius-bottomleft: 4px;
 }
 
+.rich-dtascroller-table {
+	width: auto;
+	white-space: nowrap;
+}
+
 .rich-datascr-act {
 	background-color: #f5f5f5;
 }
@@ -117,6 +122,8 @@
 .table .rich-datascr-act, .table .rich-datascr-inact {
 	text-align: center;
 }
+
+
 
 .output-text {
 	padding-top: 5px;
@@ -163,7 +170,7 @@ select[size="1"] {
 	padding-top: 4px;
 }
 
-.rich-calendar-exterior {
+.rich-calendar-exterior, .rich-calendar-time-layout {
 	background-color: #fff;
 }
 
@@ -216,7 +223,11 @@ select[size="1"] {
 	width: 150px;
 }
 
-.table .period-column {
+#reportingTable td {
+	text-align: right;
+}
+
+#reportingTable .period-column {
 	background-color: #d9edf7;
 	text-align: center;
 }

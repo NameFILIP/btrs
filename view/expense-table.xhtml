@@ -46,16 +46,28 @@
 							</tr>
 							<tr>
 								<td>#{messages['expense.amount']}</td>
-								<td>#{_expense.totalAmount}</td>
+								<td>
+									<h:outputText value="#{_expense.totalAmount}">
+										<f:convertNumber pattern="#{messages['pattern.currency']}" />
+									</h:outputText> 
+								</td>
 							</tr>
 							<ui:fragment rendered="#{_expense.taxAmount gt 0}">
 								<tr>
 									<td>#{messages['expense.amountTax']}</td>
-									<td>#{_expense.taxAmount}</td>
+									<td>
+										<h:outputText value="#{_expense.taxAmount}">
+											<f:convertNumber pattern="#{messages['pattern.currency']}" />
+										</h:outputText> 
+									</td>
 								</tr>
 								<tr>
 									<td>#{messages['expense.amountNoTax']}</td>
-									<td>#{_expense.amountWithoutTax}</td>
+									<td>
+										<h:outputText value="#{_expense.amountWithoutTax}">
+											<f:convertNumber pattern="#{messages['pattern.currency']}" />
+										</h:outputText> 
+									</td>
 								</tr>
 							</ui:fragment>
 					</tbody>

@@ -50,16 +50,16 @@ public class ExpenseAmountCalculator {
 			}
 		}
 		
-		Integer taxPercent = expense.getExpenseType().getTaxPercent();
+		Double taxPercent = expense.getExpenseType().getTaxPercent();
 		Integer taxAmount = calculateTax(amount, taxPercent);
 		
 		expense.setTotalAmount(amount);
 		expense.setTaxAmount(taxAmount);
 	}
 	
-	public Integer calculateTax(Integer amount, Integer taxPercent) {
+	public Integer calculateTax(Integer amount, Double taxPercent) {
 		if (taxPercent > 0) {
-			double taxCoefficient = 100 / (100.0 + taxPercent);
+			double taxCoefficient = 100 / (100 + taxPercent);
 			Double amountWithoutTax = amount * taxCoefficient;
 			Integer amountWithoutTaxRoundedDown = amountWithoutTax.intValue();
 			return amount - amountWithoutTaxRoundedDown;

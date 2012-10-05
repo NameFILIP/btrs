@@ -71,14 +71,14 @@
 			<s:decorate id="createdDateField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['user.created']}</ui:define>
 				<h:outputText value="#{user.createdDate}">
-						<s:convertDateTime type="both" pattern="#{messages['common.datePattern']}" />
+						<s:convertDateTime pattern="#{messages['pattern.date.long']}" />
 					</h:outputText>
 			</s:decorate>
 			
 			<s:decorate id="lastLoginField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['user.lastLogin']}</ui:define>
 				<h:outputText value="#{user.lastLogin}">
-						<s:convertDateTime type="both" pattern="#{messages['common.datePattern']}" />
+						<s:convertDateTime pattern="#{messages['pattern.date.long']}" />
 				</h:outputText>
 			</s:decorate>
 

@@ -39,13 +39,13 @@ public class ExpenseType implements java.io.Serializable {
 	private Long id;
 	private List<ExpenseCategory> expenseCategories;
 	private ExpenseTypeEnum value;
-	private Integer taxPercent;
+	private Double taxPercent;
 	private Set<Expense> expenses;
 	private List<TypeParameter> typeParameters;
 
 	
 	public ExpenseType() {
-		this.taxPercent = 0;
+		this.taxPercent = 0.0;
 	}
 
 	@Id
@@ -90,13 +90,13 @@ public class ExpenseType implements java.io.Serializable {
 		this.value = value;
 	}
 	
-	@Digits(integerDigits = 2)
+	@Digits(integerDigits = 2, fractionalDigits = 4)
 	@Column(name = "tax_percent")
-	public Integer getTaxPercent() {
+	public Double getTaxPercent() {
 		return taxPercent;
 	}
 
-	public void setTaxPercent(Integer taxPercent) {
+	public void setTaxPercent(Double taxPercent) {
 		this.taxPercent = taxPercent;
 	}
 

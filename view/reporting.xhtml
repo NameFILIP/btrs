@@ -128,22 +128,34 @@
 				
 				<c:forEach var="categ" items="#{filteredCategoryTypesKeys}" varStatus="varStatus">
 					<rich:columns var="categType" value="#{filteredCategoryTypes[categ]}" footerClass="total">
-						#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).getAmount(categ.code, categType.value)}
+						<h:outputText value="#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).getAmount(categ.code, categType.value)}">
+							<f:convertNumber pattern="#{messages['pattern.currency']}" />
+						</h:outputText>
 						<f:facet name="footer">
-							#{currentReporting.getSubReporting(_subReportingKey).getTotalCategoryType(categ.code, categType.value)}
+							<h:outputText value="#{currentReporting.getSubReporting(_subReportingKey).getTotalCategoryType(categ.code, categType.value)}">
+								<f:convertNumber pattern="#{messages['pattern.currency']}" />
+							</h:outputText>
 						</f:facet>
 					</rich:columns>
 					<rich:column rendered="#{filteredCategoryTypes[categ].size() gt 1}" styleClass="total" footerClass="total">
-						#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).getTotalCategory(categ.code)}
+						<h:outputText value="#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).getTotalCategory(categ.code)}">
+							<f:convertNumber pattern="#{messages['pattern.currency']}" />
+						</h:outputText>
 						<f:facet name="footer">
-							#{currentReporting.getSubReporting(_subReportingKey).getTotalCategory(categ.code)}
+							<h:outputText value="#{currentReporting.getSubReporting(_subReportingKey).getTotalCategory(categ.code)}">
+								<f:convertNumber pattern="#{messages['pattern.currency']}" />
+							</h:outputText>
 						</f:facet>
 					</rich:column>
 				</c:forEach>
 				<rich:column styleClass="grand-total" footerClass="grand-total">
-					#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).total}
+					<h:outputText value="#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).total}">
+						<f:convertNumber pattern="#{messages['pattern.currency']}" />
+					</h:outputText>
 					<f:facet name="footer">
-						#{currentReporting.getSubReporting(_subReportingKey).total}
+						<h:outputText value="#{currentReporting.getSubReporting(_subReportingKey).total}">
+							<f:convertNumber pattern="#{messages['pattern.currency']}" />
+						</h:outputText>
 					</f:facet>
 				</rich:column>
 			</rich:subTable>
@@ -154,23 +166,24 @@
 					<rich:column styleClass="grand-total">#{messages['reporting.grandTotal']}</rich:column>
 					<c:forEach var="categ" items="#{filteredCategoryTypesKeys}" varStatus="varStatus">
 						<rich:columns var="categType" value="#{filteredCategoryTypes[categ]}" styleClass="grand-total">
-							#{currentReporting.getTotalCategoryType(categ.code, categType.value)}
+							<h:outputText value="#{currentReporting.getTotalCategoryType(categ.code, categType.value)}">
+								<f:convertNumber pattern="#{messages['pattern.currency']}" />
+							</h:outputText>
 						</rich:columns>
 						<rich:column rendered="#{filteredCategoryTypes[categ].size() gt 1}" styleClass="grand-total">
-							#{currentReporting.getTotalCategory(categ.code)}
+							<h:outputText value="#{currentReporting.getTotalCategory(categ.code)}">
+								<f:convertNumber pattern="#{messages['pattern.currency']}" />
+							</h:outputText>
 						</rich:column>
 					</c:forEach>
 					<rich:column styleClass="grand-total">
-						#{currentReporting.total}
+						<h:outputText value="#{currentReporting.total}">
+							<f:convertNumber pattern="#{messages['pattern.currency']}" />
+						</h:outputText>
 					</rich:column>
 
 				</rich:columnGroup>
 			</f:facet>
-<!-- rich:column>
-							<h:outputText value="#{report.expReport.totalMeals}">
-								<f:convertNumber pattern="$####.00" />
-							</h:outputText>
-						</rich:column-->
 		</rich:dataTable>
 			
 	</ui:define>

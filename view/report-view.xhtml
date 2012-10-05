@@ -55,14 +55,14 @@
 			<s:decorate id="startDateField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['report.start']}</ui:define>
 				<h:outputText value="#{report.startDate}">
-					<s:convertDateTime type="both" dateStyle="short" />
+					<s:convertDateTime pattern="#{messages['pattern.date.long']}" />
 				</h:outputText>
 			</s:decorate>
 
 			<s:decorate id="endDateField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['report.end']}</ui:define>
 				<h:outputText value="#{report.endDate}">
-					<s:convertDateTime type="both" dateStyle="short" />
+					<s:convertDateTime pattern="#{messages['pattern.date.long']}" />
 				</h:outputText>
 			</s:decorate>
 
@@ -73,17 +73,23 @@
 			
 			<s:decorate id="amountTotalField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['report.amountTotal']}</ui:define>
-				<h:outputText value="#{report.totalAmount}" />
+				<h:outputText value="#{report.totalAmount}">
+					<f:convertNumber pattern="#{messages['pattern.currency']}" />
+				</h:outputText>
 			</s:decorate>
 			
 			<s:decorate id="amountTaxField" template="layout/display.xhtml" rendered="#{report.totalTaxAmount > 0}">
 				<ui:define name="label">#{messages['report.amountTax']}</ui:define>
-				<h:outputText value="#{report.totalTaxAmount}" />
+				<h:outputText value="#{report.totalTaxAmount}">
+					<f:convertNumber pattern="#{messages['pattern.currency']}" />
+				</h:outputText> 
 			</s:decorate>
 			
 			<s:decorate id="amountNoTaxField" template="layout/display.xhtml" rendered="#{report.totalTaxAmount > 0}">
 				<ui:define name="label">#{messages['report.amountNoTax']}</ui:define>
-				<h:outputText value="#{report.totalAmountWithoutTax}" />
+				<h:outputText value="#{report.totalAmountWithoutTax}">
+					<f:convertNumber pattern="#{messages['pattern.currency']}" />
+				</h:outputText> 
 			</s:decorate>
 
 			<ui:include src="expense-table.xhtml">

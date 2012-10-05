@@ -63,7 +63,7 @@
 				<rich:column sortBy="#{_user.createdDate}">
 					<f:facet name="header">#{messages['user.created']}</f:facet>
 					<h:outputText value="#{_user.createdDate}">
-						<s:convertDateTime type="both" pattern="#{messages['common.datePattern']}" />
+						<s:convertDateTime pattern="#{messages['pattern.date.long']}" />
 					</h:outputText>
 				</rich:column>
 
@@ -88,7 +88,7 @@
 			</rich:dataTable>
 
 			<rich:datascroller for="userList" renderIfSinglePage="false" fastControls="hide" 
-					styleClass="row-fluid" tableStyleClass="offset2 span8 table table-bordered">
+					styleClass="row-fluid" tableStyleClass="table table-bordered">
 				<f:facet name="first">
 					#{messages['common.page.first']}
 				</f:facet>

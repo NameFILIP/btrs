@@ -7,8 +7,4 @@
 	
 	<restrict>#{s:hasRole('ACCOUNTANT')}</restrict>
 	
-	<param name="firstResult" value="#{departmentList.firstResult}" />
-	<param name="sort" value="#{departmentList.orderColumn}" />
-	<param name="dir" value="#{departmentList.orderDirection}" />
-	
 </page>

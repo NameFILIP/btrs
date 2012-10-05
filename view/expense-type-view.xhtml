@@ -29,7 +29,9 @@
 			
 			<s:decorate id="taxPercentField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['type.taxPercent']}</ui:define>
-				<h:outputText value="#{expenseType.taxPercent}" />
+				<h:outputText value="#{expenseType.taxPercent}">
+					<f:convertNumber pattern="#{messages['pattern.percent']}" />
+				</h:outputText> 
 			</s:decorate>
 			
 			<s:decorate id="typeParametersField" template="layout/display.xhtml">

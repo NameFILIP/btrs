@@ -43,7 +43,7 @@
 				<rich:column sortBy="#{_report.lastUpdatedDate}">
 					<f:facet name="header">#{messages['report.updated']}</f:facet>
 					<h:outputText value="#{empty _report.lastUpdatedDate ? _report.createdDate : _report.lastUpdatedDate}">
-						<s:convertDateTime type="both" dateStyle="short" />
+						<s:convertDateTime pattern="#{messages['pattern.date.long']}" />
 					</h:outputText>
 				</rich:column>
 
@@ -55,8 +55,8 @@
 				<rich:column sortBy="#{_report.totalAmount}">
 					<f:facet name="header">#{messages['report.amountTotal']}</f:facet>
 					<h:outputText value="#{_report.totalAmount}">
-						<f:convertNumber pattern="$#,##0.00" />
-					</h:outputText>
+						<f:convertNumber pattern="#{messages['pattern.currency']}" />
+					</h:outputText> 
 				</rich:column>
 
 				<rich:column sortBy="#{messages[_report.currentStatus.label]}">
@@ -83,7 +83,7 @@
 			
 
 			<rich:datascroller for="reportList" renderIfSinglePage="false" page="#{reportListDataPreparator.scrollerPage}"
-				fastControls="hide" styleClass="row-fluid" tableStyleClass="offset2 span8 table table-bordered">
+				fastControls="hide" styleClass="row-fluid" tableStyleClass="table table-bordered">
 				<f:facet name="first">
 					#{messages['common.page.first']}
 				</f:facet>

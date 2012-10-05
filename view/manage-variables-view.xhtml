@@ -39,7 +39,9 @@
 					<c:forEach var="source" items="#{hsrStations}">
 						<h:outputText value="#{messages[source.label]}"/>
 						<c:forEach var="destination" items="#{hsrStations}">
-							<h:outputText value="#{allVariables[source.name().concat('_').concat(destination.name())].value}"/>
+							<h:outputText value="#{allVariables[source.name().concat('_').concat(destination.name())].value}">
+								<f:convertNumber pattern="#{messages['pattern.currency']}" />
+							</h:outputText> 
 						</c:forEach>
 					</c:forEach>
 
