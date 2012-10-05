@@ -15,9 +15,9 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 
+import com.infinitiessoft.btrs.custom.MailSender;
 import com.infinitiessoft.btrs.custom.ReportingDataPreparator;
 import com.infinitiessoft.btrs.enums.StatusEnum;
-import com.infinitiessoft.btrs.logic.MailSender;
 import com.infinitiessoft.btrs.model.Expense;
 import com.infinitiessoft.btrs.model.Report;
 import com.infinitiessoft.btrs.model.StatusChange;

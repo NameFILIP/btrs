@@ -1,4 +1,4 @@
-package com.infinitiessoft.btrs.logic;
+package com.infinitiessoft.btrs.custom;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;

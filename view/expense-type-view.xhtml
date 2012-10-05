@@ -1,5 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:f="http://java.sun.com/jsf/core" 
@@ -12,36 +10,42 @@
 
 	<ui:define name="title">#{messages['type.title']}</ui:define>
 
-	<ui:define name="content">
-
-			<rich:panel>
-				<f:facet name="header">#{messages['type.details']}</f:facet>
-
-				<s:decorate id="nameKeyField" template="layout/display.xhtml">
-					<ui:define name="label">#{messages['type.name']}</ui:define>
-					<h:outputText value="#{messages[expenseType.nameKey]}" />
-				</s:decorate>
-				
-				<s:decorate id="taxPercentField" template="layout/display.xhtml">
-					<ui:define name="label">#{messages['type.taxPercent']}</ui:define>
-					<h:outputText value="#{expenseType.taxPercent}" />
-				</s:decorate>
-				
-				<s:decorate id="typeParametersField" template="layout/display.xhtml">
-					<ui:define name="label">#{messages['type.parameters']}</ui:define>
-					<ui:repeat var="p" value="#{expenseType.typeParameters}">
-						<h:outputText value="#{messages[p.nameKey]}" /><br/>
-					</ui:repeat>
-				</s:decorate>
-
-				<!-- If you add required params - modify next div -->
-				<div style="clear: both" />
-
-			</rich:panel>
-
-			<div class="actionButtons">
-				<s:button id="edit" view="/expense-type-edit.xhtml" value="#{messages['common.edit']}" />
-				<s:button id="done" view="/expense-type-list.xhtml" value="#{messages['common.done']}" />
-			</div>
+	<ui:define name="data-navbar">
+		<ui:include src="layout/admin-sidebar.xhtml" />
 	</ui:define>
+	
+	<ui:define name="data-main-title">
+		#{messages['type.details']}
+	</ui:define>
+	
+	<ui:define name="data-main-body">
+
+		<div class="form-horizontal">
+
+			<s:decorate id="nameKeyField" template="layout/display.xhtml">
+				<ui:define name="label">#{messages['type.name']}</ui:define>
+				<h:outputText value="#{messages[expenseType.nameKey]}" />
+			</s:decorate>
+			
+			<s:decorate id="taxPercentField" template="layout/display.xhtml">
+				<ui:define name="label">#{messages['type.taxPercent']}</ui:define>
+				<h:outputText value="#{expenseType.taxPercent}" />
+			</s:decorate>
+			
+			<s:decorate id="typeParametersField" template="layout/display.xhtml">
+				<ui:define name="label">#{messages['type.parameters']}</ui:define>
+				<ui:repeat var="p" value="#{expenseType.typeParameters}">
+					<h:outputText value="#{messages[p.nameKey]}" /><br/>
+				</ui:repeat>
+			</s:decorate>
+
+			<div class="form-actions">
+				<s:button id="edit" view="/expense-type-edit.xhtml" value="#{messages['common.edit']}" styleClass="btn"/>
+				<s:button id="done" view="/expense-type-list.xhtml" value="#{messages['common.done']}" styleClass="btn"/>
+			</div>
+			
+		</div>
+		
+	</ui:define>
+	
 </ui:composition>

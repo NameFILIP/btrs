@@ -99,9 +99,7 @@ public class ReportListDataPreparator {
 		}
 		
 		List<Report> reports = null;
-		if (ReportTypeEnum.OPEN.name().equalsIgnoreCase(type)) {
-			reports = reportList.getOpenStatusReportsForUser();
-		} else if (ReportTypeEnum.SUBMITTED.name().equalsIgnoreCase(type)) {
+		if (ReportTypeEnum.SUBMITTED.name().equalsIgnoreCase(type)) {
 			reports = reportList.getReportsForUserByStatus(StatusEnum.SUBMITTED);
 		} else if (ReportTypeEnum.REJECTED.name().equalsIgnoreCase(type)) {
 			reports = reportList.getReportsForUserByStatus(StatusEnum.REJECTED);

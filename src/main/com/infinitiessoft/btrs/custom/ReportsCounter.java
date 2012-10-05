@@ -28,7 +28,6 @@ public class ReportsCounter {
 		long beginTime = System.currentTimeMillis();
 		log.debug("Counting reports has been started");
 		
-		int openCount = 0;
 		int submittedCount = 0;
 		int rejectedCount = 0;
 		int approvedCount = 0;
@@ -45,11 +44,9 @@ public class ReportsCounter {
 				approvedCount++;
 			}
 		}
-		openCount = submittedCount + rejectedCount;
 		allCount = usersReports.size();
 
 		Map<String, Integer> reportsCounts = new HashMap<String, Integer>();
-		reportsCounts.put(ReportTypeEnum.OPEN.getLabel(), openCount);
 		reportsCounts.put(ReportTypeEnum.SUBMITTED.getLabel(), submittedCount);
 		reportsCounts.put(ReportTypeEnum.REJECTED.getLabel(), rejectedCount);
 		

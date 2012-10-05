@@ -1,6 +1,7 @@
 package com.infinitiessoft.btrs.action;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
@@ -14,6 +15,8 @@ public class UserList extends EntityQuery<User> {
 
 	private static final String EJBQL = "select user from User user";
 
+	private List<User> allUsers = null;
+	
 	private static final String[] RESTRICTIONS = {
 			"lower(user.email) like lower(concat(#{userList.user.email},'%'))",
 			"lower(user.firstName) like lower(concat(#{userList.user.firstName},'%'))",
@@ -32,6 +35,14 @@ public class UserList extends EntityQuery<User> {
 
 	public User getUser() {
 		return user;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<User> getAllUsers() {
+		if (allUsers == null) {
+			allUsers = getEntityManager().createQuery("select distinct u from User u join fetch u.roles r join fetch u.department d").getResultList();
+		}
+		return allUsers;
 	}
 	
 }

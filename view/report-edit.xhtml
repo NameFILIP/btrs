@@ -1,5 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:f="http://java.sun.com/jsf/core" 
@@ -12,100 +10,84 @@
 
 	<ui:define name="title">#{reportHome.managed ? messages['report.edit'] : messages['report.add']}</ui:define>
 
-	<ui:define name="content">
+	<ui:define name="data-main-title">
+		#{reportHome.managed ? messages['report.edit'] : messages['report.add']}
+	</ui:define>
 
-		<h:form id="report" styleClass="edit">
-		
-			<rich:panel>
-				<f:facet name="header">#{reportHome.managed ? messages['report.edit'] : messages['report.add']}</f:facet>
+	<ui:define name="data-main-body">
+		<h:form id="report" styleClass="form-horizontal">
 
-				<s:decorate id="id" template="layout/display.xhtml">
-					<ui:define name="label">#{messages['report.id']}</ui:define>
-					<h:outputText value="#{report.id}" />
-				</s:decorate>
-				
-				<s:decorate id="jobTitle" template="layout/display.xhtml">
-					<ui:define name="label">#{messages['report.jobTitle']}</ui:define>
-					<h:outputText value="#{report.owner.jobTitle}" />
-				</s:decorate>
-				
-				<s:decorate id="reviewerField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['report.accountant']}</ui:define>
-					<h:selectOneMenu id="reviewer" required="true" value="#{report.reviewer}">
-						<s:selectItems var="a" value="#{roleList.getAccountants()}" itemValue="#{a}" label="#{a.fullName}" />
-						<s:convertEntity />
-					</h:selectOneMenu>
-				</s:decorate>
+			<s:decorate id="id" template="layout/display.xhtml">
+				<ui:define name="label">#{messages['report.id']}</ui:define>
+				<h:outputText value="#{report.id}" />
+			</s:decorate>
 
-				<s:decorate id="reasonField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['report.reason']}</ui:define>
-					<h:inputTextarea id="reason" cols="80" rows="5" required="true" value="#{report.reason}" >
-						<a:support event="onblur" reRender="reasonField" bypassUpdates="true" ajaxSingle="true" />
-					</h:inputTextarea>
-				</s:decorate>
-				
-				<!-- s:decorate id="reason2Field" template="layout/edit.xhtml">
-					<ui:define name="label">Reason test</ui:define>
-					<rich:editor value="#{report.reason}" />
-				</s:decorate-->
+			<s:decorate id="jobTitle" template="layout/display.xhtml">
+				<ui:define name="label">#{messages['report.jobTitle']}</ui:define>
+				<h:outputText value="#{report.owner.jobTitle}" />
+			</s:decorate>
 
-				<s:decorate id="routeField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['report.route']}</ui:define>
-					<h:inputTextarea id="route" cols="80" rows="3" required="true" value="#{report.route}">
-						<a:support event="onblur" reRender="routeField" bypassUpdates="true" ajaxSingle="true" />
-					</h:inputTextarea>
-				</s:decorate>
-				
-				<s:decorate id="startDateField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['report.start']}</ui:define>
-					<rich:calendar id="startDate" required="true" value="#{report.startDate}" datePattern="MM/dd/yyyy">
-						<a:support event="onchanged" reRender="startDateField" bypassUpdates="true" ajaxSingle="true" />
-					</rich:calendar>
-				</s:decorate>
-				
-				<s:decorate id="endDateField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['report.end']}</ui:define>
-					<rich:calendar id="endDate" required="true" value="#{report.endDate}" datePattern="MM/dd/yyyy">
-						<a:support event="onchanged" reRender="endDateField" bypassUpdates="true" ajaxSingle="true" />
-					</rich:calendar>
-				</s:decorate>
-				
-				<s:decorate id="commentField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['report.comment']}</ui:define>
-					<h:inputTextarea id="comment" cols="80" rows="3" value="#{report.comment}" />
-				</s:decorate>
+			<s:decorate id="reviewerField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['report.accountant']}</ui:define>
+				<h:selectOneMenu id="reviewer" required="true" value="#{report.reviewer}">
+					<s:selectItems var="a" value="#{roleList.getAccountants()}" itemValue="#{a}" label="#{a.fullName}" />
+					<s:convertEntity />
+				</h:selectOneMenu>
+			</s:decorate>
 
-				<s:decorate id="expense-add" template="layout/display.xhtml">
-					<ui:define name="label"></ui:define>
+			<s:decorate id="reasonField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['report.reason']}</ui:define>
+				<h:inputTextarea id="reason" cols="80" rows="3" required="true" value="#{report.reason}">
+					<a:support event="onblur" reRender="reasonField" bypassUpdates="true" ajaxSingle="true" />
+				</h:inputTextarea>
+			</s:decorate>
 
-					<a:commandLink id="showItem" oncomplete="Richfaces.showModalPanel('expense-edit-modal');">
-						#{messages['report.addExpense']}
-					</a:commandLink>
-				</s:decorate>
+			<s:decorate id="routeField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['report.route']}</ui:define>
+				<h:inputTextarea id="route" cols="80" rows="3" required="true" value="#{report.route}">
+					<a:support event="onblur" reRender="routeField" bypassUpdates="true" ajaxSingle="true" />
+				</h:inputTextarea>
+			</s:decorate>
 
-				<div style="clear: both">
-					<span class="required">*</span> #{messages['common.required']}
-				</div>
-				
-				<ui:include src="expense-table.xhtml">
-					<ui:param name="editable" value="true" />
-				</ui:include>
-				
-			</rich:panel>
-			
+			<s:decorate id="startDateField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['report.start']}</ui:define>
+				<rich:calendar id="startDate" required="true" value="#{report.startDate}" datePattern="MM/dd/yyyy" showWeeksBar="false" styleClass="table-condensed">
+					<a:support event="onchanged" reRender="startDateField" bypassUpdates="true" ajaxSingle="true" />
+				</rich:calendar>
+			</s:decorate>
+
+			<s:decorate id="endDateField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['report.end']}</ui:define>
+				<rich:calendar id="endDate" required="true" value="#{report.endDate}" datePattern="MM/dd/yyyy" showWeeksBar="false" styleClass="table-condensed">
+					<a:support event="onchanged" reRender="endDateField" bypassUpdates="true" ajaxSingle="true" />
+				</rich:calendar>
+			</s:decorate>
+
+			<s:decorate id="commentField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['report.comment']}</ui:define>
+				<h:inputTextarea id="comment" cols="80" rows="3" value="#{report.comment}" />
+			</s:decorate>
+
+			<s:decorate id="expense-add" template="layout/display.xhtml">
+				<a href="#expense-modal" role="button" class="btn" data-toggle="modal">#{messages['report.addExpense']}</a>
+			</s:decorate>
+
+			<ui:include src="expense-table.xhtml">
+				<ui:param name="editable" value="true" />
+			</ui:include>
+
 			<ui:include src="status-change-table.xhtml" />
 
-			<div class="actionButtons">
-				<h:commandButton id="save" value="#{messages['common.save']}" action="#{reportHome.persist}" rendered="#{!reportHome.managed}" />
-				<h:commandButton id="update" value="#{messages['common.save']}" action="#{reportHome.update}" rendered="#{reportHome.managed}" />
-				<h:commandButton id="delete" value="#{messages['common.delete']}" action="#{reportHome.remove}" immediate="true" rendered="#{reportHome.managed}" />
-				<s:button id="cancelEdit" value="#{messages['common.cancel']}" propagation="end" view="/report-list.xhtml" rendered="#{reportHome.managed}" />
-				<s:button id="cancelAdd" value="#{messages['common.cancel']}" propagation="end" view="#{empty reportFrom ? '/report-list.xhtml' : reportFrom}" rendered="#{!reportHome.managed}" />
+			<div class="form-actions">
+				<h:commandButton id="save" value="#{messages['common.save']}" action="#{reportHome.persist}" rendered="#{!reportHome.managed}" styleClass="btn btn-primary"/>
+				<h:commandButton id="update" value="#{messages['common.save']}" action="#{reportHome.update}" rendered="#{reportHome.managed}" styleClass="btn btn-primary"/>
+				<h:commandButton id="delete" value="#{messages['common.delete']}" action="#{reportHome.remove}" immediate="true" rendered="#{reportHome.managed}" styleClass="btn btn-danger"/>
+				<s:button id="cancelEdit" value="#{messages['common.cancel']}" propagation="end" view="/report-list.xhtml" rendered="#{reportHome.managed}" styleClass="btn"/>
+				<s:button id="cancelAdd" value="#{messages['common.cancel']}" propagation="end" view="#{empty reportFrom ? '/report-list.xhtml' : reportFrom}" rendered="#{!reportHome.managed}" styleClass="btn"/>
 			</div>
-
 		</h:form>
-		
-		<ui:include src="expense-edit-modal.xhtml" />
+
+		<ui:include src="expense-modal.xhtml" />
 		
 	</ui:define>
 </ui:composition>

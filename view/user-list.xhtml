@@ -1,5 +1,3 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
 				xmlns:s="http://jboss.com/products/seam/taglib"
 				xmlns:ui="http://java.sun.com/jsf/facelets" 
@@ -15,168 +13,109 @@
 		<ui:include src="layout/admin-sidebar.xhtml" />
 	</ui:define>
 
-	<ui:define name="data-main-title">#{messages['user.title']}</ui:define>
-	<ui:define name="data-main-body">
+	<ui:define name="data-main">
 
-		<rich:panel>
-			<f:facet name="header">#{messages['user.list.header']} (#{empty userList.resultList ? 0 : (userList.paginated ? userList.resultCount : userList.resultList.size)})</f:facet>
-			<div class="results" id="userList">
+		<div class="alert table-header no-bottom-radius">#{messages['user.list.header']} (#{userList.allUsers.size()})</div>
 
-				<h:outputText value="#{messages['user.list.empty']}" rendered="#{empty userList.resultList}" />
+		<ui:fragment rendered="#{empty userList.allUsers}">
+			<table class="table table-bordered no-top-radius">
+				<tr>
+					<td>#{messages['user.list.empty']}</td>
+				</tr>
+				<tr>
+					<td>
+						<s:button view="/user-edit.xhtml" id="create" propagation="none" value="#{messages['user.create']}" styleClass="btn offset4 span4">
+							<f:param name="userId" />
+						</s:button>
+					</td>
+				</tr>
+			</table>
+		</ui:fragment>
+		
+		<h:form>
+			<rich:dataTable id="userList" var="_user" value="#{userList.allUsers}" rendered="#{not empty userList.allUsers}"
+				styleClass="table table-bordered table-hover no-top-radius no-body-bottom-radius">
 
-				<rich:dataTable id="userList" var="_user" value="#{userList.resultList}" rendered="#{not empty userList.resultList}">
+				<rich:column sortBy="#{_user.fullName}">
+					<f:facet name="header">#{messages['user.fullName']}</f:facet>
+					<h:outputText value="#{_user.fullName}" />
+				</rich:column>
 
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{userList}" />
-								<ui:param name="propertyLabel" value="#{messages['user.fullName']}" />
-								<ui:param name="propertyPath" value="user.firstName" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{_user.fullName}" />
-					</h:column>
-					
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{userList}" />
-								<ui:param name="propertyLabel" value="#{messages['user.jobTitle']}" />
-								<ui:param name="propertyPath" value="user.jobTitle" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{_user.jobTitle}" />
-					</h:column>
-
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{userList}" />
-								<ui:param name="propertyLabel" value="#{messages['user.username']}" />
-								<ui:param name="propertyPath" value="user.username" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{_user.username}" />
-					</h:column>
-
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{userList}" />
-								<ui:param name="propertyLabel" value="#{messages['user.gender']}" />
-								<ui:param name="propertyPath" value="user.gender" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{messages[_user.gender.label]}" />
-					</h:column>
-
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{userList}" />
-								<ui:param name="propertyLabel" value="#{messages['user.department']}" />
-								<ui:param name="propertyPath" value="user.department.name" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{_user.department.name}" />
-					</h:column>
-
-					<h:column>
-						<f:facet name="header">#{messages['user.roles']}</f:facet>
-						<ui:repeat var="r" value="#{_user.roles}">
-							<h:outputText value="#{messages[r.nameKey]}" />
-							<br />
-						</ui:repeat>
-					</h:column>
-
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{userList}" />
-								<ui:param name="propertyLabel" value="#{messages['user.email']}" />
-								<ui:param name="propertyPath" value="user.email" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{_user.email}" />
-					</h:column>
+				<rich:column sortBy="#{_user.jobTitle}">
+					<f:facet name="header">#{messages['user.jobTitle']}</f:facet>
+					<h:outputText value="#{_user.jobTitle}" />
+				</rich:column>
 
 
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{userList}" />
-								<ui:param name="propertyLabel" value="#{messages['user.created']}" />
-								<ui:param name="propertyPath" value="user.createdDate" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{_user.createdDate}">
-							<s:convertDateTime type="both" pattern="#{messages['common.datePattern']}" />
-						</h:outputText>
-					</h:column>
+				<rich:column sortBy="#{_user.department.name}">
+					<f:facet name="header">#{messages['user.department']}</f:facet>
+					<h:outputText value="#{_user.department.name}" />
+				</rich:column>
 
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{userList}" />
-								<ui:param name="propertyLabel" value="#{messages['user.enabled']}" />
-								<ui:param name="propertyPath" value="user.enabled" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{_user.enabled ? messages['common.yes'] : messages['common.no']}" />
-					</h:column>
+				<rich:column>
+					<f:facet name="header">#{messages['user.roles']}</f:facet>
+					<ui:repeat var="r" value="#{_user.roles}">
+						<h:outputText value="#{messages[r.nameKey]}" />
+						<br />
+					</ui:repeat>
+				</rich:column>
 
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{userList}" />
-								<ui:param name="propertyLabel" value="#{messages['user.lastLogin']}" />
-								<ui:param name="propertyPath" value="user.lastLogin" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{_user.lastLogin}">
-							<s:convertDateTime type="both" pattern="#{messages['common.datePattern']}" />
-						</h:outputText>
-					</h:column>
+				<rich:column sortBy="#{_user.createdDate}">
+					<f:facet name="header">#{messages['user.created']}</f:facet>
+					<h:outputText value="#{_user.createdDate}">
+						<s:convertDateTime type="both" pattern="#{messages['common.datePattern']}" />
+					</h:outputText>
+				</rich:column>
 
-					<rich:column styleClass="action">
-						<f:facet name="header">#{messages['common.action']}</f:facet>
-						<s:link view="/user-view.xhtml" value="#{messages['common.view']}" propagation="none" id="user-view">
-							<f:param name="userId" value="#{_user.id}" />
-						</s:link>
-						#{' '}
-	            		<s:link view="/user-edit.xhtml" value="#{messages['common.edit']}" propagation="none" id="user-edit">
-							<f:param name="userId" value="#{_user.id}" />
-						</s:link>
-					</rich:column>
-				</rich:dataTable>
+				<rich:column>
+					<f:facet name="header">#{messages['common.action']}</f:facet>
+					<s:link view="/user-view.xhtml" value="#{messages['common.view']}" propagation="none" id="user-view"
+						styleClass="btn btn-mini">
+						<f:param name="userId" value="#{_user.id}" />
+					</s:link>
+					#{' '}
+	            	<s:link view="/user-edit.xhtml" value="#{messages['common.edit']}" propagation="none" id="user-edit"
+						styleClass="btn btn-mini">
+						<f:param name="userId" value="#{_user.id}" />
+					</s:link>
+				</rich:column>
+				
+				<f:facet name="footer">
+					<s:button view="/user-edit.xhtml" id="create" propagation="none" value="#{messages['user.create']}" styleClass="btn offset4 span4">
+						<f:param name="userId" />
+					</s:button>
+				</f:facet>
+			</rich:dataTable>
 
-			</div>
-		</rich:panel>
+			<rich:datascroller for="userList" renderIfSinglePage="false" fastControls="hide" 
+					styleClass="row-fluid" tableStyleClass="offset2 span8 table table-bordered">
+				<f:facet name="first">
+					#{messages['common.page.first']}
+				</f:facet>
+				<f:facet name="first_disabled">
+					#{messages['common.page.first']}
+				</f:facet>
+				<f:facet name="last">
+					#{messages['common.page.last']}
+				</f:facet>
+				<f:facet name="last_disabled">
+					#{messages['common.page.last']}
+				</f:facet>
+				<f:facet name="previous">
+					#{messages['common.page.previous']}
+				</f:facet>
+				<f:facet name="previous_disabled">
+					#{messages['common.page.previous']}
+				</f:facet>
+				<f:facet name="next">
+					#{messages['common.page.next']}
+				</f:facet>
+				<f:facet name="next_disabled">
+					#{messages['common.page.next']}
+				</f:facet>
+			</rich:datascroller>
 
-		<div class="tableControl">
-
-			<s:link view="/user-list.xhtml" rendered="#{userList.previousExists}" value="#{messages.left}#{messages.left} #{messages['common.page.first']}" id="firstPage">
-				<f:param name="firstResult" value="0" />
-			</s:link>
-
-			<s:link view="/user-list.xhtml" rendered="#{userList.previousExists}" value="#{messages.left} #{messages['common.page.previous']}" id="previousPage">
-				<f:param name="firstResult" value="#{userList.previousFirstResult}" />
-			</s:link>
-
-			<s:link view="/user-list.xhtml" rendered="#{userList.nextExists}" value="#{messages['common.next']} #{messages.page.right}" id="nextPage">
-				<f:param name="firstResult" value="#{userList.nextFirstResult}" />
-			</s:link>
-
-			<s:link view="/user-list.xhtml" rendered="#{userList.nextExists}" value="#{messages['common.last']} #{messages.page.right}#{messages.right}" id="lastPage">
-				<f:param name="firstResult" value="#{userList.lastFirstResult}" />
-			</s:link>
-
-		</div>
-
-		<s:div styleClass="actionButtons">
-			<s:button view="/user-edit.xhtml" id="create" propagation="none" value="#{messages['user.create']}">
-				<f:param name="userId" />
-			</s:button>
-		</s:div>
+		</h:form>
+		
 	</ui:define>
 </ui:composition>

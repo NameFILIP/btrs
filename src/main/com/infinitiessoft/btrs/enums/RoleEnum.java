@@ -3,8 +3,7 @@ package com.infinitiessoft.btrs.enums;
 public enum RoleEnum {
 
 	EMPLOYEE("role.employee"),
-	ACCOUNTANT("role.accountant"),
-	ADMIN("role.admin");
+	ACCOUNTANT("role.accountant");
 	
 	private final String label;
 

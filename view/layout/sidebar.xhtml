@@ -1,47 +1,49 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:s="http://jboss.com/products/seam/taglib"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:rich="http://richfaces.org/rich">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:s="http://jboss.com/products/seam/taglib"
+				xmlns:ui="http://java.sun.com/jsf/facelets" 
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:a="http://richfaces.org/a4j">
 
-	<li>
-		<s:link id="open" view="/report-list.xhtml" value="#{messages['menu.open']} (#{reportsCounts['Open']})" propagation="none">
-			<f:param name="type" value="Open" />
-		</s:link>
-	</li>
-	<ul>
+	<li class="nav-header">#{messages['menu.reports']}</li>
+
+	<ul class="nav nav-list sub-nav-list">
 		<li>
-			<s:link id="submitted" view="/report-list.xhtml" value="#{messages['menu.submitted']} (#{reportsCounts['Submitted']})" propagation="none">
+			<s:link id="submitted" view="/report-list.xhtml" propagation="none">
 				<f:param name="type" value="Submitted" />
+				<span>#{messages['menu.submitted']}</span>
+				<span class="pull-right">#{reportsCounts['Submitted']}</span>
 			</s:link>
 		</li>
 		<li>
-			<s:link id="rejected-emp" view="/report-list.xhtml" value="#{messages['menu.rejected']} (#{reportsCounts['Rejected']})" propagation="none">
+			<s:link id="rejected-emp" view="/report-list.xhtml" propagation="none">
 				<f:param name="type" value="Rejected" />
+				<span>#{messages['menu.rejected']}</span>
+				<span class="pull-right">#{reportsCounts['Rejected']}</span>
 			</s:link>
 		</li>
-	</ul>
-
-	<li>
-		<s:link id="all-my-reports" view="/report-list.xhtml" value="#{messages['menu.all']} (#{reportsCounts['All']})" propagation="none">
-			<f:param name="type" value="All" />
-		</s:link>
-	</li>
-	<ul>
 		<li>
-			<s:link id="approved" view="/report-list.xhtml" value="#{messages['menu.approved']} (#{reportsCounts['Approved']})" propagation="none">
+			<s:link id="approved" view="/report-list.xhtml" propagation="none">
 				<f:param name="type" value="Approved" />
+				<span>#{messages['menu.approved']}</span>
+				<span class="pull-right">#{reportsCounts['Approved']}</span>
+			</s:link>
+		</li>
+		<li class="divider"></li>
+		<li>
+			<s:link id="all-my-reports" view="/report-list.xhtml" propagation="none">
+				<f:param name="type" value="All" />
+				<span>#{messages['menu.all']}</span>
+				<span class="pull-right">#{reportsCounts['All']}</span>
 			</s:link>
 		</li>
 	</ul>
 
 	<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
-		<li>
-			<s:link id="reporting" view="/reporting.xhtml" value="#{messages['menu.reporting']}" propagation="none">
-				<f:param name="type" />
-			</s:link>
-		</li>
-		<ul>
+		<li class="nav-header">#{messages['menu.reporting']}</li>
+
+		<ul class="nav nav-list">
 			<li>
 				<s:link id="by-year" view="/reporting.xhtml" value="#{messages['menu.reporting.year']}" propagation="none">
 					<f:param name="type" value="year" />

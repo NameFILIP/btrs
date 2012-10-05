@@ -1,4 +1,4 @@
-package com.infinitiessoft.btrs.logic;
+package com.infinitiessoft.btrs.custom;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

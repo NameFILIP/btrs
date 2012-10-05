@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				contentType="text/html">
+
+	<div class="modal hide fade" id="expense-modal" tabindex="-1" role="dialog" aria-labelledby="expense-modal-label" aria-hidden="false">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="expense-modal-label">#{messages['expense.details']}</h3>
+		</div>
+		<h:form id="expense-edit-form" styleClass="form-horizontal">
+			<a:outputPanel id="inputs-modal" layout="block" styleClass="modal-body">
+
+				<s:decorate id="expenseCategoryField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['category']}</ui:define>
+					<h:selectOneMenu id="category" value="#{expenseCategoryHome.expenseCategoryId}">
+						<s:selectItems value="#{expenseCategoryList.resultList}" var="c" itemValue="#{c.id}" label="#{messages[c.nameKey]}" noSelectionLabel="#{messages['category.all']}" />
+						<a:support event="onchange" reRender="expenseTypeField" ajaxSingle="true" />
+					</h:selectOneMenu>
+				</s:decorate>
+
+				<s:decorate id="expenseTypeField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['type']}</ui:define>
+					<h:selectOneMenu id="type" required="true" value="#{expenseTypeHome.expenseTypeId}" hideNoSelectionOption="true">
+						<s:selectItems value="#{expenseCategoryHome.managed ? expenseCategoryHome.getExpenseTypes() : expenseTypeList.resultList}" var="t" itemValue="#{t.id}" label="#{messages[t.nameKey]}" noSelectionLabel="#{messages['common.prompt']}" />
+						<a:support event="onchange" reRender="parametersArea" ajaxSingle="true" action="#{expenseHome.wire}" />
+					</h:selectOneMenu>
+				</s:decorate>
+
+				<s:decorate id="commentField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['expense.comment']}</ui:define>
+					<h:inputTextarea id="comment" cols="40" rows="3" value="#{expense.comment}"/>
+				</s:decorate>
+
+				<a:outputPanel id="parametersArea">
+					<ui:fragment rendered="#{expenseTypeHome.managed}">
+						<ui:include src="expense-params/#{expenseTypeHome.managed ? expenseType.value.name().toLowerCase() : 'other'}.xhtml" />
+					</ui:fragment>
+				</a:outputPanel>
+
+			</a:outputPanel>
+			<div class="modal-footer">
+				<a:commandButton id="save-modal" value="#{messages['common.save']}" actionListener="#{expenseHome.addToReportAndClear()}" reRender="inputs-modal, expense-table, hack-panel" oncomplete="closeWindow('expense-edit-form:hack-errors', '#expense-modal')" styleClass="btn btn-primary" />
+				<a:commandButton id="save-and-add-modal" value="#{messages['expense.saveAndAdd']}" actionListener="#{expenseHome.addToReportAndClear()}" reRender="inputs-modal, expense-table" styleClass="btn" />
+				<a:commandButton id="cancel-modal" value="#{messages['common.cancel']}" actionListener="#{expenseHome.clear()}" reRender="inputs-modal" ajaxSingle="true" immediate="true" onclick="$j('#expense-modal').modal('hide')" styleClass="btn" />
+			</div>
+
+			<!-- Hack for closing modal window if validation after Save successful -->
+			<a:outputPanel id="hack-panel" styleClass="hide">
+				<h:messages id="hack-errors"></h:messages>
+			</a:outputPanel>
+
+		</h:form>
+	</div>
+     
+</ui:composition>

@@ -1,5 +1,3 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
 				xmlns:s="http://jboss.com/products/seam/taglib"
 				xmlns:ui="http://java.sun.com/jsf/facelets" 
@@ -14,81 +12,89 @@
 		<ui:include src="layout/admin-sidebar.xhtml" />
 	</ui:define>
 
+	<ui:define name="data-main">
+	
+		<div class="alert table-header no-bottom-radius">#{messages['department.list.header']} (#{departmentList.allDepartments.size()})</div>
 
-	<ui:define name="data-main-title">#{messages['department.title']}</ui:define>
+		<ui:fragment rendered="#{empty departmentList.allDepartments}">
+			<table class="table table-bordered no-top-radius">
+				<tr>
+					<td>#{messages['department.list.empty']}</td>
+				</tr>
+				<tr>
+					<td>
+						<s:button view="/department-edit.xhtml" id="create" propagation="none" value="#{messages['department.create']}" styleClass="btn offset4 span4">
+							<f:param name="departmentId" />
+						</s:button>
+					</td>
+				</tr>
+			</table>
+		</ui:fragment>
 
-	<ui:define name="data-main-body">
-		<rich:panel>
-			<f:facet name="header">#{messages['department.list.header']} (#{empty departmentList.resultList ? 0 : (departmentList.paginated ? departmentList.resultCount : departmentList.resultList.size)})</f:facet>
-			<div class="results" id="departmentList">
+		<h:form>
+			<rich:dataTable id="departmentList" var="_department" value="#{departmentList.allDepartments}" rendered="#{not empty departmentList.allDepartments}"
+					styleClass="table table-bordered table-hover no-top-radius no-body-bottom-radius">
 
-				<h:outputText value="#{messages['department.list.empty']}" rendered="#{empty departmentList.resultList}" />
+				<rich:column sortBy="#{_department.name}">
+					<f:facet name="header">#{messages['department.name']}</f:facet>
+					<h:outputText value="#{_department.name}" />
+				</rich:column>
 
-				<rich:dataTable id="departmentList" var="_department" value="#{departmentList.resultList}" rendered="#{not empty departmentList.resultList}">
+				<rich:column sortBy="#{_department.comment}">
+					<f:facet name="header">#{messages['department.comment']}</f:facet>
+					<h:outputText value="#{_department.comment}" />
+				</rich:column>
 
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{departmentList}" />
-								<ui:param name="propertyLabel" value="#{messages['department.name']}" />
-								<ui:param name="propertyPath" value="department.name" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{_department.name}" />
-					</h:column>
+				<rich:column>
+					<f:facet name="header">#{messages['common.action']}</f:facet>
+					<s:link view="/department-view.xhtml" value="#{messages['common.view']}" propagation="none" id="department-view" styleClass="btn btn-mini">
+						<f:param name="departmentId" value="#{_department.id}" />
+					</s:link>
+					#{' '}
+					<s:link view="/department-edit.xhtml" value="#{messages['common.edit']}" propagation="none" id="department-edit" styleClass="btn btn-mini">
+						<f:param name="departmentId" value="#{_department.id}" />
+					</s:link>
+					#{' '}
+				</rich:column>
+				
+				<f:facet name="footer">
+					<s:button view="/department-edit.xhtml" id="create" propagation="none" value="#{messages['department.create']}" styleClass="btn offset4 span4">
+						<f:param name="departmentId" />
+					</s:button>
+				</f:facet>
+				
+			</rich:dataTable>
+			
+			<rich:datascroller for="departmentList" renderIfSinglePage="false" fastControls="hide" 
+					styleClass="row-fluid" tableStyleClass="offset2 span8 table table-bordered">
+				<f:facet name="first">
+					#{messages['common.page.first']}
+				</f:facet>
+				<f:facet name="first_disabled">
+					#{messages['common.page.first']}
+				</f:facet>
+				<f:facet name="last">
+					#{messages['common.page.last']}
+				</f:facet>
+				<f:facet name="last_disabled">
+					#{messages['common.page.last']}
+				</f:facet>
+				<f:facet name="previous">
+					#{messages['common.page.previous']}
+				</f:facet>
+				<f:facet name="previous_disabled">
+					#{messages['common.page.previous']}
+				</f:facet>
+				<f:facet name="next">
+					#{messages['common.page.next']}
+				</f:facet>
+				<f:facet name="next_disabled">
+					#{messages['common.page.next']}
+				</f:facet>
+			</rich:datascroller>
 
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{departmentList}" />
-								<ui:param name="propertyLabel" value="#{messages['department.comment']}" />
-								<ui:param name="propertyPath" value="department.comment" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{_department.comment}" />
-					</h:column>
-
-					<rich:column styleClass="action">
-						<f:facet name="header">#{messages['common.action']}</f:facet>
-						<s:link view="/department-view.xhtml" value="#{messages['common.view']}" propagation="none" id="department-view">
-							<f:param name="departmentId" value="#{_department.id}" />
-						</s:link>
-						#{' '}
-						<s:link view="/department-edit.xhtml" value="#{messages['common.edit']}" propagation="none" id="department-edit">
-							<f:param name="departmentId" value="#{_department.id}" />
-						</s:link>
-						#{' '}
-					</rich:column>
-				</rich:dataTable>
-
-			</div>
-		</rich:panel>
-
-		<div class="tableControl">
-
-			<s:link view="/department-list.xhtml" rendered="#{departmentList.previousExists}" value="#{messages.left}#{messages.left} #{messages['common.page.first']}" id="firstPage">
-				<f:param name="firstResult" value="0" />
-			</s:link>
-
-			<s:link view="/department-list.xhtml" rendered="#{departmentList.previousExists}" value="#{messages.left} #{messages['common.page.previous']}" id="previousPage">
-				<f:param name="firstResult" value="#{departmentList.previousFirstResult}" />
-			</s:link>
-
-			<s:link view="/department-list.xhtml" rendered="#{departmentList.nextExists}" value="#{messages['common.page.next']} #{messages.right}" id="nextPage">
-				<f:param name="firstResult" value="#{departmentList.nextFirstResult}" />
-			</s:link>
-
-			<s:link view="/department-list.xhtml" rendered="#{departmentList.nextExists}" value="#{messages['common.page.last']} #{messages.right}#{messages.right}" id="lastPage">
-				<f:param name="firstResult" value="#{departmentList.lastFirstResult}" />
-			</s:link>
-
-		</div>
-
-		<s:div styleClass="actionButtons">
-			<s:button view="/department-edit.xhtml" id="create" propagation="none" value="#{messages['department.create']}">
-				<f:param name="departmentId" />
-			</s:button>
-		</s:div>
+		</h:form>
+		
 	</ui:define>
 
 </ui:composition>

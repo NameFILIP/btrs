@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <f:view xmlns="http://www.w3.org/1999/xhtml" 
 		xmlns:ui="http://java.sun.com/jsf/facelets"
 		xmlns:f="http://java.sun.com/jsf/core" 
@@ -12,103 +11,113 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title><ui:insert name="title">#{messages['system.name']}</ui:insert></title>
 <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico" />
-<a:loadStyle src="/css/theme.xcss" />
-<a:loadStyle src="/css/theme.css" />
+<!-- a:loadStyle src="/css/theme.xcss" />
+<a:loadStyle src="/css/theme.css" /-->
+<link href="#{request.contextPath}/css/bootstrap.css" rel="stylesheet" />
+<link href="#{request.contextPath}/css/custom.css" rel="stylesheet" />
 <ui:insert name="head" />
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<ul id="accountnav">
-				<li>#{messages['accountnav.welcome']}, #{identity.loggedIn ? currentUser.fullName : messages['accountnav.guest']}</li>
-				<li>-</li>
-				<s:fragment rendered="#{not identity.loggedIn}">
-					<li><s:link id="login" view="/login.xhtml" value="#{messages['accountnav.login']}" /></li>
-					<li>-</li>
-					<li>
-						<s:link id="register" view="/user-edit.xhtml" value="#{messages['accountnav.register']}">
-							<f:param name="userFrom" value="/login.xhtml" />
-						</s:link>
-					</li>
-					<!-- li>-</li>
-					<li><s:link id="forgot" view="/" value="#{messages['accountnav.forgot.password']}" /></li-->
-				</s:fragment>
-				<s:fragment rendered="#{identity.loggedIn}">
-					<li>
-						<s:link id="my-account" view="/user-edit.xhtml" value="#{messages['accountnav.my.account']}" propagation="none">
-							<f:param name="userId" value="#{currentUser.id}" />
-							<f:param name="userFrom" value="#{facesContext.viewRoot.viewId}" />
-						</s:link>
-					</li>
-				</s:fragment>
-					<li>-</li>
-					<li>
-						<h:form id="language">
-							<h:selectOneMenu value="#{localeSelector.localeString}" valueChangeListener="#{localeSelector.select}" onchange="submit()">
-								 <f:selectItems value="#{localeSelector.supportedLocales}"/>
-							</h:selectOneMenu>
-						</h:form>
-					</li>
-				<s:fragment rendered="#{identity.loggedIn}">
-					<!-- li><s:link id="help" view="/help.xhtml" value="#{messages['accountnav.help']}" propagation="none" /></li-->
-					<li>-</li>
-					<li><s:link id="logout" action="#{identity.logout}" value="#{messages['accountnav.logout']}" propagation="end" /></li>
+
+<!-- navbar -->
+	<div class="navbar" id="top-navbar">
+		<div class="navbar-inner">
+		<ul class="nav pull-right" id="accountnav">
+			<li class="navbar-text text-success">#{messages['accountnav.welcome']}, #{identity.loggedIn ? currentUser.fullName : messages['accountnav.guest']}</li>
+			<li class="divider-vertical"></li>
+			<s:fragment rendered="#{not identity.loggedIn}">
+				<li>
+					<s:link id="login" view="/login.xhtml" value="#{messages['accountnav.login']}" />
+				</li>
+				<li>
+					<s:link id="register" view="/user-edit.xhtml" value="#{messages['accountnav.register']}">
+						<f:param name="userFrom" value="/login.xhtml" />
+					</s:link>
+				</li>
+			</s:fragment>
+			<s:fragment rendered="#{identity.loggedIn}">
+				<li><s:link id="my-account" view="/user-edit.xhtml" value="#{messages['accountnav.my.account']}" propagation="none">
+						<f:param name="userId" value="#{currentUser.id}" />
+						<f:param name="userFrom" value="#{facesContext.viewRoot.viewId}" />
+					</s:link></li>
+			</s:fragment>
+			<li><h:form id="language" styleClass="navbar-form">
+					<h:selectOneMenu value="#{localeSelector.localeString}" valueChangeListener="#{localeSelector.select}" onchange="submit()" styleClass="language-selector">
+						<f:selectItems value="#{localeSelector.supportedLocales}" />
+					</h:selectOneMenu>
+				</h:form></li>
+			<s:fragment rendered="#{identity.loggedIn}">
+				<li><s:link id="logout" action="#{identity.logout}" value="#{messages['accountnav.logout']}" propagation="end" /></li>
+			</s:fragment>
+		</ul>
+		</div>
+	</div>
+
+	<header class="subhead">
+		<s:link id="logo-img" view="/" propagation="none">
+			<h:graphicImage value="/img/logo.png" alt="#{messages['company.name']}" />
+			<div id="title">#{messages['system.name']}</div>
+		</s:link>
+	</header>
+
+	<!-- main navbar -->
+	<div id="navbar-outer" class="navbar">
+		<div class="navbar-inner">
+			<s:fragment rendered="#{identity.loggedIn}">
+			<ul class="nav" id="navbar">
+				<li><s:link id="my-reports" view="/report-list.xhtml" value="#{messages['navbar.my.reports']}" propagation="none">
+						<f:param name="type" />
+					</s:link></li>
+				<li><s:link id="report-new" view="/report-edit.xhtml" value="#{messages['navbar.create.new.report']}"
+						propagation="none">
+						<f:param name="reportFrom" value="#{facesContext.viewRoot.viewId}" />
+						<f:param name="reportId" />
+					</s:link></li>
+				<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
+					<li class="divider-vertical"></li>
+					<li><s:link id="management" action="management" value="#{messages['navbar.management']}" propagation="none" /></li>
 				</s:fragment>
 			</ul>
-			<div id="logobar">
-				<s:link id="logo-img" view="/" propagation="none">
-					<h:graphicImage value="/img/logo.jpg" alt="#{messages['company.name']}" />
-				</s:link>
-				<h1 id="title">#{messages['system.name']}</h1>
-			</div>
+			</s:fragment>
 		</div>
-		<div id="main-container">
-			<s:div id="navbar-outer" rendered="#{identity.loggedIn}">
-				<ul id="navbar">
-					<li>
-						<s:link id="my-reports" view="/report-list.xhtml" value="#{messages['navbar.my.reports']}" propagation="none">
-							<f:param name="type" />
-						</s:link>
-					</li>
-					<li>
-						<s:link id="report-new" view="/report-edit.xhtml" value="#{messages['navbar.create.new.report']}" propagation="none">
-							<f:param name="reportFrom" value="#{facesContext.viewRoot.viewId}" />
-							<f:param name="reportId" />
-						</s:link>
-					</li>
-					<s:fragment rendered="#{s:hasRole('ACCOUNTANT') or s:hasRole('ADMIN')}">
-						<li>-</li>
-					</s:fragment>
+	</div>
 
-					<s:fragment rendered="#{s:hasRole('ACCOUNTANT') or s:hasRole('ADMIN')}">
-						<li><s:link id="management" action="management" value="#{messages['navbar.management']}" propagation="none" /></li>
-					</s:fragment>
-				</ul>
+	<!-- content -->
+	<div class="container-fluid">
+		<div class="row-fluid">
+
+			<s:div styleClass="alert alert-info" rendered="#{not empty statusMessages.getCurrentGlobalMessages()}">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				<h:messages globalOnly="true" id="alert-list" />
 			</s:div>
-			<div id="error">
-				<h:messages globalOnly="true" />
-			</div>
-			<div id="content">
-				<ui:insert name="content">
-					<div id="data-navbar-outer">
-						<ul id="data-navbar">
-							<ui:insert name="data-navbar">
-								<ui:include src="sidebar.xhtml" />
-							</ui:insert>
-						</ul>
-					</div>
-					<div id="data-main">
-						<div id="data-main-title">
-							<h1><ui:insert name="data-main-title" /></h1>
+		</div>
+		<div class="row-fluid">
+			<ui:insert name="content">
+				<div id="data-navbar-outer" class="span3 well">
+					<ul id="data-navbar" class="nav nav-list">
+						<ui:insert name="data-navbar">
+							<ui:include src="sidebar.xhtml" />
+						</ui:insert>
+					</ul>
+				</div>
+				<div id="data-main" class="span9">
+					<ui:insert name="data-main">
+						<div id="data-main-title" class="alert data-main-title">
+							<ui:insert name="data-main-title" />
 						</div>
 						<div id="data-main-body">
 							<ui:insert name="data-main-body" />
 						</div>
-					</div>
-				</ui:insert>
-			</div>
+					</ui:insert>
+				</div>
+			</ui:insert>
 		</div>
 	</div>
+
+	<!-- script src="http://code.jquery.com/jquery-latest.js"></script-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.js"></script>
+	<script src="#{request.contextPath}/js/custom.js"></script>
+	<script src="#{request.contextPath}/js/bootstrap.js"></script>
 </body>
 	</html>
 </f:view>

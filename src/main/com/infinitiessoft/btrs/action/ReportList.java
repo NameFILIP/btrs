@@ -97,17 +97,4 @@ public class ReportList extends EntityQuery<Report> {
 				.getResultList();
 	}
 	
-	/**
-	 * Used for preparing Open Reports
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Report> getOpenStatusReportsForUser() {
-		return getEntityManager().createQuery("select distinct r from Report r " +
-				"join fetch r.owner own join fetch r.reviewer rev left outer join fetch r.expenses e " +
-				"where (own = :user or rev = :user) and r.currentStatus <> 'APPROVED' " +
-				"order by r.lastUpdatedDate")
-				.setParameter("user", currentUser)
-				.getResultList();
-	}
-	
 }

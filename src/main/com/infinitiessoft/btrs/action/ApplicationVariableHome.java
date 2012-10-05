@@ -64,7 +64,6 @@ public class ApplicationVariableHome extends EntityHome<ApplicationVariable> {
 			update(variable);
 		}
 		StatusMessages.instance().clearGlobalMessages();
-		StatusMessages.instance().add("Successfully udated");
 		return "updated";
 	}
 

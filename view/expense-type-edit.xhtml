@@ -1,5 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:f="http://java.sun.com/jsf/core" 
@@ -12,49 +10,52 @@
 
 	<ui:define name="title">#{messages['type.title']}</ui:define>
 
-	<ui:define name="content">
-		<h:form id="expenseType" styleClass="edit">
-
-			<rich:panel>
-				<f:facet name="header">#{expenseTypeHome.managed ? messages['type.edit'] : messages['type.add']}</f:facet>
-
-				<s:decorate id="valueField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['type.name']}</ui:define>
-					<h:selectOneMenu id="department" required="true" value="#{expenseType.value}">
-						<s:selectItems value="#{expenseTypes}" var="et" itemValue="#{et}" label="#{messages[et.label]}" />
-						<s:convertEnum />
-						<a:support event="onblur" reRender="valueField" bypassUpdates="true" ajaxSingle="true" />
-					</h:selectOneMenu>
-				</s:decorate>
-				
-				<s:decorate id="taxPercentField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['type.taxPercent']}</ui:define>
-					<h:inputText id="taxPercent" size="5" maxlength="5" value="#{expenseType.taxPercent}">
-						<a:support event="onblur" reRender="taxPercentField" bypassUpdates="true" ajaxSingle="true" />
-					</h:inputText>
-				</s:decorate>
-
-
-				<s:decorate id="typeParametersField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['type.parameters']}</ui:define>
-					<rich:pickList value="#{expenseType.typeParameters}">
-						<s:selectItems value="#{typeParameterList.resultList}" var="p" label="#{messages[p.nameKey]}" />
-						<s:convertEntity />
-						<a:support event="onblur" reRender="typeParametersField" bypassUpdates="true" ajaxSingle="true" />
-					</rich:pickList>
-				</s:decorate>
-
-				<!-- If you add required params - modify next div -->
-				<div style="clear: both" />
-
-			</rich:panel>
-
-			<div class="actionButtons">
-				<h:commandButton id="save" value="#{messages['common.save']}" action="#{expenseTypeHome.persist}" rendered="#{!expenseTypeHome.managed}" />
-				<h:commandButton id="update" value="#{messages['common.save']}" action="#{expenseTypeHome.update}" rendered="#{expenseTypeHome.managed}" />
-				<h:commandButton id="delete" value="#{messages['common.delete']}" action="#{expenseTypeHome.remove}" immediate="true" rendered="#{expenseTypeHome.managed}" />
-				<s:button id="cancel" value="#{messages['common.cancel']}" propagation="end" view="/expense-type-list.xhtml" />
-			</div>
-		</h:form>
+	<ui:define name="data-navbar">
+		<ui:include src="layout/admin-sidebar.xhtml" />
 	</ui:define>
+	
+	<ui:define name="data-main-title">
+		#{expenseTypeHome.managed ? messages['type.edit'] : messages['type.add']}
+	</ui:define>
+	
+	<ui:define name="data-main-body">
+	
+		<h:form id="expenseType" styleClass="form-horizontal">
+
+			<s:decorate id="valueField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['type.name']}</ui:define>
+				<h:selectOneMenu id="department" required="true" value="#{expenseType.value}">
+					<s:selectItems value="#{expenseTypes}" var="et" itemValue="#{et}" label="#{messages[et.label]}" />
+					<s:convertEnum />
+					<a:support event="onblur" reRender="valueField" bypassUpdates="true" ajaxSingle="true" />
+				</h:selectOneMenu>
+			</s:decorate>
+			
+			<s:decorate id="taxPercentField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['type.taxPercent']}</ui:define>
+				<h:inputText id="taxPercent" size="5" maxlength="5" value="#{expenseType.taxPercent}">
+					<a:support event="onblur" reRender="taxPercentField" bypassUpdates="true" ajaxSingle="true" />
+				</h:inputText>
+			</s:decorate>
+
+			<s:decorate id="typeParametersField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['type.parameters']}</ui:define>
+				<rich:pickList value="#{expenseType.typeParameters}" styleClass="table-condensed" listClass="table-bordered">
+					<s:selectItems value="#{typeParameterList.resultList}" var="p" label="#{messages[p.nameKey]}" />
+					<s:convertEntity />
+					<a:support event="onblur" reRender="typeParametersField" bypassUpdates="true" ajaxSingle="true" />
+				</rich:pickList>
+			</s:decorate>
+
+			<div class="form-actions">
+				<h:commandButton id="save" value="#{messages['common.save']}" action="#{expenseTypeHome.persist}" rendered="#{!expenseTypeHome.managed}" styleClass="btn btn-primary"/>
+				<h:commandButton id="update" value="#{messages['common.save']}" action="#{expenseTypeHome.update}" rendered="#{expenseTypeHome.managed}" styleClass="btn btn-primary"/>
+				<h:commandButton id="delete" value="#{messages['common.delete']}" action="#{expenseTypeHome.remove}" immediate="true" rendered="#{expenseTypeHome.managed}" styleClass="btn btn-danger"/>
+				<s:button id="cancel" value="#{messages['common.cancel']}" propagation="end" view="/expense-type-list.xhtml" styleClass="btn"/>
+			</div>
+			
+		</h:form>
+		
+	</ui:define>
+	
 </ui:composition>

@@ -45,17 +45,17 @@
 
 	<mail:mail-session host="@mailHost@" port="@mailPort@" username="@mailUsername@" password="@mailPassword@" />
 
-	<factory name="department" value="#{departmentHome.instance}" />
-	<factory name="expenseCategory" value="#{expenseCategoryHome.instance}" />
-	<factory name="expense" value="#{expenseHome.instance}" />
-	<factory name="expenseType" value="#{expenseTypeHome.instance}" />
-	<factory name="parameterValue" value="#{parameterValueHome.instance}" />
-	<factory name="report" value="#{reportHome.instance}" />
-	<factory name="role" value="#{roleHome.instance}" />
-	<factory name="statusChange" value="#{statusChangeHome.instance}" />
-	<factory name="status" value="#{statusHome.instance}" />
-	<factory name="typeParameter" value="#{typeParameterHome.instance}" />
-	<factory name="user" value="#{userHome.instance}" />
+	<factory name="applicationVariable" value="#{applicationVariableHome.instance}" scope="stateless"/>
+	<factory name="department" value="#{departmentHome.instance}" scope="stateless"/>
+	<factory name="expenseCategory" value="#{expenseCategoryHome.instance}" scope="stateless"/>
+	<factory name="expense" value="#{expenseHome.instance}" scope="stateless"/>
+	<factory name="expenseType" value="#{expenseTypeHome.instance}" scope="stateless"/>
+	<factory name="parameterValue" value="#{parameterValueHome.instance}" scope="stateless"/>
+	<factory name="report" value="#{reportHome.instance}" scope="stateless"/>
+	<factory name="role" value="#{roleHome.instance}" scope="stateless"/>
+	<factory name="statusChange" value="#{statusChangeHome.instance}" scope="stateless"/>
+	<factory name="typeParameter" value="#{typeParameterHome.instance}" scope="stateless"/>
+	<factory name="user" value="#{userHome.instance}" scope="stateless"/>
 
 	<component name="passwordManager">
 		<property name="digestAlgorithm">@passDigestAlgorithm@</property>

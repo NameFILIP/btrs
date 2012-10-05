@@ -1,14 +1,14 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:rich="http://richfaces.org/rich">
 
+	<li class="nav-header">#{messages['menu.management']}</li>
+	<ul class="nav nav-list sub-nav-list">
 		<li><s:link id="user-list" view="/user-list.xhtml" value="#{messages['menu.management.users']}" propagation="none" /></li>
 		<li><s:link id="department-list" view="/department-list.xhtml" value="#{messages['menu.management.departments']}" propagation="none" /></li>
 		<li><s:link id="expense-category-list" view="/expense-category-list.xhtml" value="#{messages['menu.management.categories']}" propagation="none" /></li>
 		<li><s:link id="expense-type-list" view="/expense-type-list.xhtml" value="#{messages['menu.management.types']}" propagation="none" /></li>
 		<!-- li><s:link id="generate-reports" action="#{reportsGenerator.generateReports(1000)}" value="Generate reports" propagation="none" /></li-->
 		<li><s:link id="manage-variables" view="/manage-variables-view.xhtml" value="#{messages['menu.management.variables']}" propagation="none" /></li>
-	
+	</ul>
 </ui:composition>

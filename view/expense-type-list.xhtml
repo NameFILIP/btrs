@@ -1,5 +1,3 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
 				xmlns:s="http://jboss.com/products/seam/taglib"
 				xmlns:ui="http://java.sun.com/jsf/facelets" 
@@ -14,89 +12,101 @@
 		<ui:include src="layout/admin-sidebar.xhtml" />
 	</ui:define>
 
+	<ui:define name="data-main">
+	
+		<div class="alert table-header no-bottom-radius">#{messages['type.list.header']} (#{expenseTypeList.allExpenseTypes.size()})</div>
+		
+		<ui:fragment rendered="#{empty expenseTypeList.allExpenseTypes}">
+			<table class="table table-bordered no-top-radius">
+				<tr>
+					<td>#{messages['type.list.empty']}</td>
+				</tr>
+				<tr>
+					<td>
+						<s:button view="/expense-type-edit.xhtml" id="create" propagation="none" value="#{messages['type.create']}"
+								styleClass="btn offset4 span4">
+							<f:param name="expenseTypeId" />
+						</s:button>
+					</td>
+				</tr>
+			</table>
+		</ui:fragment>
 
-	<ui:define name="data-main-title">#{messages['type.title']}</ui:define>
+		<h:form>
+			<rich:dataTable id="expenseTypeList" var="_expenseType" value="#{expenseTypeList.allExpenseTypes}" rendered="#{not empty expenseTypeList.allExpenseTypes}"
+					styleClass="table table-bordered table-hover no-top-radius no-body-bottom-radius">
 
-	<ui:define name="data-main-body">
-		<rich:panel>
-			<f:facet name="header">#{messages['type.list.header']} (#{empty expenseTypeList.resultList ? 0 : (expenseTypeList.paginated ? expenseTypeList.resultCount : expenseTypeList.resultList.size)})</f:facet>
-			<div class="results" id="expenseTypeList">
+				<rich:column sortBy="#{messages[_expenseType.nameKey]}">
+					<f:facet name="header">#{messages['type.name']}</f:facet>
+					<h:outputText value="#{messages[_expenseType.nameKey]}" />
+				</rich:column>
+				
+				<rich:column sortBy="#{_expenseType.value.name()}">
+					<f:facet name="header">#{messages['type.code']}</f:facet>
+					<h:outputText value="#{_expenseType.value.name()}" />
+				</rich:column>
+				
+				<rich:column sortBy="#{_expenseType.taxPercent}">
+					<f:facet name="header">#{messages['type.taxPercent']}</f:facet>
+					<h:outputText value="#{_expenseType.taxPercent}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header">#{messages['type.parameters']}</f:facet>
+					<ui:repeat var="p" value="#{_expenseType.typeParameters}">
+						<h:outputText value="#{messages[p.nameKey]}" /><br/>
+					</ui:repeat>
+				</rich:column>
 
-				<h:outputText value="#{messages['type.list.empty']}" rendered="#{empty expenseTypeList.resultList}" />
+				<rich:column>
+					<f:facet name="header">#{messages['common.action']}</f:facet>
+					<s:link view="/expense-type-view.xhtml" value="#{messages['common.view']}" propagation="none" id="expense-type-view" styleClass="btn btn-mini">
+						<f:param name="expenseTypeId" value="#{_expenseType.id}" />
+					</s:link>
+					#{' '}
+            		<s:link view="/expense-type-edit.xhtml" value="#{messages['common.edit']}" propagation="none" id="expense-type-edit" styleClass="btn btn-mini">
+						<f:param name="expenseTypeId" value="#{_expenseType.id}" />
+					</s:link>
+				</rich:column>
 
-				<rich:dataTable id="expenseTypeList" var="_expenseType" value="#{expenseTypeList.resultList}" rendered="#{not empty expenseTypeList.resultList}">
+				<f:facet name="footer">
+					<s:button view="/expense-type-edit.xhtml" id="create" propagation="none" value="#{messages['type.create']}"
+							styleClass="btn offset4 span4">
+						<f:param name="expenseTypeId" />
+					</s:button>
+				</f:facet>
 
-					<h:column>
-						<f:facet name="header">#{messages['type.name']}</f:facet>
-						<h:outputText value="#{messages[_expenseType.nameKey]}" />
-					</h:column>
-					
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{expenseTypeList}" />
-								<ui:param name="propertyLabel" value="#{messages['type.code']}" />
-								<ui:param name="propertyPath" value="expenseType.value" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{_expenseType.value.name()}" />
-					</h:column>
-					
-					<h:column>
-						<f:facet name="header">
-							<ui:include src="layout/sort.xhtml">
-								<ui:param name="entityList" value="#{expenseTypeList}" />
-								<ui:param name="propertyLabel" value="#{messages['type.taxPercent']}" />
-								<ui:param name="propertyPath" value="expenseType.taxPercent" />
-							</ui:include>
-						</f:facet>
-						<h:outputText value="#{_expenseType.taxPercent}" />
-					</h:column>
-					
-					<h:column>
-						<f:facet name="header">#{messages['type.parameters']}</f:facet>
-						<ui:repeat var="p" value="#{_expenseType.typeParameters}">
-							<h:outputText value="#{messages[p.nameKey]}" /><br/>
-						</ui:repeat>
-					</h:column>
+			</rich:dataTable>
 
-
-					<rich:column styleClass="action">
-						<f:facet name="header">#{messages['common.action']}</f:facet>
-						<s:link view="/expense-type-view.xhtml" value="#{messages['common.view']}" propagation="none" id="expense-type-view">
-							<f:param name="expenseTypeId" value="#{_expenseType.id}" />
-						</s:link>
-						#{' '}
-	            		<s:link view="/expense-type-edit.xhtml" value="#{messages['common.edit']}" propagation="none" id="expense-type-edit">
-							<f:param name="expenseTypeId" value="#{_expenseType.id}" />
-						</s:link>
-						#{' '}
-					</rich:column>
-				</rich:dataTable>
-
-			</div>
-		</rich:panel>
-
-		<div class="tableControl">
-			<s:link view="/expense-type-list.xhtml" rendered="#{expenseTypeList.previousExists}" value="#{messages.left}#{messages.left} #{messages['common.page.first']}" id="firstPage">
-				<f:param name="firstResult" value="0" />
-			</s:link>
-			<s:link view="/expense-type-list.xhtml" rendered="#{expenseTypeList.previousExists}" value="#{messages.left} #{messages['common.page.previous']}" id="previousPage">
-				<f:param name="firstResult" value="#{expenseTypeList.previousFirstResult}" />
-			</s:link>
-			<s:link view="/expense-type-list.xhtml" rendered="#{expenseTypeList.nextExists}" value="#{messages['common.page.next']} #{messages.right}" id="nextPage">
-				<f:param name="firstResult" value="#{expenseTypeList.nextFirstResult}" />
-			</s:link>
-			<s:link view="/expense-type-list.xhtml" rendered="#{expenseTypeList.nextExists}" value="#{messages['common.page.last']} #{messages.right}#{messages.right}" id="lastPage">
-				<f:param name="firstResult" value="#{expenseTypeList.lastFirstResult}" />
-			</s:link>
-		</div>
-
-		<s:div styleClass="actionButtons">
-			<s:button view="/expense-type-edit.xhtml" id="create" propagation="none" value="#{messages['type.create']}">
-				<f:param name="expenseTypeId" />
-			</s:button>
-		</s:div>
+			<rich:datascroller for="expenseTypeList" renderIfSinglePage="false" fastControls="hide" 
+					styleClass="row-fluid" tableStyleClass="offset2 span8 table table-bordered">
+				<f:facet name="first">
+					#{messages['common.page.first']}
+				</f:facet>
+				<f:facet name="first_disabled">
+					#{messages['common.page.first']}
+				</f:facet>
+				<f:facet name="last">
+					#{messages['common.page.last']}
+				</f:facet>
+				<f:facet name="last_disabled">
+					#{messages['common.page.last']}
+				</f:facet>
+				<f:facet name="previous">
+					#{messages['common.page.previous']}
+				</f:facet>
+				<f:facet name="previous_disabled">
+					#{messages['common.page.previous']}
+				</f:facet>
+				<f:facet name="next">
+					#{messages['common.page.next']}
+				</f:facet>
+				<f:facet name="next_disabled">
+					#{messages['common.page.next']}
+				</f:facet>
+			</rich:datascroller>
+			
+		</h:form>
 	</ui:define>
 
 </ui:composition>

@@ -2,7 +2,6 @@ package com.infinitiessoft.btrs.enums;
 
 public enum ReportTypeEnum {
 
-	OPEN("Open"),
 	SUBMITTED("Submitted"),
 	REJECTED("Rejected"),
 	

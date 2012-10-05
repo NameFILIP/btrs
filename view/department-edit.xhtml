@@ -1,8 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
 				xmlns:ui="http://java.sun.com/jsf/facelets"
-				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:h="http://java.sun.com/jsf/html" 
 				xmlns:a="http://richfaces.org/a4j"
 				xmlns:rich="http://richfaces.org/rich" 
@@ -12,36 +10,35 @@
 
 	<ui:define name="title">#{messages['department.title']}</ui:define>
 
-	<ui:define name="content">
-		<h:form id="department" styleClass="edit">
+	<ui:define name="data-navbar">
+		<ui:include src="layout/admin-sidebar.xhtml" />
+	</ui:define>
+	
+	<ui:define name="data-main-title">
+		#{departmentHome.managed ? messages['department.edit'] : messages['department.add']}
+	</ui:define>
+	
+	<ui:define name="data-main-body">
+		
+		<h:form id="department" styleClass="form-horizontal">
 
-			<rich:panel>
-				<f:facet name="header">#{departmentHome.managed ? messages['department.edit'] : messages['department.add']}</f:facet>
+			<s:decorate id="nameField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['department.name']}</ui:define>
+				<h:inputText id="name" required="true" size="100" maxlength="100" value="#{department.name}">
+					<a:support event="onblur" reRender="nameField" bypassUpdates="true" ajaxSingle="true" />
+				</h:inputText>
+			</s:decorate>
 
-				<s:decorate id="nameField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['department.name']}</ui:define>
-					<h:inputText id="name" required="true" size="100" maxlength="100" value="#{department.name}">
-						<a:support event="onblur" reRender="nameField" bypassUpdates="true" ajaxSingle="true" />
-					</h:inputText>
-				</s:decorate>
+			<s:decorate id="commentField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['department.comment']}</ui:define>
+				<h:inputTextarea id="comment" cols="80" rows="3" value="#{department.comment}" />
+			</s:decorate>
 
-
-				<s:decorate id="commentField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['department.comment']}</ui:define>
-					<h:inputTextarea id="comment" cols="80" rows="3" value="#{department.comment}" />
-				</s:decorate>
-
-				<div style="clear: both">
-					<span class="required">*</span> #{messages['common.required']}
-				</div>
-
-			</rich:panel>
-
-			<div class="actionButtons">
-				<h:commandButton id="save" value="#{messages['common.save']}" action="#{departmentHome.persist}" rendered="#{!departmentHome.managed}" />
-				<h:commandButton id="update" value="#{messages['common.save']}" action="#{departmentHome.update}" rendered="#{departmentHome.managed}" />
-				<h:commandButton id="delete" value="#{messages['common.delete']}" action="#{departmentHome.remove}" immediate="true" rendered="#{departmentHome.managed}" />
-				<s:button id="cancel" value="#{messages['common.cancel']}" propagation="end" view="/department-list.xhtml" />
+			<div class="form-actions">
+				<h:commandButton id="save" value="#{messages['common.save']}" action="#{departmentHome.persist}" rendered="#{!departmentHome.managed}" styleClass="btn btn-primary"/>
+				<h:commandButton id="update" value="#{messages['common.save']}" action="#{departmentHome.update}" rendered="#{departmentHome.managed}" styleClass="btn btn-primary"/>
+				<h:commandButton id="delete" value="#{messages['common.delete']}" action="#{departmentHome.remove}" immediate="true" rendered="#{departmentHome.managed}" styleClass="btn btn-danger"/>
+				<s:button id="cancel" value="#{messages['common.cancel']}" propagation="end" view="/department-list.xhtml" styleClass="btn"/>
 			</div>
 		</h:form>
 	</ui:define>

@@ -1,6 +1,7 @@
 package com.infinitiessoft.btrs.action;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
@@ -12,6 +13,8 @@ public class DepartmentList extends EntityQuery<Department> {
 
 	private static final long serialVersionUID = 4871627186644541082L;
 
+	private List<Department> allDepartments = null;
+	
 	private static final String EJBQL = "select department from Department department";
 
 	private static final String[] RESTRICTIONS = {
@@ -31,4 +34,11 @@ public class DepartmentList extends EntityQuery<Department> {
 		return department;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Department> getAllDepartments() {
+		if (allDepartments == null) {
+			allDepartments = getEntityManager().createQuery("select d from Department d").getResultList();
+		}
+		return allDepartments;
+	}
 }

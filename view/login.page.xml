@@ -9,4 +9,6 @@
       </rule>
    </navigation>
 
+	<action execute="#{statusMessages.addFromResourceBundle('already.loggedIn', '')}" if="#{identity.loggedIn}"/>
+	
 </page>

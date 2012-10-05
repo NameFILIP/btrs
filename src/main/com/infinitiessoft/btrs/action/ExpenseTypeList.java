@@ -23,6 +23,8 @@ public class ExpenseTypeList extends EntityQuery<ExpenseType> {
 	ExpenseTypeHome expenseTypeHome;
 	
 	private static final long serialVersionUID = -1508828451706319531L;
+	
+	private List<ExpenseType> allExpenseTypes = null;
 
 	private static final String EJBQL = "select expenseType from ExpenseType expenseType";
 
@@ -62,6 +64,14 @@ public class ExpenseTypeList extends EntityQuery<ExpenseType> {
 			availableExpenseTypes.add(currentExpenseType.getValue());
 		}
 		return availableExpenseTypes;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ExpenseType> getAllExpenseTypes() {
+		if (allExpenseTypes == null) {
+			allExpenseTypes = getEntityManager().createQuery("select distinct et from ExpenseType et join fetch et.typeParameters tp").getResultList();
+		}
+		return allExpenseTypes;
 	}
 }
 	

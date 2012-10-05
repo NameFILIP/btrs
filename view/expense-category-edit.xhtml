@@ -1,5 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:f="http://java.sun.com/jsf/core" 
@@ -12,47 +10,47 @@
 
 	<ui:define name="title">#{messages['category.title']}</ui:define>
 
-	<ui:define name="content">
-		<h:form id="expenseCategory" styleClass="edit">
+	<ui:define name="data-navbar">
+		<ui:include src="layout/admin-sidebar.xhtml" />
+	</ui:define>
+	
+	<ui:define name="data-main-title">
+		#{expenseCategoryHome.managed ? messages['category.edit'] : messages['category.add']}
+	</ui:define>
+	
+	<ui:define name="data-main-body">
 
-			<rich:panel>
-				<f:facet name="header">#{expenseCategoryHome.managed ? messages['category.edit'] : messages['category.add']}</f:facet>
+		<h:form id="expenseCategory" styleClass="form-horizontal">
 
-				<s:decorate id="nameKeyField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['category.nameKey']}</ui:define>
-					<h:inputText id="nameKey" required="true" size="100" maxlength="100" value="#{expenseCategory.nameKey}">
-						<a:support event="onblur" reRender="nameKeyField" ajaxSingle="true" />
-					</h:inputText>
-					<h:outputText value=" - #{messages[expenseCategory.nameKey]}" />
-				</s:decorate>
-				
-				<s:decorate id="codeField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['category.code']}</ui:define>
-					<h:inputText id="code" size="100" maxlength="100" value="#{expenseCategory.code}">
-						<a:support event="onblur" reRender="codeField" bypassUpdates="true" ajaxSingle="true" />
-					</h:inputText>
-				</s:decorate>
-				
-				<s:decorate id="expenseTypesField" template="layout/edit.xhtml">
-					<ui:define name="label">#{messages['category.expenseTypes']}</ui:define>
-					<rich:pickList value="#{expenseCategory.expenseTypes}">
-						<s:selectItems value="#{expenseTypeList.resultList}" var="et" label="#{messages[et.nameKey]}" />
-						<s:convertEntity />
-						<a:support event="onblur" reRender="expenseTypesField" bypassUpdates="true" ajaxSingle="true" />
-					</rich:pickList>
-				</s:decorate>
+			<s:decorate id="nameKeyField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['category.nameKey']}</ui:define>
+				<h:inputText id="nameKey" required="true" size="100" maxlength="100" value="#{expenseCategory.nameKey}">
+					<a:support event="onblur" reRender="nameKeyField" ajaxSingle="true" />
+				</h:inputText>
+				<h:outputText value=" - #{messages[expenseCategory.nameKey]}" />
+			</s:decorate>
+			
+			<s:decorate id="codeField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['category.code']}</ui:define>
+				<h:inputText id="code" size="100" maxlength="100" value="#{expenseCategory.code}">
+					<a:support event="onblur" reRender="codeField" bypassUpdates="true" ajaxSingle="true" />
+				</h:inputText>
+			</s:decorate>
+			
+			<s:decorate id="expenseTypesField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['category.expenseTypes']}</ui:define>
+				<rich:pickList value="#{expenseCategory.expenseTypes}" styleClass="table-condensed" listClass="table-bordered">
+					<s:selectItems value="#{expenseTypeList.resultList}" var="et" label="#{messages[et.nameKey]}" />
+					<s:convertEntity />
+					<a:support event="onblur" reRender="expenseTypesField" bypassUpdates="true" ajaxSingle="true" />
+				</rich:pickList>
+			</s:decorate>
 
-				<div style="clear: both">
-					<span class="required">*</span> #{messages['common.required']}
-				</div>
-
-			</rich:panel>
-
-			<div class="actionButtons">
-				<h:commandButton id="save" value="#{messages['common.save']}" action="#{expenseCategoryHome.persist}" rendered="#{!expenseCategoryHome.managed}" />
-				<h:commandButton id="update" value="#{messages['common.save']}" action="#{expenseCategoryHome.update}" rendered="#{expenseCategoryHome.managed}" />
-				<h:commandButton id="delete" value="#{messages['common.delete']}" action="#{expenseCategoryHome.remove}" immediate="true" rendered="#{expenseCategoryHome.managed}" />
-				<s:button id="cancel" value="#{messages['common.cancel']}" propagation="end" view="/expense-category-list.xhtml" />
+			<div class="form-actions">
+				<h:commandButton id="save" value="#{messages['common.save']}" action="#{expenseCategoryHome.persist}" rendered="#{!expenseCategoryHome.managed}" styleClass="btn btn-primary"/>
+				<h:commandButton id="update" value="#{messages['common.save']}" action="#{expenseCategoryHome.update}" rendered="#{expenseCategoryHome.managed}" styleClass="btn btn-primary"/>
+				<h:commandButton id="delete" value="#{messages['common.delete']}" action="#{expenseCategoryHome.remove}" immediate="true" rendered="#{expenseCategoryHome.managed}" styleClass="btn btn-danger"/>
+				<s:button id="cancel" value="#{messages['common.cancel']}" propagation="end" view="/expense-category-list.xhtml" styleClass="btn"/>
 			</div>
 		</h:form>
 	</ui:define>

@@ -5,7 +5,7 @@
 						http://jboss.com/products/seam/pages-2.2.xsd"
 	login-required="true">
 
-	<restrict>#{s:hasRole('ADMIN') or s:hasRole('ACCOUNTANT')}</restrict>
+	<restrict>#{s:hasRole('ACCOUNTANT')}</restrict>
 
 	<param name="firstResult" value="#{userList.firstResult}" />
 	<param name="sort" value="#{userList.orderColumn}" />

@@ -9,8 +9,8 @@ import java.util.Map;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
+import com.infinitiessoft.btrs.custom.UserComparator;
 import com.infinitiessoft.btrs.enums.ExpenseTypeEnum;
-import com.infinitiessoft.btrs.logic.UserComparator;
 import com.infinitiessoft.btrs.model.User;
 
 public class SubReporting {

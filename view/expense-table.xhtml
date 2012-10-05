@@ -1,5 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:f="http://java.sun.com/jsf/core" 
@@ -14,50 +12,55 @@
 	<a:outputPanel id="expense-table" layout="block" styleClass="expense-table">
 		
 			<a:region>
-			<h:outputText value="#{messages['expense.list.empty']}" rendered="#{empty report.expenses}" />
 		
-			<ui:repeat var="_expense" value="#{report.expenses}" rendered="#{not empty report.expenses}">
-				<div class="report-expense">
-					
-					<div class="header">
-						<h:outputText value="#{messages[_expense.expenseType.nameKey]}" />
-						<a:outputPanel styleClass="expense-controls" rendered="#{editable}" layout="block">
-							<a:commandLink value="#{messages['common.edit']}" id="expense-edit" actionListener="#{expenseHome.load(_expense)}"
-								reRender="inputs-modal" oncomplete="Richfaces.showModalPanel('expense-edit-modal');" />
-							#{' '}
-							<a:commandLink value="#{messages['common.delete']}" id="expense-delete"
-									actionListener="#{report.removeExpense(_expense)}" reRender="expense-table" />
-						</a:outputPanel>
-					</div>
-					
-					<ui:repeat var="_param" value="#{_expense.parameterValues}">
-						<s:decorate template="layout/display.xhtml">
-							<ui:define name="label">#{messages[_param.typeParameter.nameKey]}</ui:define>
-							<h:outputText value="#{(_param.typeParameter.value eq 'SOURCE' || _param.typeParameter.value eq 'DESTINATION') 
-									? messages['hsr.station.'.concat(_param.value.toLowerCase())] 
-									: _param.value}" />
-						</s:decorate>
-					</ui:repeat>
-					<s:decorate template="layout/display.xhtml">
-						<ui:define name="label">#{messages['expense.comment']}</ui:define>
-						<h:outputText value="#{_expense.comment}" />
-					</s:decorate>
-					<s:decorate template="layout/display.xhtml">
-						<ui:define name="label">#{messages['expense.amount']}</ui:define>
-						<h:outputText value="#{_expense.totalAmount}" />
-					</s:decorate>
-					<ui:fragment rendered="#{_expense.taxAmount gt 0}">
-						<s:decorate template="layout/display.xhtml">
-							<ui:define name="label">#{messages['expense.amountTax']}</ui:define>
-							<h:outputText value="#{_expense.taxAmount}" />
-						</s:decorate>
-						<s:decorate template="layout/display.xhtml">
-							<ui:define name="label">#{messages['expense.amountNoTax']}</ui:define>
-							<h:outputText value="#{_expense.amountWithoutTax}" />
-						</s:decorate>
-					</ui:fragment>
-				</div>
-			</ui:repeat>
+			<a:repeat var="_expense" value="#{report.expenses}" rendered="#{not empty report.expenses}">
+				<table class="table report-expense">
+					<thead>
+						<tr class="success">
+							<th>#{messages[_expense.expenseType.nameKey]}</th>
+							<th>
+								<a:outputPanel styleClass="expense-controls" rendered="#{editable}">
+									<a:commandLink value="#{messages['common.edit']}" id="expense-edit" actionListener="#{expenseHome.load(_expense)}"
+											reRender="inputs-modal" oncomplete="$j('#expense-modal').modal('show')" styleClass="btn btn-mini"/>
+									#{' '}
+									<a:commandLink value="#{messages['common.delete']}" id="expense-delete" actionListener="#{report.removeExpense(_expense)}"
+											reRender="expense-table" styleClass="btn btn-mini"/>
+								</a:outputPanel>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<a:repeat var="_param" value="#{_expense.parameterValues}">
+							<tr>
+								<td>#{messages[_param.typeParameter.nameKey]}</td>
+								<td>
+									#{(_param.typeParameter.value eq 'SOURCE' || _param.typeParameter.value eq 'DESTINATION') 
+										? messages['hsr.station.'.concat(_param.value.toLowerCase())] 
+										: _param.value}
+								</td>
+							</tr>
+						</a:repeat>
+							<tr>
+								<td>#{messages['expense.comment']}</td>
+								<td>#{_expense.comment}</td>
+							</tr>
+							<tr>
+								<td>#{messages['expense.amount']}</td>
+								<td>#{_expense.totalAmount}</td>
+							</tr>
+							<ui:fragment rendered="#{_expense.taxAmount gt 0}">
+								<tr>
+									<td>#{messages['expense.amountTax']}</td>
+									<td>#{_expense.taxAmount}</td>
+								</tr>
+								<tr>
+									<td>#{messages['expense.amountNoTax']}</td>
+									<td>#{_expense.amountWithoutTax}</td>
+								</tr>
+							</ui:fragment>
+					</tbody>
+				</table>
+			</a:repeat>
 			</a:region>
 	</a:outputPanel>
 

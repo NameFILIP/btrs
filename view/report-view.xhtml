@@ -1,5 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:f="http://java.sun.com/jsf/core" 
@@ -12,11 +10,13 @@
 
 	<ui:define name="title">#{messages['report.view.title']}</ui:define>
 
-	<ui:define name="content">
+	<ui:define name="data-main-title">
+		#{messages['report.details']}
+	</ui:define>
 
-		<rich:panel>
-			<f:facet name="header">#{messages['report.details']}</f:facet>
-
+	<ui:define name="data-main-body">
+		<h:form id="report-view-form" styleClass="form-horizontal">
+		
 			<s:decorate id="id" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['report.id']}</ui:define>
 				<h:outputText value="#{report.id}" />
@@ -70,31 +70,41 @@
 				<ui:define name="label">#{messages['report.comment']}</ui:define>
 				<h:outputText value="#{report.comment}" />
 			</s:decorate>
-
-			<div style="clear: both" />
+			
+			<s:decorate id="amountTotalField" template="layout/display.xhtml">
+				<ui:define name="label">#{messages['report.amountTotal']}</ui:define>
+				<h:outputText value="#{report.totalAmount}" />
+			</s:decorate>
+			
+			<s:decorate id="amountTaxField" template="layout/display.xhtml" rendered="#{report.totalTaxAmount > 0}">
+				<ui:define name="label">#{messages['report.amountTax']}</ui:define>
+				<h:outputText value="#{report.totalTaxAmount}" />
+			</s:decorate>
+			
+			<s:decorate id="amountNoTaxField" template="layout/display.xhtml" rendered="#{report.totalTaxAmount > 0}">
+				<ui:define name="label">#{messages['report.amountNoTax']}</ui:define>
+				<h:outputText value="#{report.totalAmountWithoutTax}" />
+			</s:decorate>
 
 			<ui:include src="expense-table.xhtml">
 				<ui:param name="editable" value="false" />
 			</ui:include>
 
-		</rich:panel>
-		
-		<ui:include src="status-change-table.xhtml" />
+			<ui:include src="status-change-table.xhtml" />
 			
-		<div class="actionButtons">
-			<h:form id="report-view-form">
-				<a:commandButton id="approve" value="#{messages['report.approve']}" oncomplete="Richfaces.showModalPanel('approve-reject-modal');" 
-						rendered="#{s:hasRole('ACCOUNTANT') and report.currentStatus != 'APPROVED'}" reRender="modal-window">
+			<div class="form-actions">
+				<a:commandButton id="approve" value="#{messages['report.approve']}" oncomplete="$j('#approve-reject-modal').modal('show')" 
+						rendered="#{s:hasRole('ACCOUNTANT') and report.currentStatus != 'APPROVED'}" reRender="modal-window" styleClass="btn btn-success">
 					<a:actionparam name="actionApprove" value="approve" assignTo="#{reportHome.actionName}" />
 				</a:commandButton>
-				<a:commandButton id="reject" value="#{messages['report.reject']}" oncomplete="Richfaces.showModalPanel('approve-reject-modal');" 
-						rendered="#{s:hasRole('ACCOUNTANT') and report.currentStatus != 'REJECTED'}" reRender="modal-window">
+				<a:commandButton id="reject" value="#{messages['report.reject']}" oncomplete="$j('#approve-reject-modal').modal('show')" 
+						rendered="#{s:hasRole('ACCOUNTANT') and report.currentStatus != 'REJECTED'}" reRender="modal-window" styleClass="btn btn-danger">
 					<a:actionparam name="actionReject" value="reject" assignTo="#{reportHome.actionName}" />
 				</a:commandButton>
-				<s:button id="edit" view="/report-edit.xhtml" value="#{messages['common.edit']}" />
-				<s:button id="done" view="/report-list.xhtml" value="#{messages['common.done']}" />
-			</h:form>
-		</div>
+				<s:button id="edit" view="/report-edit.xhtml" value="#{messages['common.edit']}" styleClass="btn"/>
+				<s:button id="done" view="/report-list.xhtml" value="#{messages['common.done']}" styleClass="btn"/>
+			</div>
+		</h:form>
 		
 		<a:outputPanel id="modal-window">
 			<ui:include src="approve-reject-modal.xhtml" />

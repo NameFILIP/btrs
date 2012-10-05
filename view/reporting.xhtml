@@ -1,5 +1,3 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
 				xmlns:s="http://jboss.com/products/seam/taglib"
 				xmlns:ui="http://java.sun.com/jsf/facelets" 
@@ -12,154 +10,168 @@
 
 	<ui:define name="title">#{messages['reporting']}</ui:define>
 
-	<ui:define name="data-main-title">#{messages['reporting.by']} #{messages['reporting.type.'.concat(type == null ? 'year' : type)]}</ui:define>
-	<ui:define name="data-main-body">
-		<rich:panel>
-			<f:facet name="header">#{messages['reporting']}</f:facet>
-			<h:form>
-				<rich:simpleTogglePanel switchType="client" label="#{messages['reporting.filter.header']}" opened="#{reportingFilter.useFilterFixed}">
+	<ui:define name="content">
 
-					<s:decorate id="startPeriodField" template="layout/edit.xhtml">
-						<ui:define name="label">#{messages['reporting.filter.start']}</ui:define>
-						<h:selectOneMenu id="startPeriod" value="#{reportingFilter.startPeriod}" converter="periodConverter">
-							<s:selectItems var="p" value="#{reportingFilter.getAvailablePeriods(type)}" label="#{p}" noSelectionLabel="#{messages['common.prompt']}" />
-						</h:selectOneMenu>
-					</s:decorate>
+		<div class="row-fluid centered-pills">
+			<ul class="nav nav-pills well well-small">
+				<li class="#{type eq 'year' or empty type ? 'active' : ''}">
+					<s:link id="by-year" view="/reporting.xhtml" value="#{messages['menu.reporting.year']}" propagation="none">
+						<f:param name="type" value="year" />
+					</s:link>
+				</li>
+				<li class="#{type eq 'quarter' ? 'active' : ''}">
+					<s:link id="by-quarter" view="/reporting.xhtml" value="#{messages['menu.reporting.quarter']}" propagation="none">
+						<f:param name="type" value="quarter" />
+					</s:link>
+				</li>
+				<li class="#{type eq 'month' ? 'active' : ''}">
+					<s:link id="by-month" view="/reporting.xhtml" value="#{messages['menu.reporting.month']}" propagation="none">
+						<f:param name="type" value="month" />
+					</s:link>
+				</li>
+			</ul>
+		</div>
 
-					<s:decorate id="endPeriodField" template="layout/edit.xhtml">
-						<ui:define name="label">#{messages['reporting.filter.end']}</ui:define>
-						<h:selectOneMenu id="endPeriod" value="#{reportingFilter.endPeriod}" converter="periodConverter">
-							<s:selectItems var="p" value="#{reportingFilter.getAvailablePeriods(type)}" label="#{p.toString()}" noSelectionLabel="#{messages['common.prompt']}" />
-							<s:validateEquality for="startPeriod" required="false" operator="greater_or_equal" messageId="validation.end.period" />
-						</h:selectOneMenu>
-					</s:decorate>
+		<h:form styleClass="form-horizontal">
+			<rich:simpleTogglePanel switchType="client" label="#{messages['reporting.filter.header']}" opened="#{reportingFilter.useFilterFixed}" 
+					headerClass="alert alert-info no-margin-bottom filter-header" bodyClass="well no-margin-bottom filter-body">
 
-					<s:decorate id="employeesField" template="layout/edit.xhtml">
-						<ui:define name="label">#{messages['reporting.filter.employees']}</ui:define>
-						<h:selectManyListbox value="#{reportingFilter.users}" size="5">
-							<s:selectItems value="#{userList.resultList}" var="u" label="#{u.fullName}" />
-							<s:convertEntity />
-						</h:selectManyListbox>
-					</s:decorate>
+				<s:decorate id="startPeriodField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['reporting.filter.start']}</ui:define>
+					<h:selectOneMenu id="startPeriod" value="#{reportingFilter.startPeriod}" converter="periodConverter">
+						<s:selectItems var="p" value="#{reportingFilter.getAvailablePeriods(type)}" label="#{p}" noSelectionLabel="#{messages['common.prompt']}" />
+					</h:selectOneMenu>
+				</s:decorate>
 
-					<s:decorate id="expenseTypesField" template="layout/edit.xhtml">
-						<ui:define name="label">#{messages['reporting.filter.columns']}</ui:define>
-						<h:selectManyListbox value="#{reportingFilter.expenseTypes}" size="5">
-							<s:selectItems value="#{expenseTypeList.resultList}" var="et" label="#{messages[et.nameKey]}" />
-							<s:convertEntity />
-						</h:selectManyListbox>
-					</s:decorate>
+				<s:decorate id="endPeriodField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['reporting.filter.end']}</ui:define>
+					<h:selectOneMenu id="endPeriod" value="#{reportingFilter.endPeriod}" converter="periodConverter">
+						<s:selectItems var="p" value="#{reportingFilter.getAvailablePeriods(type)}" label="#{p.toString()}" noSelectionLabel="#{messages['common.prompt']}" />
+						<s:validateEquality for="startPeriod" required="false" operator="greater_or_equal" messageId="validation.end.period" />
+					</h:selectOneMenu>
+				</s:decorate>
 
-					<div style="clear: both" />
+				<s:decorate id="employeesField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['reporting.filter.employees']}</ui:define>
+					<h:selectManyListbox value="#{reportingFilter.users}" size="5">
+						<s:selectItems value="#{userList.resultList}" var="u" label="#{u.fullName}" />
+						<s:convertEntity />
+					</h:selectManyListbox>
+				</s:decorate>
 
-					<div class="actionButtons">
-						<h:commandButton value="#{messages['reporting.filter.filter']}" action="#{reportingFilter.turnOn()}">
-							<s:conversationPropagation type="join" />
-						</h:commandButton>
-					
-						<s:button value="#{messages['reporting.filter.clear']}" action="#{reportingFilter.clear()}" />
-					</div>
+				<s:decorate id="expenseTypesField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['reporting.filter.columns']}</ui:define>
+					<h:selectManyListbox value="#{reportingFilter.expenseTypes}" size="5">
+						<s:selectItems value="#{expenseTypeList.resultList}" var="et" label="#{messages[et.nameKey]}" />
+						<s:convertEntity />
+					</h:selectManyListbox>
+				</s:decorate>
 
-				</rich:simpleTogglePanel>
-			</h:form>
+				<div class="form-actions">
+					<h:commandButton value="#{messages['reporting.filter.filter']}" action="#{reportingFilter.turnOn()}" styleClass="btn btn-primary">
+						<s:conversationPropagation type="join" />
+					</h:commandButton>
+				
+					<s:button value="#{messages['reporting.filter.clear']}" action="#{reportingFilter.clear()}" styleClass="btn"/>
+				</div>
 
-			<rich:spacer height="10" />
+			</rich:simpleTogglePanel>
+		</h:form>
 
-			<h:outputText value="#{messages['reporting.list.empty']}" rendered="#{empty currentReporting.subReportingsKeys}" />
-
-			<rich:dataTable id="reportingTable" var="_subReportingKey" value="#{currentReporting.subReportingsKeys}" rendered="#{not empty currentReporting.subReportingsKeys}"
-					onRowMouseOver="this.style.backgroundColor='#F1F1F1'" onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">
-				<f:facet name="header">
-					<rich:columnGroup>
-						<rich:column rowspan="2">
-							#{messages['reporting.employee']}
-						</rich:column>
-						<rich:columns var="categ" value="#{filteredCategoryTypesKeys}" colspan="#{filteredCategoryTypes[categ].size()}" rowspan="#{filteredCategoryTypes[categ].size() eq 1 ? 2 : 1}">
-							#{messages[categ.nameKey]}
-								
-							<rich:column rendered="#{filteredCategoryTypes[categ].size() gt 1}" rowspan="2">
-								#{messages['reporting.total']}
-							</rich:column>
-						</rich:columns>
-						
-						<rich:column rowspan="2">
-								#{messages['reporting.grandTotal']}
-						</rich:column>
+		<ui:fragment rendered="#{empty currentReporting.subReportingsKeys}">
+			<table class="table table-bordered">
+				<tr>
+					<td>#{messages['reporting.list.empty']}</td>
+				</tr>
+			</table>
+		</ui:fragment>
+		
+		<rich:dataTable id="reportingTable" var="_subReportingKey" value="#{currentReporting.subReportingsKeys}" rendered="#{not empty currentReporting.subReportingsKeys}"
+				styleClass="table table-bordered table-hover table-condensed">
+			<f:facet name="header">
+				<rich:columnGroup>
+					<rich:column rowspan="2" styleClass="employee-column">
+						#{messages['reporting.employee']}
+					</rich:column>
+					<rich:columns var="categ" value="#{filteredCategoryTypesKeys}" colspan="#{filteredCategoryTypes[categ].size()}" rowspan="#{filteredCategoryTypes[categ].size() eq 1 ? 2 : 1}">
+						#{messages[categ.nameKey]}
 							
-						<c:forEach var="categ" items="#{filteredCategoryTypesKeys}" varStatus="varStatus">
-							<rich:columns var="categType" value="#{filteredCategoryTypes[categ]}" index="tInd" breakBefore="#{varStatus.index eq 0 and tInd eq 0}" rendered="#{filteredCategoryTypes[categ].size() gt 1}">
-								#{messages[categType.value.label]}
-							</rich:columns>
-						</c:forEach>
+						<rich:column rendered="#{filteredCategoryTypes[categ].size() gt 1}" rowspan="2" styleClass="total">
+							#{messages['reporting.total']}
+						</rich:column>
+					</rich:columns>
+					
+					<rich:column rowspan="2" styleClass="grand-total">
+							#{messages['reporting.grandTotal']}
+					</rich:column>
 						
-					</rich:columnGroup>
-				</f:facet>
+					<c:forEach var="categ" items="#{filteredCategoryTypesKeys}" varStatus="varStatus">
+						<rich:columns var="categType" value="#{filteredCategoryTypes[categ]}" index="tInd" breakBefore="#{varStatus.index eq 0 and tInd eq 0}" rendered="#{filteredCategoryTypes[categ].size() gt 1}">
+							#{messages[categType.value.label]}
+						</rich:columns>
+					</c:forEach>
+					
+				</rich:columnGroup>
+			</f:facet>
 
-				<rich:column colspan="#{reportingUtils.tableColumnsSize()}" styleClass="bold centered">
-					<h:outputText value="#{_subReportingKey}" />
+			<rich:column colspan="#{reportingUtils.tableColumnsSize()}" styleClass="period-column" >
+				<h:outputText value="#{_subReportingKey}" />
+			</rich:column>
+
+			<rich:subTable var="_reportingRowKey" value="#{currentReporting.getSubReporting(_subReportingKey).reportingRowsKeys}">
+				<rich:column footerClass="total">
+					<h:outputText value="#{_reportingRowKey.fullName}"></h:outputText>
+					<f:facet name="footer">
+						<rich:spacer />
+					</f:facet>
 				</rich:column>
-
-				<rich:subTable var="_reportingRowKey" value="#{currentReporting.getSubReporting(_subReportingKey).reportingRowsKeys}"
-						onRowMouseOver="this.style.backgroundColor='#F8F8F8'" onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">
-					<rich:column>
-						<h:outputText value="#{_reportingRowKey.fullName}"></h:outputText>
+				
+				<c:forEach var="categ" items="#{filteredCategoryTypesKeys}" varStatus="varStatus">
+					<rich:columns var="categType" value="#{filteredCategoryTypes[categ]}" footerClass="total">
+						#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).getAmount(categ.code, categType.value)}
 						<f:facet name="footer">
-							<rich:spacer />
+							#{currentReporting.getSubReporting(_subReportingKey).getTotalCategoryType(categ.code, categType.value)}
+						</f:facet>
+					</rich:columns>
+					<rich:column rendered="#{filteredCategoryTypes[categ].size() gt 1}" styleClass="total" footerClass="total">
+						#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).getTotalCategory(categ.code)}
+						<f:facet name="footer">
+							#{currentReporting.getSubReporting(_subReportingKey).getTotalCategory(categ.code)}
 						</f:facet>
 					</rich:column>
-					
+				</c:forEach>
+				<rich:column styleClass="grand-total" footerClass="grand-total">
+					#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).total}
+					<f:facet name="footer">
+						#{currentReporting.getSubReporting(_subReportingKey).total}
+					</f:facet>
+				</rich:column>
+			</rich:subTable>
+
+			<f:facet name="footer">
+
+				<rich:columnGroup>
+					<rich:column styleClass="grand-total">#{messages['reporting.grandTotal']}</rich:column>
 					<c:forEach var="categ" items="#{filteredCategoryTypesKeys}" varStatus="varStatus">
-						<rich:columns var="categType" value="#{filteredCategoryTypes[categ]}">
-							#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).getAmount(categ.code, categType.value)}
-							<f:facet name="footer">
-								#{currentReporting.getSubReporting(_subReportingKey).getTotalCategoryType(categ.code, categType.value)}
-							</f:facet>
+						<rich:columns var="categType" value="#{filteredCategoryTypes[categ]}" styleClass="grand-total">
+							#{currentReporting.getTotalCategoryType(categ.code, categType.value)}
 						</rich:columns>
-						<rich:column rendered="#{filteredCategoryTypes[categ].size() gt 1}" styleClass="subTotal">
-							#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).getTotalCategory(categ.code)}
-							<f:facet name="footer">
-								#{currentReporting.getSubReporting(_subReportingKey).getTotalCategory(categ.code)}
-							</f:facet>
+						<rich:column rendered="#{filteredCategoryTypes[categ].size() gt 1}" styleClass="grand-total">
+							#{currentReporting.getTotalCategory(categ.code)}
 						</rich:column>
 					</c:forEach>
-					<rich:column styleClass="grandTotal">
-						#{currentReporting.getSubReporting(_subReportingKey).getReportingRow(_reportingRowKey).total}
-						<f:facet name="footer">
-							#{currentReporting.getSubReporting(_subReportingKey).total}
-						</f:facet>
+					<rich:column styleClass="grand-total">
+						#{currentReporting.total}
 					</rich:column>
-				</rich:subTable>
 
-				<f:facet name="footer">
-
-					<rich:columnGroup>
-						<rich:column>#{messages['reporting.grandTotal']}</rich:column>
-						<c:forEach var="categ" items="#{filteredCategoryTypesKeys}" varStatus="varStatus">
-							<rich:columns var="categType" value="#{filteredCategoryTypes[categ]}">
-								#{currentReporting.getTotalCategoryType(categ.code, categType.value)}
-							</rich:columns>
-							<rich:column rendered="#{filteredCategoryTypes[categ].size() gt 1}">
-								#{currentReporting.getTotalCategory(categ.code)}
-							</rich:column>
-						</c:forEach>
-						<rich:column>
-							#{currentReporting.total}
-						</rich:column>
-
-
-						
-						
-					</rich:columnGroup>
-				</f:facet>
+				</rich:columnGroup>
+			</f:facet>
 <!-- rich:column>
 							<h:outputText value="#{report.expReport.totalMeals}">
 								<f:convertNumber pattern="$####.00" />
 							</h:outputText>
 						</rich:column-->
-			</rich:dataTable>
+		</rich:dataTable>
 			
-			
-		</rich:panel>
-
 	</ui:define>
 </ui:composition>

@@ -7,11 +7,8 @@
 
 	<page view-id="*">
 		<navigation>
-			<rule if-outcome="management" if="#{s:hasRole('ADMIN')}">
+			<rule if-outcome="management">
 				<redirect view-id="/user-list.xhtml" />
-			</rule>
-			<rule if-outcome="management" if="#{s:hasRole('ACCOUNTANT')}">
-				<redirect view-id="/manage-variables-view.xhtml" />
 			</rule>
 		</navigation>
 	</page>

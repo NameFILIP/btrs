@@ -14,7 +14,7 @@ import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
 
-import com.infinitiessoft.btrs.logic.PasswordManager;
+import com.infinitiessoft.btrs.custom.PasswordManager;
 import com.infinitiessoft.btrs.model.Report;
 import com.infinitiessoft.btrs.model.Role;
 import com.infinitiessoft.btrs.model.StatusChange;
@@ -27,6 +27,7 @@ public class UserHome extends EntityHome<User> {
 	
 	@Logger private Log log;
 
+	@In(required = false)
 	@Out(required = false, scope = ScopeType.SESSION)
 	User currentUser;
 	
