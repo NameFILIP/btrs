@@ -56,11 +56,10 @@ public class ReportHome extends EntityHome<Report> {
 	@Override
 	protected Report createInstance() {
 		Report report = new Report();
-		report.setId(System.currentTimeMillis());
 		report.setOwner(currentUser);
 		return report;
 	}
-
+	
 	public void load() {
 		if (isIdDefined()) {
 			wire();

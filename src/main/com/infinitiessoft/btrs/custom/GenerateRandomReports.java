@@ -51,7 +51,7 @@ public class GenerateRandomReports {
 //
 //		log.debug("Generating #0 reports", amount);
 //
-//		List<User> accountants = roleList.getAccountants();
+//		List<User> accountants = userList.getAccountants();
 //		List<User> users = userList.getResultList();
 //		users.removeAll(accountants);
 //

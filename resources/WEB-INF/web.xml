@@ -6,6 +6,28 @@
 		<param-name>facelets.DEVELOPMENT</param-name>
 		<param-value>@debug@</param-value>
 	</context-param>
+	
+	<!--  Production -->
+	<context-param>
+		<param-name>facelets.REFRESH_PERIOD</param-name>
+		<param-value>-1</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.sun.faces.responseBufferSize</param-name>
+		<param-value>100000</param-value>
+	</context-param>
+	<context-param>
+		<param-name>facelets.BUFFER_SIZE</param-name>
+		<param-value>100000</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.sun.faces.externalizeJavaScript</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.sun.faces.sendPoweredByHeader</param-name>
+		<param-value>@debug@</param-value>
+	</context-param>
 	<!-- JSF -->
 	<context-param>
 		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>

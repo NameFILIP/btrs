@@ -24,7 +24,8 @@
 		</ui:fragment> 
 		
 		<h:form>
-			<rich:dataTable styleClass="table table-bordered table-hover no-top-radius no-body-bottom-radius" id="reportList" var="_report" value="#{preparedReports}" rendered="#{not empty preparedReports}" rows="20">
+			<rich:dataTable id="reportList" var="_report" value="#{preparedReports}" rendered="#{not empty preparedReports}" rows="20"
+					styleClass="table table-bordered table-hover no-top-radius no-body-bottom-radius" footerClass="#{not s:hasRole('ACCOUNTANT') ? 'hide-footer' : ''}">
 
 				<rich:column rendered="#{s:hasRole('ACCOUNTANT')}" styleClass="align-center" headerClass="align-center">
 					<f:facet name="header">
@@ -74,11 +75,10 @@
 						<f:param name="reportId" value="#{_report.id}" />
 					</s:link>
 				</rich:column>
-				
-				<f:facet name="footer">
-					<h:commandButton action="#{excelExporter.download()}" value="#{messages['report.export']}" 
-							rendered="#{not empty preparedReports and s:hasRole('ACCOUNTANT')}" styleClass="btn offset4 span4"/>
-				</f:facet>
+					<f:facet name="footer">
+						<h:commandButton action="#{excelExporter.download()}" value="#{messages['report.export']}" 
+								rendered="#{not empty preparedReports and s:hasRole('ACCOUNTANT')}" styleClass="btn offset4 span4"/>
+					</f:facet>
 			</rich:dataTable>
 			
 

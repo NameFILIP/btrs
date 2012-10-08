@@ -6,6 +6,7 @@ import java.util.List;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
 
+import com.infinitiessoft.btrs.enums.RoleEnum;
 import com.infinitiessoft.btrs.model.User;
 
 @Name("userList")
@@ -43,6 +44,15 @@ public class UserList extends EntityQuery<User> {
 			allUsers = getEntityManager().createQuery("select distinct u from User u join fetch u.roles r join fetch u.department d").getResultList();
 		}
 		return allUsers;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<User> getAccountants() {
+		List<User> accountants = getEntityManager()
+				.createQuery("select distinct u from User u join u.roles r " +
+						"where r.value = '" + RoleEnum.ACCOUNTANT + "' and u.username != 'admin'")
+				.getResultList();
+		return accountants;
 	}
 	
 }

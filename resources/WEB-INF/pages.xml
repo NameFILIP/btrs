@@ -15,32 +15,32 @@
 
 	<exception class="org.jboss.seam.framework.EntityNotFoundException">
 		<redirect view-id="/error.xhtml">
-			<message severity="warn">Record not found</message>
+			<message severity="warn">#{messages['exception.notFound']}</message>
 		</redirect>
 	</exception>
 
 	<exception class="javax.persistence.EntityNotFoundException">
 		<redirect view-id="/error.xhtml">
-			<message severity="warn">Record not found</message>
+			<message severity="warn">#{messages['exception.notFound']}</message>
 		</redirect>
 	</exception>
 
 	<exception class="javax.persistence.EntityExistsException">
 		<redirect view-id="/error.xhtml">
-			<message severity="warn">Duplicate record</message>
+			<message severity="warn">#{messages['exception.duplicate']}</message>
 		</redirect>
 	</exception>
 
 	<exception class="javax.persistence.OptimisticLockException">
 		<end-conversation />
 		<redirect view-id="/error.xhtml">
-			<message severity="warn">Another user changed the same data, please try again</message>
+			<message severity="warn">#{messages['exception.optimisticLock']}</message>
 		</redirect>
 	</exception>
 
 	<exception class="org.jboss.seam.security.AuthorizationException">
 		<redirect view-id="/error.xhtml">
-			<message severity="error">You don't have permission to access this resource</message>
+			<message severity="error">#{messages['exception.authorizationException']}</message>
 		</redirect>
 	</exception>
 
@@ -52,17 +52,19 @@
 
 	<exception class="javax.faces.application.ViewExpiredException">
 		<redirect view-id="/error.xhtml">
-			<message severity="warn">Your session has timed out, please try again</message>
+			<message severity="warn">#{messages['exception.sessionExpired']}</message>
 		</redirect>
 	</exception>
 
-	<exception class="org.jboss.seam.ConcurrentRequestTimeoutException" log-level="trace">
-		<http-error error-code="503" />
+	<exception class="org.jboss.seam.ConcurrentRequestTimeoutException">
+		<redirect view-id="/error.xhtml">
+			<message severity="warn">#{messages['exception.concurrentCall']}</message>
+		</redirect>
 	</exception>
 
 	<exception>
 		<redirect view-id="/error.xhtml">
-			<message severity="error">Unexpected error, please try again</message>
+			<message severity="error">#{messages['exception.unexpectedError']}</message>
 		</redirect>
 	</exception>
 

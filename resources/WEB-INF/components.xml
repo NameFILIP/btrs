@@ -65,5 +65,9 @@
 	<web:character-encoding-filter encoding="@charset@" override-client="true" url-pattern="*.seam" />
 
 	<i18n:locale-selector cookie-enabled="true" />
-
+	
+	<component name="errorAction">
+		<property name="developerMail">@developerMail@</property>
+	</component>
+	
 </components>

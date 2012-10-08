@@ -2,6 +2,7 @@ package com.infinitiessoft.btrs.model;
 // Generated Jul 9, 2012 10:51:06 AM by Hibernate Tools 3.2.4.GA
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,10 +22,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Past;
 
+import com.infinitiessoft.btrs.enums.MonthEnum;
 import com.infinitiessoft.btrs.enums.StatusEnum;
 
 /**
@@ -57,6 +61,8 @@ public class Report implements java.io.Serializable {
 	public Report() {}
 
 	@Id
+	@GenericGenerator(name="report_id_generator" , strategy="increment")
+	@GeneratedValue(generator="report_id_generator")
 	@Column(name = "id", unique = true, nullable = false)
 	public Long getId() {
 		return this.id;
@@ -247,6 +253,20 @@ public class Report implements java.io.Serializable {
 			totalWithoutTax += expense.getAmountWithoutTax();
 		}
 		return totalWithoutTax;
+	}
+	
+	@Transient
+	public String getDisplayId() {
+		String composedId = "";
+		if (this.id != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(createdDate);
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			int month = cal.get(Calendar.MONTH);
+			composedId = (day < 10 ? "0" : "") + day  + MonthEnum.getShortName(month) + cal.get(Calendar.YEAR)
+					+ "_" + this.id;
+		}
+		return composedId;
 	}
 	
 }

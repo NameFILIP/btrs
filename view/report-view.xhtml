@@ -19,7 +19,7 @@
 		
 			<s:decorate id="id" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['report.id']}</ui:define>
-				<h:outputText value="#{report.id}" />
+				#{report.displayId}
 			</s:decorate>
 
 			<s:decorate id="owner" template="layout/display.xhtml">

@@ -235,3 +235,8 @@ select[size="1"] {
 #reportingTable.table-hover tbody tr:hover td {
   background-color: #f2dede;
 }
+
+.hide-footer td {
+	padding: 0;
+	border: 0;
+}

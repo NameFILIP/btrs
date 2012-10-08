@@ -17,11 +17,6 @@
 	<ui:define name="data-main-body">
 		<h:form id="report" styleClass="form-horizontal">
 
-			<s:decorate id="id" template="layout/display.xhtml">
-				<ui:define name="label">#{messages['report.id']}</ui:define>
-				<h:outputText value="#{report.id}" />
-			</s:decorate>
-
 			<s:decorate id="jobTitle" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['report.jobTitle']}</ui:define>
 				<h:outputText value="#{report.owner.jobTitle}" />
@@ -30,7 +25,7 @@
 			<s:decorate id="reviewerField" template="layout/edit.xhtml">
 				<ui:define name="label">#{messages['report.accountant']}</ui:define>
 				<h:selectOneMenu id="reviewer" required="true" value="#{report.reviewer}">
-					<s:selectItems var="a" value="#{roleList.getAccountants()}" itemValue="#{a}" label="#{a.fullName}" />
+					<s:selectItems var="a" value="#{userList.getAccountants()}" itemValue="#{a}" label="#{a.fullName}" />
 					<s:convertEntity />
 				</h:selectOneMenu>
 			</s:decorate>

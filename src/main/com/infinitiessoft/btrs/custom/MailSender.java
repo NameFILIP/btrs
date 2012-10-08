@@ -18,6 +18,7 @@ public class MailSender {
 
 	@Logger Log log;
 	
+	
 	@In
 	private Renderer renderer;
 	
@@ -42,4 +43,10 @@ public class MailSender {
 	public void sendReviewedEmail(Map<String, Object> info) {
 		sendEmail("/email/reviewed.xhtml", info);
 	}
+	
+	@Asynchronous
+	public void sendErrorMail(Map<String, Object> info) {
+		sendEmail("/email/error.xhtml", info);
+    }
+
 }
