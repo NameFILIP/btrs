@@ -5,6 +5,7 @@
 .navbar .language-selector {
 	margin-top: 8px;
 	height: 24px;
+	padding-top: 0;
 }
 
 .subhead {
