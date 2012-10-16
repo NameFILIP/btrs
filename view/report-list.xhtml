@@ -48,9 +48,9 @@
 					</h:outputText>
 				</rich:column>
 
-				<rich:column sortBy="#{_report.owner.fullName}" rendered="#{s:hasRole('ACCOUNTANT')}">
+				<rich:column sortBy="#{userSharedList.getUserShared(_report.owner.userSharedId).fullName}" rendered="#{s:hasRole('ACCOUNTANT')}">
 					<f:facet name="header">#{messages['report.owner']}</f:facet>
-					<h:outputText value="#{_report.owner.fullName}" />
+					<h:outputText value="#{userSharedList.getUserShared(_report.owner.userSharedId).fullName}" />
 				</rich:column>
 
 				<rich:column sortBy="#{_report.totalAmount}">

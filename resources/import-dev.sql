@@ -124,10 +124,14 @@ INSERT INTO exp_types_type_parameters (type_id, parameter_id) VALUES (81, 82);
 INSERT INTO roles (id, value) VALUES (90, 'EMPLOYEE');
 INSERT INTO roles (id, value) VALUES (91, 'ACCOUNTANT');
 
-INSERT INTO users (id, created_date, email, enabled, first_name, gender, job_title, last_login, last_name, password, username, department_id) VALUES (92, now(), 'filip.spiridonov@infinitiessoft.com', true, 'Admin F', 'MALE', 'Administrator', NULL, 'Admin L', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin', 66);
+--INSERT INTO users (id, created_date, email, enabled, first_name, gender, job_title, last_login, last_name, password, username, department_id) VALUES (92, now(), 'filip.spiridonov@infinitiessoft.com', true, 'Admin F', 'MALE', 'Administrator', NULL, 'Admin L', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin', 66);
+INSERT INTO users (id, last_login, department_id, user_shared_id) VALUES (92, NULL, 66, 1);
 
 INSERT INTO users_roles (user_id, role_id) VALUES (92, 90);
 INSERT INTO users_roles (user_id, role_id) VALUES (92, 91);
 
 ALTER SEQUENCE hibernate_sequence RESTART WITH 93;
 
+-- user_db
+--INSERT INTO user_shared (id, created_date, email, enabled, first_name, gender, job_title, last_name, password, username) VALUES (1, now(), 'filip.spiridonov@infinitiessoft.com', true, 'Admin F', 'MALE', 'Administrator', 'Admin L', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin');
+--ALTER SEQUENCE hibernate_sequence RESTART WITH 2;

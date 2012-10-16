@@ -21,13 +21,15 @@ public class UniqueValidator implements Validator<Unique>, PropertyConstraint {
 	private String field;
 	// Seam home component for entity
 	private String idProvider;
+	
+	private String entityManagerName;
 
 	
 
 	@Override
 	public boolean isValid(Object value) {
-		EntityManager entityManager = (EntityManager) Component.getInstance("entityManager");
-		entityManager.setFlushMode(FlushModeType.COMMIT);
+		EntityManager em = (EntityManager) Component.getInstance(entityManagerName);
+		em.setFlushMode(FlushModeType.COMMIT);
 		
 		Home<?, ?> home = (Home<?, ?>) Component.getInstance(idProvider);
 		boolean hasId = home.getId() != null;
@@ -37,7 +39,7 @@ public class UniqueValidator implements Validator<Unique>, PropertyConstraint {
 			queryString += " and t.id <> :id";
 		}
 		
-		Query query = entityManager.createQuery(queryString);
+		Query query = em.createQuery(queryString);
 		query.setParameter("value", value);
 		if (hasId) {
 			query.setParameter("id", home.getId());
@@ -60,6 +62,7 @@ public class UniqueValidator implements Validator<Unique>, PropertyConstraint {
 		targetEntity = parameters.entityName();
 		field = parameters.fieldName();
 		idProvider = parameters.idProvider();
+		entityManagerName = parameters.entityManagerName();
 	}
 
 }

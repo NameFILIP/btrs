@@ -54,7 +54,7 @@
 				<s:decorate id="employeesField" template="layout/edit.xhtml">
 					<ui:define name="label">#{messages['reporting.filter.employees']}</ui:define>
 					<h:selectManyListbox value="#{reportingFilter.users}" size="5">
-						<s:selectItems value="#{userList.resultList}" var="u" label="#{u.fullName}" />
+						<s:selectItems value="#{userList.resultList}" var="u" label="#{userSharedList.getUserShared(u.userSharedId).fullName}" />
 						<s:convertEntity />
 					</h:selectManyListbox>
 				</s:decorate>
@@ -120,7 +120,7 @@
 
 			<rich:subTable var="_reportingRowKey" value="#{currentReporting.getSubReporting(_subReportingKey).reportingRowsKeys}">
 				<rich:column footerClass="total">
-					<h:outputText value="#{_reportingRowKey.fullName}"></h:outputText>
+					<h:outputText value="#{userSharedList.getUserShared(_reportingRowKey.userSharedId).fullName}"></h:outputText>
 					<f:facet name="footer">
 						<rich:spacer />
 					</f:facet>

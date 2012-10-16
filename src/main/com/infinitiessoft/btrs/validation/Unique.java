@@ -18,9 +18,13 @@ public @interface Unique {
 
 	String message() default "{validation.unique}";
 	
+	String entityManagerName() default "entityManager";
+	
 	String entityName();
 
 	String fieldName();
 	
 	String idProvider();
+	
+	
 }

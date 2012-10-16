@@ -36,16 +36,15 @@
 			<rich:dataTable id="userList" var="_user" value="#{userList.allUsers}" rendered="#{not empty userList.allUsers}"
 				styleClass="table table-bordered table-hover no-top-radius no-body-bottom-radius">
 
-				<rich:column sortBy="#{_user.fullName}">
+				<rich:column sortBy="#{userSharedList.getUserShared(_user.userSharedId).fullName}">
 					<f:facet name="header">#{messages['user.fullName']}</f:facet>
-					<h:outputText value="#{_user.fullName}" />
+					<h:outputText value="#{userSharedList.getUserShared(_user.userSharedId).fullName}" />
 				</rich:column>
 
-				<rich:column sortBy="#{_user.jobTitle}">
+				<rich:column sortBy="#{userSharedList.getUserShared(_user.userSharedId).jobTitle}">
 					<f:facet name="header">#{messages['user.jobTitle']}</f:facet>
-					<h:outputText value="#{_user.jobTitle}" />
+					<h:outputText value="#{userSharedList.getUserShared(_user.userSharedId).jobTitle}" />
 				</rich:column>
-
 
 				<rich:column sortBy="#{_user.department.name}">
 					<f:facet name="header">#{messages['user.department']}</f:facet>
@@ -60,9 +59,9 @@
 					</ui:repeat>
 				</rich:column>
 
-				<rich:column sortBy="#{_user.createdDate}">
+				<rich:column sortBy="#{userSharedList.getUserShared(_user.userSharedId).createdDate}">
 					<f:facet name="header">#{messages['user.created']}</f:facet>
-					<h:outputText value="#{_user.createdDate}">
+					<h:outputText value="#{userSharedList.getUserShared(_user.userSharedId).createdDate}">
 						<s:convertDateTime pattern="#{messages['pattern.date.long']}" />
 					</h:outputText>
 				</rich:column>

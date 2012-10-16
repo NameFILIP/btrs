@@ -34,6 +34,7 @@ import com.infinitiessoft.btrs.model.ExpenseType;
 import com.infinitiessoft.btrs.model.ParameterValue;
 import com.infinitiessoft.btrs.model.Report;
 import com.infinitiessoft.btrs.model.TypeParameter;
+import com.infinitiessoft.btrs.model.UserShared;
 
 @Name("excelExporter")
 public class ExcelExporter {
@@ -72,6 +73,8 @@ public class ExcelExporter {
 	@In
 	ExcelStyles excelStyles;
 	
+	@In("#{userSharedList.allUsersShared}")
+	private Map<Long, UserShared> allUsersShared;
 	
 //	private CellStyle centerAlignStyle;
 //	private CellStyle centerVAlignStyle;
@@ -404,7 +407,8 @@ public class ExcelExporter {
 		accountantName.setCellValue(messages.get(MSG_ACCOUNTANT));
 		accountantName.setCellStyle(styles.get(ExcelStylesNames.ACCONUTANT_NAME));
 		Cell accountantValue = cells[reportRow][3];
-		accountantValue.setCellValue(report.getReviewer().getFullName());
+		String accountantFullName = allUsersShared.get(report.getReviewer().getUserSharedId()).getFullName();
+		accountantValue.setCellValue(accountantFullName);
 		accountantValue.setCellStyle(styles.get(ExcelStylesNames.ACCOUNTANT_VALUE));
 		sheet.addMergedRegion(
 				new CellRangeAddress(rowIndex + reportRow, rowIndex + reportRow, 3, getReportWidth() - 3));
@@ -412,7 +416,8 @@ public class ExcelExporter {
 		appicantName.setCellValue(messages.get(MSG_APPLICANT));
 		appicantName.setCellStyle(styles.get(ExcelStylesNames.APPLICANT_NAME));
 		Cell applicantValue = cells[reportRow][getReportWidth() - 1];
-		applicantValue.setCellValue(report.getOwner().getFullName());
+		String applicantFullName = allUsersShared.get(report.getOwner().getUserSharedId()).getFullName();
+		applicantValue.setCellValue(applicantFullName);
 		applicantValue.setCellStyle(styles.get(ExcelStylesNames.APPLICANT_VALUE));
 		reportRow++;
 		rowIndex += reportRow;

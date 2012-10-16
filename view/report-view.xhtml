@@ -24,17 +24,17 @@
 
 			<s:decorate id="owner" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['report.owner']}</ui:define>
-				<h:outputText value="#{report.owner.fullName}" />
+				<h:outputText value="#{userSharedList.getUserShared(report.owner.userSharedId).fullName}" />
 			</s:decorate>
 
 			<s:decorate id="jobTitle" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['report.jobTitle']}</ui:define>
-				<h:outputText value="#{report.owner.jobTitle}" />
+				<h:outputText value="#{userSharedList.getUserShared(report.owner.userSharedId).jobTitle}" />
 			</s:decorate>
 
 			<s:decorate id="reviewerField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['report.accountant']}</ui:define>
-				<h:outputText value="#{report.reviewer.fullName}" />
+				<h:outputText value="#{userSharedList.getUserShared(report.reviewer.userSharedId).fullName}" />
 			</s:decorate>
 			
 			<s:decorate id="currentStatusField" template="layout/display.xhtml">

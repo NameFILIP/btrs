@@ -19,6 +19,7 @@ import com.infinitiessoft.btrs.model.Report;
 import com.infinitiessoft.btrs.model.Role;
 import com.infinitiessoft.btrs.model.StatusChange;
 import com.infinitiessoft.btrs.model.User;
+import com.infinitiessoft.btrs.model.UserShared;
 
 @Name("userHome")
 public class UserHome extends EntityHome<User> {
@@ -27,12 +28,27 @@ public class UserHome extends EntityHome<User> {
 	
 	@Logger private Log log;
 
+	@In
+	Identity identity;
+	
 	@In(required = false)
 	@Out(required = false, scope = ScopeType.SESSION)
 	User currentUser;
+	@In(required = false)
+	@Out(required = false, scope = ScopeType.SESSION)
+	UserShared currentUserShared;
 	
 	@In
 	PasswordManager passwordManager;
+	
+	@In(required = false)
+	UserSharedHome userSharedHome;
+	
+	@In(create = true)
+	UserSharedList userSharedList;
+	
+	@In(create = true)
+	UserList userList;
 	
 	@In(create = true)
 	RoleList roleList;
@@ -45,12 +61,6 @@ public class UserHome extends EntityHome<User> {
 		return (Long) getId();
 	}
 
-	@Override
-	protected User createInstance() {
-		User user = new User();
-		user.setEnabled(true);
-		return user;
-	}
 
 	public void load() {
 		if (isIdDefined()) {
@@ -59,11 +69,6 @@ public class UserHome extends EntityHome<User> {
 	}
 
 	public void wire() {
-//		getInstance();
-//		Department department = departmentHome.getDefinedInstance();
-//		if (department != null) {
-//			getInstance().setDepartment(department);
-//		}
 	}
 
 	public boolean isWired() {
@@ -93,10 +98,11 @@ public class UserHome extends EntityHome<User> {
 	
 	@Override
 	public String persist() {
-		log.info("Registering user #{user.username}");
+//		log.info("Registering user #{user.username}");
+		userSharedHome.persist();
+
 		User user = getInstance();
-		user.setPassword(passwordManager.hash(user.getPassword()));
-		user.setCreatedDate(new Date());
+		user.setUserSharedId(userSharedHome.getUserSharedId());
 		if (user.getRoles().isEmpty()) {
 			user.addRole(roleList.getDefaultRole());
 		}
@@ -105,26 +111,21 @@ public class UserHome extends EntityHome<User> {
 
 	@Override
 	public String update() {
-		User user = getInstance();
-		if (isPasswordChanged()) {
-			log.debug("Changing #{user.username}'s password");
-			user.setPassword(passwordManager.hash(user.getPassword()));
-		}
+		userSharedHome.update();
 		return super.update();
 	}
 	
-	public boolean isPasswordChanged() {
-		String oldPassword = (String) getEntityManager()
-				.createQuery("select u.password from User u where u.id = #{user.id}")
-				.getSingleResult();
-		return ! getInstance().getPassword().equals(oldPassword);
+	@Override
+	public String remove() {
+		userSharedHome.remove();
+		return super.remove();
 	}
 	
 	@Observer(Identity.EVENT_POST_AUTHENTICATE)
 	public void updateLastLoginDate() {
-		currentUser = (User) getEntityManager()
-				.createQuery("select u from User u where u.username = #{identity.principal.name}")
-				.getSingleResult();
+		currentUserShared = userSharedList.getUserShared(identity.getPrincipal().getName());
+		currentUser = userList.getUserBySharedId(currentUserShared.getId());
+		
 		currentUser.setLastLogin(new Date());
 		setUserId(currentUser.getId());
 		super.update();

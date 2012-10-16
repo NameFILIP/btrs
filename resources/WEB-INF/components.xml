@@ -29,7 +29,10 @@
 	<web:hot-deploy-filter url-pattern="*.seam" />
 
 	<persistence:managed-persistence-context name="entityManager" auto-create="true"
-		entity-manager-factory="@seamEmfRef@" persistence-unit-jndi-name="@puJndiName@" />
+          persistence-unit-jndi-name="java:comp/env/btrs/pu" />
+ 
+     <persistence:managed-persistence-context name="userEntityManager" auto-create="true"
+          persistence-unit-jndi-name="java:comp/env/user/pu" />
 
 	<security:identity authenticate-method="#{authenticationManager.authenticate}" />
 	<security:jpa-token-store token-class="com.infinitiessoft.btrs.model.AuthenticationToken" />
@@ -56,6 +59,7 @@
 	<factory name="statusChange" value="#{statusChangeHome.instance}" scope="stateless"/>
 	<factory name="typeParameter" value="#{typeParameterHome.instance}" scope="stateless"/>
 	<factory name="user" value="#{userHome.instance}" scope="stateless"/>
+	<factory name="userShared" value="#{userSharedHome.instance}" scope="stateless"/>
 
 	<component name="passwordManager">
 		<property name="digestAlgorithm">@passDigestAlgorithm@</property>

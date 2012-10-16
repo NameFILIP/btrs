@@ -3,8 +3,8 @@
 				xmlns:f="http://java.sun.com/jsf/core" 
 				template="notificationTemplate.xhtml">
 
-	<ui:param name="recipientName" value="#{report.reviewer.fullName}" />
-	<ui:param name="recipientAddress" value="#{report.reviewer.email}" />
+	<ui:param name="recipientName" value="#{userSharedList.getUserShared(report.reviewer.userSharedId).fullName}" />
+	<ui:param name="recipientAddress" value="#{userSharedList.getUserShared(report.reviewer.userSharedId).email}" />
 	<ui:define name="subject">#{messages['notification.subject.submitted']}</ui:define>
 
 	<ui:define name="body">
@@ -23,18 +23,18 @@ p {
 </head>
 <body>
 	<p class="center">#{messages['notification.message.header']}</p>
-	<p>#{messages['notification.message.greeting']} #{report.reviewer.fullName},</p>
+	<p>#{messages['notification.message.greeting']} #{userSharedList.getUserShared(report.reviewer.userSharedId).fullName},</p>
 	<p>
 		#{messages['notification.message.submitted.part1']} <a href="#{urlBase}/report-view.seam?reportId=#{report.id}">#{messages['notification.message.submitted.part2']}</a> 
-		#{messages['notification.message.submitted.part3']} #{messages['notification.message.status.submitted']} #{messages['notification.message.submitted.part4']} #{report.owner.fullName}.
+		#{messages['notification.message.submitted.part3']} #{messages['notification.message.status.submitted']} #{messages['notification.message.submitted.part4']} #{userSharedList.getUserShared(report.owner.userSharedId).fullName}.
 	</p>
 	<p>#{messages['notification.message.ending']}</p>
 </body>
 		</html>
 
-		<f:facet name="alternative">#{messages['notification.message.greeting']} #{report.reviewer.fullName},
+		<f:facet name="alternative">#{messages['notification.message.greeting']} #{userSharedList.getUserShared(report.reviewer.userSharedId).fullName},
 
-#{messages['notification.message.submitted.part1']} #{messages['notification.message.submitted.part2']} #{messages['notification.message.submitted.part3']} #{messages['notification.message.status.submitted'} #{messages['notification.message.submitted.part4']} #{report.owner.fullName}.
+#{messages['notification.message.submitted.part1']} #{messages['notification.message.submitted.part2']} #{messages['notification.message.submitted.part3']} #{messages['notification.message.status.submitted']} #{messages['notification.message.submitted.part4']} #{userSharedList.getUserShared(report.owner.userSharedId).fullName}.
 
 #{messages['notification.message.ending']}
      	</f:facet>

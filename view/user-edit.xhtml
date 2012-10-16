@@ -21,87 +21,96 @@
 	<ui:define name="data-main-body">
 		<h:form id="user" styleClass="form-horizontal">
 
-			<s:decorate id="usernameField" template="layout/edit.xhtml">
-				<ui:define name="label">#{messages['user.username']}</ui:define>
-				<h:inputText id="username" required="true" size="100" maxlength="100" value="#{user.username}" label="#{messages['user.username']}">
-					<a:support event="onblur" reRender="usernameField" bypassUpdates="true" ajaxSingle="true" />
-				</h:inputText>
-			</s:decorate>
-
-			<s:decorate id="passwordField" template="layout/edit.xhtml">
-				<ui:define name="label">#{messages['user.password']}</ui:define>
-				<h:inputSecret id="password" required="true" size="100" minlength="5" maxlength="100"
-					value="#{user.password}" immediate="true" redisplay="true">
-					<a:support event="onblur" reRender="passwordField" bypassUpdates="true" ajaxSingle="true" />
-				</h:inputSecret>
-			</s:decorate>
-
-			<s:decorate id="confirmPasswordField" template="layout/edit.xhtml">
-				<ui:define name="label">#{messages['user.password.confirm']}</ui:define>
-				<h:inputSecret id="confirmPassword" required="true" size="100" minlength="5" maxlength="100" value="#{user.password}" immediate="true" redisplay="true">
-					<a:support event="onblur" reRender="confirmPasswordField" bypassUpdates="true" ajaxSingle="true" />
-					<s:validateEquality for="password" message="#{messages['user.password.confirm']}" />
-				</h:inputSecret>
-			</s:decorate>
-
-			<s:decorate id="firstNameField" template="layout/edit.xhtml">
-				<ui:define name="label">#{messages['user.firstName']}</ui:define>
-				<h:inputText id="firstName" size="100" maxlength="100" value="#{user.firstName}">
-					<a:support event="onblur" reRender="firstNameField" bypassUpdates="true" ajaxSingle="true" />
-				</h:inputText>
-			</s:decorate>
-
-			<s:decorate id="lastNameField" template="layout/edit.xhtml">
-				<ui:define name="label">#{messages['user.lastName']}</ui:define>
-				<h:inputText id="lastName" size="100" maxlength="100" value="#{user.lastName}">
-					<a:support event="onblur" reRender="lastNameField" bypassUpdates="true" ajaxSingle="true" />
-				</h:inputText>
-			</s:decorate>
-			
-			<s:decorate id="jobTitleField" template="layout/edit.xhtml">
-				<ui:define name="label">#{messages['user.jobTitle']}</ui:define>
-				<h:inputText id="jobTitle" size="100" maxlength="100" value="#{user.jobTitle}">
-					<a:support event="onblur" reRender="jobTitleField" bypassUpdates="true" ajaxSingle="true" />
-				</h:inputText>
-			</s:decorate>
-
-			<s:decorate id="genderField" template="layout/edit.xhtml">
-				<ui:define name="label">#{messages['user.gender']}</ui:define>
-					<h:selectOneRadio id="gender" value="#{user.gender}" styleClass="radio inline" layout="pageDirection">
-						<s:selectItems value="#{genders}" var="g" itemValue="#{g}" label="#{messages[g.label]}" />
-						<s:convertEnum />
-					</h:selectOneRadio>
-			</s:decorate>
-
-			<s:decorate id="emailField" template="layout/edit.xhtml">
-				<ui:define name="label">#{messages['user.email']}</ui:define>
-				<h:inputText id="email" required="true" size="100" maxlength="100" value="#{user.email}" label="#{messages['user.email']}">
-					<a:support event="onblur" reRender="emailField" bypassUpdates="true" ajaxSingle="true" />
-				</h:inputText>
-			</s:decorate>
-
-			<s:decorate id="departmentField" template="layout/edit.xhtml">
-				<ui:define name="label">#{messages['user.department']}</ui:define>
-				<h:selectOneMenu id="department" value="#{user.department}">
-					<s:selectItems value="#{departmentList.resultList}" var="d" itemValue="#{d}" label="#{d.name}" />
-					<s:convertEntity />
+			<s:decorate id="userSharedField" template="layout/edit.xhtml"  rendered="#{not userHome.managed and not empty userList.notUsedSharedUsers}">
+				<ui:define name="label">#{messages['user.userShared']}</ui:define>
+				<h:selectOneMenu id="userShared" value="#{userSharedHome.userSharedId}" >
+					<s:selectItems value="#{userList.notUsedSharedUsers}" var="us" itemValue="#{us.id}" label="#{us.fullName}" noSelectionLabel="#{messages['common.prompt']}"/>
+					<a:support event="onchange" reRender="user-info" ajaxSingle="true" />
 				</h:selectOneMenu>
 			</s:decorate>
 			
-			<s:decorate id="rolesField" template="layout/edit.xhtml" rendered="#{s:hasRole('ACCOUNTANT')}">
-				<ui:define name="label">#{messages['user.roles']}</ui:define>
-				<h:selectManyCheckbox id="roles" value="#{user.roles}" styleClass="checkbox inline" layout="pageDirection">
-					<s:selectItems var="r" value="#{roleList.resultList}" label="#{messages[r.nameKey]}" />
-					<s:convertEntity />
-					<a:support event="onblur" reRender="rolesField" bypassUpdates="true" ajaxSingle="true" />
-				</h:selectManyCheckbox>
-			</s:decorate>
+			<a:outputPanel id="user-info">
+				<s:decorate id="usernameField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['user.username']}</ui:define>
+					<h:inputText id="username" required="true" size="100" maxlength="100" value="#{userShared.username}" label="#{messages['user.username']}">
+						<a:support event="onblur" reRender="usernameField" bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
 
-			<s:decorate id="enabledField" template="layout/edit.xhtml" rendered="#{s:hasRole('ACCOUNTANT')}">
-				<ui:define name="label">#{messages['user.enabled']}</ui:define>
-				<h:selectBooleanCheckbox title="enabled" value="#{user.enabled}"/>
-			</s:decorate>
+				<s:decorate id="passwordField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['user.password']}</ui:define>
+					<h:inputSecret id="password" required="true" size="100" minlength="5" maxlength="100" value="#{userShared.password}" immediate="true" redisplay="true" disabled="#{not identity.loggedIn and userSharedHome.userSharedId ne null}">
+						<a:support event="onblur" reRender="passwordField" bypassUpdates="true" ajaxSingle="true" />
+					</h:inputSecret>
+				</s:decorate>
 
+				<s:decorate id="confirmPasswordField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['user.password.confirm']}</ui:define>
+					<h:inputSecret id="confirmPassword" required="true" size="100" minlength="5" maxlength="100" value="#{userShared.password}" immediate="true" redisplay="true"  disabled="#{not identity.loggedIn and userSharedHome.userSharedId ne null}">
+						<a:support event="onblur" reRender="confirmPasswordField" bypassUpdates="true" ajaxSingle="true" />
+						<s:validateEquality for="password" message="#{messages['user.password.confirm']}" />
+					</h:inputSecret>
+				</s:decorate>
+
+				<s:decorate id="firstNameField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['user.firstName']}</ui:define>
+					<h:inputText id="firstName" size="100" maxlength="100" value="#{userShared.firstName}">
+						<a:support event="onblur" reRender="firstNameField" bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
+
+				<s:decorate id="lastNameField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['user.lastName']}</ui:define>
+					<h:inputText id="lastName" size="100" maxlength="100" value="#{userShared.lastName}">
+						<a:support event="onblur" reRender="lastNameField" bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
+
+				<s:decorate id="jobTitleField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['user.jobTitle']}</ui:define>
+					<h:inputText id="jobTitle" size="100" maxlength="100" value="#{userShared.jobTitle}">
+						<a:support event="onblur" reRender="jobTitleField" bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
+
+				<s:decorate id="genderField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['user.gender']}</ui:define>
+					<h:selectOneRadio id="gender" value="#{userShared.gender}" styleClass="radio inline" layout="pageDirection">
+						<s:selectItems value="#{genders}" var="g" itemValue="#{g}" label="#{messages[g.label]}" />
+						<s:convertEnum />
+					</h:selectOneRadio>
+				</s:decorate>
+
+				<s:decorate id="emailField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['user.email']}</ui:define>
+					<h:inputText id="email" required="true" size="100" maxlength="100" value="#{userShared.email}"
+						label="#{messages['user.email']}">
+						<a:support event="onblur" reRender="emailField" bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
+
+				<s:decorate id="departmentField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['user.department']}</ui:define>
+					<h:selectOneMenu id="department" value="#{user.department}">
+						<s:selectItems value="#{departmentList.resultList}" var="d" itemValue="#{d}" label="#{d.name}" />
+						<s:convertEntity />
+					</h:selectOneMenu>
+				</s:decorate>
+
+				<s:decorate id="rolesField" template="layout/edit.xhtml" rendered="#{s:hasRole('ACCOUNTANT')}">
+					<ui:define name="label">#{messages['user.roles']}</ui:define>
+					<h:selectManyCheckbox id="roles" value="#{user.roles}" styleClass="checkbox inline" layout="pageDirection">
+						<s:selectItems var="r" value="#{roleList.resultList}" label="#{messages[r.nameKey]}" />
+						<s:convertEntity />
+						<a:support event="onblur" reRender="rolesField" bypassUpdates="true" ajaxSingle="true" />
+					</h:selectManyCheckbox>
+				</s:decorate>
+
+				<s:decorate id="enabledField" template="layout/edit.xhtml" rendered="#{s:hasRole('ACCOUNTANT')}">
+					<ui:define name="label">#{messages['user.enabled']}</ui:define>
+					<h:selectBooleanCheckbox title="enabled" value="#{userShared.enabled}" />
+				</s:decorate>
+			</a:outputPanel>
 			<div class="form-actions">
 				<h:commandButton id="save" value="#{messages['common.save']}" action="#{userHome.persist}" rendered="#{!userHome.managed}" styleClass="btn btn-primary"/>
 				<h:commandButton id="update" value="#{messages['common.save']}" action="#{userHome.update}" rendered="#{userHome.managed}" styleClass="btn btn-primary"/>

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -16,7 +17,7 @@ import com.infinitiessoft.btrs.model.User;
 public class SubReporting {
 
 	private static final LogProvider log = Logging.getLogProvider(SubReporting.class);
-	private static final UserComparator userComparator = new UserComparator();
+	private static final UserComparator userComparator = (UserComparator) Component.getInstance("userComparator");
 	
 	private Map<User, ReportingRow> reportingRows = new HashMap<User, ReportingRow>();
 

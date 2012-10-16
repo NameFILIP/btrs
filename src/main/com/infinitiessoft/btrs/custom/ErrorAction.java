@@ -27,7 +27,7 @@ public class ErrorAction implements Serializable {
 	@In("#{messages['error.mail.subject']}")
 	String errorMailSubject;
  
-	@In
+	@In(required = false)
 	User currentUser;
 	
     @In

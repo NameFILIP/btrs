@@ -5,17 +5,45 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
              version="1.0">
              
-   <persistence-unit name="btrs" transaction-type="JTA">
-      <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      <jta-data-source>btrsDatasource</jta-data-source>
-      <properties>
-         <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-         <property name="hibernate.hbm2ddl.auto" value="update"/>
-         <property name="hibernate.show_sql" value="true"/>
-         <property name="hibernate.format_sql" value="true"/>
-         <property name="hibernate.default_schema" value="public"/>
-         <property name="jboss.entity.manager.factory.jndi.name" value="java:/btrsEntityManagerFactory"/>
-      </properties>
-   </persistence-unit>
+	<persistence-unit name="user">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>userDatasource</jta-data-source>
+		<class>com.infinitiessoft.btrs.model.UserShared</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.default_schema" value="public" />
+			<property name="jboss.entity.manager.factory.jndi.name" value="java:/userEntityManagerFactory" />
+		</properties>
+	</persistence-unit>
+
+	<persistence-unit name="btrs">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>btrsDatasource</jta-data-source>
+		<class>com.infinitiessoft.btrs.model.ApplicationVariable</class>
+		<class>com.infinitiessoft.btrs.model.AuthenticationToken</class>
+		<class>com.infinitiessoft.btrs.model.Department</class>
+		<class>com.infinitiessoft.btrs.model.Expense</class>
+		<class>com.infinitiessoft.btrs.model.ExpenseCategory</class>
+		<class>com.infinitiessoft.btrs.model.ExpenseType</class>
+		<class>com.infinitiessoft.btrs.model.ParameterValue</class>
+		<class>com.infinitiessoft.btrs.model.Report</class>
+		<class>com.infinitiessoft.btrs.model.Role</class>
+		<class>com.infinitiessoft.btrs.model.StatusChange</class>
+		<class>com.infinitiessoft.btrs.model.TypeParameter</class>
+		<class>com.infinitiessoft.btrs.model.User</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.default_schema" value="public" />
+			<property name="jboss.entity.manager.factory.jndi.name" value="java:/btrsEntityManagerFactory" />
+		</properties>
+	</persistence-unit>
     
 </persistence>

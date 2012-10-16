@@ -23,7 +23,7 @@
 	<div class="navbar" id="top-navbar">
 		<div class="navbar-inner">
 		<ul class="nav pull-right" id="accountnav">
-			<li class="navbar-text text-success">#{messages['accountnav.welcome']}, #{identity.loggedIn ? currentUser.fullName : messages['accountnav.guest']}</li>
+			<li class="navbar-text text-success">#{messages['accountnav.welcome']}, #{identity.loggedIn ? currentUserShared.fullName : messages['accountnav.guest']}</li>
 			<li class="divider-vertical"></li>
 			<s:fragment rendered="#{not identity.loggedIn}">
 				<li>
@@ -41,11 +41,16 @@
 						<f:param name="userFrom" value="#{facesContext.viewRoot.viewId}" />
 					</s:link></li>
 			</s:fragment>
-			<li><h:form id="language" styleClass="navbar-form">
+			<li>
+				<h:form id="language" styleClass="navbar-form">
 					<h:selectOneMenu value="#{localeSelector.localeString}" valueChangeListener="#{localeSelector.select}" onchange="submit()" styleClass="language-selector">
 						<f:selectItems value="#{localeSelector.supportedLocales}" />
 					</h:selectOneMenu>
-				</h:form></li>
+				</h:form>
+			</li>
+			<li>
+				<s:link id="help" view="/help.xhtml" value="#{messages['accountnav.help']}" />
+			</li>
 			<s:fragment rendered="#{identity.loggedIn}">
 				<li><s:link id="logout" action="#{identity.logout}" value="#{messages['accountnav.logout']}" propagation="end" /></li>
 			</s:fragment>

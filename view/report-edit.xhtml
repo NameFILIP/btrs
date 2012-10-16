@@ -19,13 +19,13 @@
 
 			<s:decorate id="jobTitle" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['report.jobTitle']}</ui:define>
-				<h:outputText value="#{report.owner.jobTitle}" />
+				<h:outputText value="#{userSharedList.getUserShared(report.owner.userSharedId).jobTitle}" />
 			</s:decorate>
 
 			<s:decorate id="reviewerField" template="layout/edit.xhtml">
 				<ui:define name="label">#{messages['report.accountant']}</ui:define>
 				<h:selectOneMenu id="reviewer" required="true" value="#{report.reviewer}">
-					<s:selectItems var="a" value="#{userList.getAccountants()}" itemValue="#{a}" label="#{a.fullName}" />
+					<s:selectItems var="a" value="#{userList.getAccountants()}" itemValue="#{a}" label="#{userSharedList.getUserShared(a.userSharedId).fullName}" />
 					<s:convertEntity />
 				</h:selectOneMenu>
 			</s:decorate>

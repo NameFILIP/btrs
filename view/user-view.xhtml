@@ -23,32 +23,32 @@
 		<div class="form-horizontal">
 			<s:decorate id="usernameField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['user.username']}</ui:define>
-				<h:outputText value="#{user.username}" />
+				<h:outputText value="#{userShared.username}" />
 			</s:decorate>
 
 			<s:decorate id="firstNameField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['user.firstName']}</ui:define>
-				<h:outputText value="#{user.firstName}" />
+				<h:outputText value="#{userShared.firstName}" />
 			</s:decorate>
 
 			<s:decorate id="lastNameField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['user.lastName']}</ui:define>
-				<h:outputText value="#{user.lastName}" />
+				<h:outputText value="#{userShared.lastName}" />
 			</s:decorate>
 
 			<s:decorate id="jobTitleField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['user.jobTitle']}</ui:define>
-				<h:outputText value="#{user.jobTitle}" />
+				<h:outputText value="#{userShared.jobTitle}" />
 			</s:decorate>
 
 			<s:decorate id="genderField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['user.gender']}</ui:define>
-				<h:outputText value="#{messages[user.gender.label]}" />
+				<h:outputText value="#{messages[userShared.gender.label]}" />
 			</s:decorate>
 
 			<s:decorate id="emailField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['user.email']}</ui:define>
-				<h:outputText value="#{user.email}" />
+				<h:outputText value="#{userShared.email}" />
 			</s:decorate>
 
 			<s:decorate id="departmentField" template="layout/display.xhtml">
@@ -65,12 +65,12 @@
 
 			<s:decorate id="enabledField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['user.enabled']}</ui:define>
-				<h:outputText value="#{user.enabled ? messages.yes : messages.no}" />
+				<h:outputText value="#{userShared.enabled ? messages.yes : messages.no}" />
 			</s:decorate>
 			
 			<s:decorate id="createdDateField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['user.created']}</ui:define>
-				<h:outputText value="#{user.createdDate}">
+				<h:outputText value="#{userShared.createdDate}">
 						<s:convertDateTime pattern="#{messages['pattern.date.long']}" />
 					</h:outputText>
 			</s:decorate>
