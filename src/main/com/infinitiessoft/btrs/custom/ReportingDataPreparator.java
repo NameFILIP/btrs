@@ -57,7 +57,7 @@ public class ReportingDataPreparator {
 		List<ReportingRow> reportingRows = new ArrayList<ReportingRow>();
 		
 		List<Report> approvedReports = reportList.getApprovedReportsJoinExpenses();
-		log.info("#0 Approved Reports used for Reporting", approvedReports.size());
+		log.debug("#0 Approved Reports used for Reporting", approvedReports.size());
 		
 		for (Report report : approvedReports) {
 			ReportingRow reportingRow = new ReportingRow(report.getEndDate(), report.getOwner());
@@ -111,6 +111,7 @@ public class ReportingDataPreparator {
 	
 	public void loadCurrentReporting(String periodType) {
 		currentReporting = getReportingByType(periodType);
+		log.info("Reporing for type #0 is accessed", periodType);
 	}
 	
 	public PeriodTypeEnum getPeriodType(String periodType) {

@@ -87,58 +87,56 @@
 			</p>
 		</section>
 		 
-		<ui:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
-			<section id="help-accountant">
-				<h1 class="page-header text-success">#{messages['menu.help.accountant']}</h1>
-				
-				<h2 id="help-review">#{messages['menu.help.review']}</h2>
-				<p>
-					#{messages['menu.help.msg.review.intro']}
-				</p>
-				<ol>
-					<li>#{messages['menu.help.msg.review.action1']}</li>
-					<li>#{messages['menu.help.msg.review.action2']}</li>
-					<li>#{messages['menu.help.msg.review.action3']}</li>
-				</ol>
-				
-				<h2 id="help-export">#{messages['menu.help.export']}</h2>
-				<p>
-					#{messages['menu.help.msg.export.intro']}
-				</p>
-				
-				<h2 id="help-reporting">#{messages['menu.help.reporting']}</h2>
-				<p>
-					#{messages['menu.help.msg.reporting.intro']}
-				</p>
-				<ol>
-					<li>#{messages['menu.help.msg.reporting.filter1']}</li>
-					<li>#{messages['menu.help.msg.reporting.filter2']}</li>
-					<li>#{messages['menu.help.msg.reporting.filter3']}</li>
-					<li>#{messages['menu.help.msg.reporting.filter4']}</li>
-				</ol>
-			</section>
+		<section id="help-accountant">
+			<h1 class="page-header text-success">#{messages['menu.help.accountant']}</h1>
 			
-			<section id="help-management">	
-				<h1 class="page-header text-success">#{messages['menu.help.management']}</h1>
-				<p>
-					#{messages['menu.help.msg.management.intro']}
-				</p>
-				
-				<h3 id="help-users">#{messages['menu.help.users']}</h3>
-				<p>
-					#{messages['menu.help.msg.management.users']}
-				</p>
-				
-				<h3 id="help-taxes">#{messages['menu.help.taxes']}</h3>
-				<p>
-					#{messages['menu.help.msg.management.taxes']}
-				</p>
-				
-				<h3 id="help-variables">#{messages['menu.help.variables']}</h3>
-				<p>
-					#{messages['menu.help.msg.management.variables']}
-				</p>
-			</section>
-		</ui:fragment>
+			<h2 id="help-review">#{messages['menu.help.review']}</h2>
+			<p>
+				#{messages['menu.help.msg.review.intro']}
+			</p>
+			<ol>
+				<li>#{messages['menu.help.msg.review.action1']}</li>
+				<li>#{messages['menu.help.msg.review.action2']}</li>
+				<li>#{messages['menu.help.msg.review.action3']}</li>
+			</ol>
+			
+			<h2 id="help-export">#{messages['menu.help.export']}</h2>
+			<p>
+				#{messages['menu.help.msg.export.intro']}
+			</p>
+			
+			<h2 id="help-reporting">#{messages['menu.help.reporting']}</h2>
+			<p>
+				#{messages['menu.help.msg.reporting.intro']}
+			</p>
+			<ol>
+				<li>#{messages['menu.help.msg.reporting.filter1']}</li>
+				<li>#{messages['menu.help.msg.reporting.filter2']}</li>
+				<li>#{messages['menu.help.msg.reporting.filter3']}</li>
+				<li>#{messages['menu.help.msg.reporting.filter4']}</li>
+			</ol>
+		</section>
+		
+		<section id="help-management">	
+			<h1 class="page-header text-success">#{messages['menu.help.management']}</h1>
+			<p>
+				#{messages['menu.help.msg.management.intro']}
+			</p>
+			
+			<h3 id="help-users">#{messages['menu.help.users']}</h3>
+			<p>
+				#{messages['menu.help.msg.management.users']}
+			</p>
+			
+			<h3 id="help-taxes">#{messages['menu.help.taxes']}</h3>
+			<p>
+				#{messages['menu.help.msg.management.taxes']}
+			</p>
+			
+			<h3 id="help-variables">#{messages['menu.help.variables']}</h3>
+			<p>
+				#{messages['menu.help.msg.management.variables']}
+			</p>
+		</section>
 	</ui:define>
 </ui:composition>

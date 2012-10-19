@@ -13,18 +13,18 @@
 	<ul class="nav nav-list">
 		<li><a href="#help-submit">#{messages['menu.help.submit']}</a></li>
 	</ul>
-	<ui:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
-		<li class="nav-header help-menu-header"><a href="#help-accountant">#{messages['menu.help.accountant']}</a></li>
-		<ul class="nav nav-list">
-			<li><a href="#help-review">#{messages['menu.help.review']}</a></li>
-			<li><a href="#help-export">#{messages['menu.help.export']}</a></li>
-			<li><a href="#help-reporting">#{messages['menu.help.reporting']}</a></li>
-		</ul>
-		<li class="nav-header help-menu-header"><a href="#help-management">#{messages['menu.help.management']}</a></li>
-		<ul class="nav nav-list">
-			<li><a href="#help-users">#{messages['menu.help.users']}</a></li>
-			<li><a href="#help-taxes">#{messages['menu.help.taxes']}</a></li>
-			<li><a href="#help-variables">#{messages['menu.help.variables']}</a></li>
-		</ul>
-	</ui:fragment>
+	
+	<li class="nav-header help-menu-header"><a href="#help-accountant">#{messages['menu.help.accountant']}</a></li>
+	<ul class="nav nav-list">
+		<li><a href="#help-review">#{messages['menu.help.review']}</a></li>
+		<li><a href="#help-export">#{messages['menu.help.export']}</a></li>
+		<li><a href="#help-reporting">#{messages['menu.help.reporting']}</a></li>
+	</ul>
+	<li class="nav-header help-menu-header"><a href="#help-management">#{messages['menu.help.management']}</a></li>
+	<ul class="nav nav-list">
+		<li><a href="#help-users">#{messages['menu.help.users']}</a></li>
+		<li><a href="#help-taxes">#{messages['menu.help.taxes']}</a></li>
+		<li><a href="#help-variables">#{messages['menu.help.variables']}</a></li>
+	</ul>
+
 </ui:composition>

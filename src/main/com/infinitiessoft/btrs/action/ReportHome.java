@@ -112,6 +112,8 @@ public class ReportHome extends EntityHome<Report> {
 		
 		String result = super.persist();
 		
+		log.info("User #0 created new report (id = #1)", getCurrentUsername(), getReportId());
+		
 		mailSender.sendSubmittedEmail(prepareMailInfo());
 		return result;
 	}
@@ -149,6 +151,7 @@ public class ReportHome extends EntityHome<Report> {
 		changeStatus(StatusEnum.APPROVED, comment);
 		reportingDataPreparator.setDirty(true);
 		update();
+		log.info("Report (id = #0) has been approved by #1", getReportId(), getCurrentUsername());
 		mailSender.sendReviewedEmail(prepareMailInfo());
 		return "approved";
 	}
@@ -156,6 +159,7 @@ public class ReportHome extends EntityHome<Report> {
 	public String reject() {
 		changeStatus(StatusEnum.REJECTED, comment);
 		update();
+		log.info("Report (id = #0) has been rejected by #1", getReportId(), getCurrentUsername());
 		mailSender.sendReviewedEmail(prepareMailInfo());
 		return "rejected";
 	}
@@ -196,4 +200,8 @@ public class ReportHome extends EntityHome<Report> {
 		return info;
 	}
 	
+	
+	public String getCurrentUsername() {
+		return allUsersShared.get(currentUser.getUserSharedId()).getUsername();
+	}
 }

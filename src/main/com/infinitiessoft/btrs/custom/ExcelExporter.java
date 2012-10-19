@@ -106,7 +106,9 @@ public class ExcelExporter {
 	    // Write file to response.
 	    OutputStream output = response.getOutputStream();
 	    
-	    Workbook wb = generateWorkbook(getReports());
+	    List<Report> reports = getReports();
+	    log.info("Export to Excel is called for #0 reports", reports.size());
+	    Workbook wb = generateWorkbook(reports);
 	    wb.write(output);
 	    
 	    output.close();

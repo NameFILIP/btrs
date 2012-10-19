@@ -36,7 +36,7 @@ public class AuthenticationManager {
 	@Transactional
 	public boolean authenticate() {
 
-		log.info("authenticating {0}", credentials.getUsername());
+		log.info("Authenticating {0}", credentials.getUsername());
 		try {
 			UserShared userShared = userSharedList.getUserShared(credentials.getUsername());
 			

@@ -132,6 +132,9 @@ public class UserHome extends EntityHome<User> {
 		
 		currentUser.setLastLogin(new Date());
 		setUserId(currentUser.getId());
+		
+		log.info("User #0 is authenticated", identity.getPrincipal().getName());
+		
 		super.update();
 	}
 	

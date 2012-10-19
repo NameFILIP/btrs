@@ -19,7 +19,7 @@ public class ErrorAction implements Serializable {
  
 	private static final long serialVersionUID = 1L;
 
-	@In(value = "org.jboss.seam.handledException")
+	@In(value = "org.jboss.seam.handledException", required = false)
     private Exception e;
 	
 	private String developerMail;
