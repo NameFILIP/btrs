@@ -55,6 +55,13 @@
 				<ui:define name="label">#{messages['user.department']}</ui:define>
 				<h:outputText value="#{user.department.name}" />
 			</s:decorate>
+			
+			<!--s:decorate id="dateOfBirthField" template="layout/display.xhtml">
+				<ui:define name="label">#{messages['user.dateOfBirth']}</ui:define>
+				<h:outputText value="#{userShared.dateOfBirth}">
+					<s:convertDateTime pattern="#{messages['pattern.date.short']}" />
+				</h:outputText>
+			</s:decorate-->
 
 			<s:decorate id="rolesField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['user.roles']}</ui:define>

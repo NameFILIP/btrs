@@ -35,6 +35,7 @@ public class UserShared implements java.io.Serializable {
 	private GenderEnum gender;
 	private String firstName;
 	private String lastName;
+	private Date dateOfBirth;
 	private Date createdDate;
 	private Boolean enabled;
 
@@ -123,6 +124,16 @@ public class UserShared implements java.io.Serializable {
 		this.lastName = lastName;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date_of_birth")
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_date")
 	public Date getCreatedDate() {
@@ -132,7 +143,7 @@ public class UserShared implements java.io.Serializable {
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
-
+	
 	public Boolean getEnabled() {
 		return enabled;
 	}

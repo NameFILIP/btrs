@@ -11,7 +11,7 @@
 		<xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
 		<xa-datasource-property name="ServerName">localhost</xa-datasource-property>
 		<xa-datasource-property name="PortNumber">5432</xa-datasource-property>
-		<xa-datasource-property name="DatabaseName">_btrs</xa-datasource-property>
+		<xa-datasource-property name="DatabaseName">btrs</xa-datasource-property>
 		<xa-datasource-property name="User">postgres</xa-datasource-property>
 		<xa-datasource-property name="Password">postgres</xa-datasource-property>
 	</xa-datasource>

@@ -97,6 +97,13 @@
 					</h:selectOneMenu>
 				</s:decorate>
 
+				<s:decorate id="dateOfBirthField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['user.dateOfBirth']}</ui:define>
+					<rich:calendar id="dateOfBirth" value="#{userShared.dateOfBirth}" datePattern="#{messages['pattern.date.short']}" showWeeksBar="false" styleClass="table-condensed">
+						<a:support event="onchanged" reRender="dateOfBirthField" bypassUpdates="true" ajaxSingle="true" />
+					</rich:calendar>
+				</s:decorate>
+
 				<s:decorate id="rolesField" template="layout/edit.xhtml" rendered="#{s:hasRole('ACCOUNTANT')}">
 					<ui:define name="label">#{messages['user.roles']}</ui:define>
 					<h:selectManyCheckbox id="roles" value="#{user.roles}" styleClass="checkbox inline" layout="pageDirection">

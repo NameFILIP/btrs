@@ -22,6 +22,7 @@ import com.infinitiessoft.btrs.model.Expense;
 import com.infinitiessoft.btrs.model.Report;
 import com.infinitiessoft.btrs.model.StatusChange;
 import com.infinitiessoft.btrs.model.User;
+import com.infinitiessoft.btrs.model.UserShared;
 
 @Name("reportHome")
 public class ReportHome extends EntityHome<Report> {
@@ -41,6 +42,9 @@ public class ReportHome extends EntityHome<Report> {
 	
 	@In
 	MailSender mailSender;
+	
+	@In("#{userSharedList.allUsersShared}")
+	private Map<Long, UserShared> allUsersShared;
 	
 	private String actionName;
 	private String comment;
@@ -178,7 +182,14 @@ public class ReportHome extends EntityHome<Report> {
 	
 	private Map<String, Object> prepareMailInfo() {
 		Map<String, Object> info = new HashMap<String, Object>();
-		info.put("report", getInstance());
+		Report report = getInstance();
+		UserShared ownerInfo = allUsersShared.get(report.getOwner().getUserSharedId());
+		UserShared reviewerInfo = allUsersShared.get(report.getReviewer().getUserSharedId());
+		info.put("report", report);
+		info.put("ownerName", ownerInfo.getFullName());
+		info.put("ownerAddress", ownerInfo.getEmail());
+		info.put("reviewerName", reviewerInfo.getFullName());
+		info.put("reviewerAddress", reviewerInfo.getEmail());
 		info.put("urlBase", getRequestURL());
 		// for localization
 		info.put("messages", new HashMap<String, String>(messages));

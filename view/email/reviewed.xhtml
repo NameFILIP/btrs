@@ -3,8 +3,8 @@
 				xmlns:f="http://java.sun.com/jsf/core" 
 				template="notificationTemplate.xhtml">
 
-	<ui:param name="recipientName" value="#{userSharedList.getUserShared(report.owner.userSharedId).fullName}" />
-	<ui:param name="recipientAddress" value="#{userSharedList.getUserShared(report.owner.userSharedId).email}" />
+	<ui:param name="recipientName" value="#{ownerName}" />
+	<ui:param name="recipientAddress" value="#{ownerAddress}" />
 	<ui:define name="subject">#{messages['notification.subject.reviewed']}</ui:define>
 
 	<ui:define name="body">
@@ -23,20 +23,20 @@ p {
 </head>
 <body>
 	<p class="center">#{messages['notification.message.header']}</p>
-	<p>#{messages['notification.message.greeting']} #{userSharedList.getUserShared(report.owner.userSharedId).fullName},</p>
+	<p>#{messages['notification.message.greeting']} #{ownerName},</p>
 	<p>
 		#{messages['notification.message.reviewed.part1']} <a href="#{urlBase}/report-view.seam?reportId=#{report.id}">#{messages['notification.message.reviewed.part2']}</a> 
 		#{messages['notification.message.reviewed.part3']} 
 		#{messages['notification.message.status.'.concat(report.currentStatus.name().toLowerCase())]} 
-		#{messages['notification.message.reviewed.part4']} #{userSharedList.getUserShared(report.reviewer.userSharedId).fullName}.
+		#{messages['notification.message.reviewed.part4']} #{reviewerName}.
 	</p>
 	<p>#{messages['notification.message.ending']}</p>
 </body>
 		</html>
 
-		<f:facet name="alternative">#{messages['notification.message.greeting']} #{userSharedList.getUserShared(report.owner.userSharedId).fullName},
+		<f:facet name="alternative">#{messages['notification.message.greeting']} #{ownerName},
 
-#{messages['notification.message.reviewed.part1']} #{messages['notification.message.reviewed.part2']} #{messages['notification.message.reviewed.part3']} #{messages['notification.message.status.'.concat(report.currentStatus.name().toLowerCase())]} #{messages['notification.message.reviewed.part4']} #{userSharedList.getUserShared(report.reviewer.userSharedId).fullName}.
+#{messages['notification.message.reviewed.part1']} #{messages['notification.message.reviewed.part2']} #{messages['notification.message.reviewed.part3']} #{messages['notification.message.status.'.concat(report.currentStatus.name().toLowerCase())]} #{messages['notification.message.reviewed.part4']} #{reviewerName}.
 
 #{messages['notification.message.ending']}
      	</f:facet>

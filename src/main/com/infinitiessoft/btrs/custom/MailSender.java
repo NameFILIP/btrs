@@ -29,6 +29,7 @@ public class MailSender {
 			}
 			renderer.render(template);
 			log.info("Mail has been sent using template: #0", template);
+			log.debug("Mail context is: #0", info);
         } catch (Exception e) {
             log.error(e.getMessage());
         }

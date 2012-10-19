@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
+import org.jboss.seam.log.Log;
 
 import com.infinitiessoft.btrs.model.UserShared;
 
@@ -14,6 +16,8 @@ public class UserSharedList extends EntityQuery<UserShared> {
 
 	private static final long serialVersionUID = 1L;
 
+	@Logger Log log;
+	
 	@Override
     protected String getPersistenceContextName() {
          return "userEntityManager";
@@ -27,8 +31,8 @@ public class UserSharedList extends EntityQuery<UserShared> {
 			"lower(userShared.email) like lower(concat(#{userSharedList.userShared.email},'%'))",
 			"lower(userShared.firstName) like lower(concat(#{userSharedList.userShared.firstName},'%'))",
 			"lower(userShared.lastName) like lower(concat(#{userSharedList.userShared.lastName},'%'))",
-			"lower(userShared.password) like lower(concat(#{userSharedList.userShared.password},'%'))",
-			"lower(userShared.username) like lower(concat(#{userSharedList.userShared.username},'%'))",};
+			"userShared.password = #{userSharedList.userShared.password}",
+			"lower(userShared.username) = lower(#{userSharedList.userShared.username})"};
 
 	private UserShared userShared = new UserShared();
 
@@ -55,6 +59,7 @@ public class UserSharedList extends EntityQuery<UserShared> {
 			for (UserShared userShared : getResultList()) {
 				allUsersShared.put(userShared.getId(), userShared);
 			}
+			log.debug("AllUsersShared requested: #0", allUsersShared);
 		}
 		return allUsersShared;
 	}

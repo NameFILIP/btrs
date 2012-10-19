@@ -1,5 +1,6 @@
 package com.infinitiessoft.btrs.custom;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,7 +32,9 @@ import com.infinitiessoft.btrs.reporting.SubReporting;
 
 @Name("reportingFilter")
 @Scope(ScopeType.CONVERSATION)
-public class ReportingFilter {
+public class ReportingFilter implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Logger Log log;
 	

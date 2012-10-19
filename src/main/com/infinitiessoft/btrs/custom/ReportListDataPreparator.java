@@ -1,5 +1,6 @@
 package com.infinitiessoft.btrs.custom;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,7 +26,9 @@ import com.infinitiessoft.btrs.model.Report;
 
 @Name("reportListDataPreparator")
 @Scope(ScopeType.CONVERSATION)
-public class ReportListDataPreparator {
+public class ReportListDataPreparator implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Logger Log log;
 	

@@ -99,7 +99,11 @@ public class UserHome extends EntityHome<User> {
 	@Override
 	public String persist() {
 //		log.info("Registering user #{user.username}");
-		userSharedHome.persist();
+		if (userSharedHome.isIdDefined()) {
+			userSharedHome.update();
+		} else {
+			userSharedHome.persist();
+		}
 
 		User user = getInstance();
 		user.setUserSharedId(userSharedHome.getUserSharedId());

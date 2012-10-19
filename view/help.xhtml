@@ -10,7 +10,135 @@
 
 	<ui:define name="title">#{messages['help.title']}</ui:define>
 
-	<ui:define name="content">
-		Help me!
+	<ui:define name="data-navbar">
+		<ui:include src="layout/help-sidebar.xhtml" />
+	</ui:define>
+
+	<ui:define name="data-main">
+		
+		<section id="help-general">
+			<h1 class="page-header text-success">#{messages['menu.help.general']}</h1>
+			
+			<s:div styleClass="alert alert-info" rendered="#{not identity.loggedIn}">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				#{messages['menu.help.msg.firstTime']}
+			</s:div>
+			
+			<p>
+				#{messages['menu.help.msg.system.intro']}
+			</p>
+			<p>
+				#{messages['menu.help.msg.report.intro']}
+			</p>
+			
+			<h2 id="help-statuses">#{messages['menu.help.statuses']}</h2>
+			<p>
+				#{messages['menu.help.msg.statuses.intro']}
+			</p>
+			<ol>
+				<li>#{messages['status.submitted']} - #{messages['menu.help.msg.statuses.submitted']}</li>
+				<li>#{messages['status.rejected']} - #{messages['menu.help.msg.statuses.rejected']}</li>
+				<li>#{messages['status.approved']} - #{messages['menu.help.msg.statuses.approved']}</li>
+			</ol>
+			<p>
+				#{messages['menu.help.msg.statuses.final']}
+			</p>
+			
+			<h2 id="help-categories">#{messages['menu.help.categories']}</h2>
+			<p>
+				#{messages['menu.help.msg.categories.intro']}
+			</p>
+			<ol>
+				<li>#{messages['category.transportation']}</li>
+				<li>#{messages['category.accommodation']}</li>
+				<li>#{messages['category.meal']}</li>
+				<li>#{messages['category.other']}</li>
+			</ol>
+			
+			<h2 id="help-types">#{messages['menu.help.types']}</h2>
+			<p>
+				#{messages['menu.help.msg.types.intro']}
+			</p>
+			<ol>
+				<li>#{messages['type.value.accommodation.no.receipt']}</li>
+				<li>#{messages['type.value.accommodation.with.receipt']}</li>
+				<li>#{messages['type.value.meal']}</li>
+				<li>#{messages['type.value.other']}</li>
+				<li>#{messages['type.value.transportation.bus']}</li>
+				<li>#{messages['type.value.transportation.car']}</li>
+				<li>#{messages['type.value.transportation.hsr.no.receipt']}</li>
+				<li>#{messages['type.value.transportation.hsr.with.receipt']}</li>
+				<li>#{messages['type.value.transportation.mrt']}</li>
+				<li>#{messages['type.value.transportation.taxi']}</li>
+				<li>#{messages['type.value.transportation.train']}</li>
+			</ol>
+			
+			<h2 id="help-account">#{messages['menu.help.profile']}</h2>
+			<p>
+				#{messages['menu.help.msg.profile.intro']}
+			</p>
+		</section>
+		
+		<section id="help-employee">
+			<h1 class="page-header text-success">#{messages['menu.help.employee']}</h1>
+			<h2 id="help-submit">#{messages['menu.help.submit']}</h2>
+			<p>
+				#{messages['menu.help.msg.submit.intro']}
+			</p>
+		</section>
+		 
+		<ui:fragment rendered="#{s:hasRole('ACCOUNTANT')}">
+			<section id="help-accountant">
+				<h1 class="page-header text-success">#{messages['menu.help.accountant']}</h1>
+				
+				<h2 id="help-review">#{messages['menu.help.review']}</h2>
+				<p>
+					#{messages['menu.help.msg.review.intro']}
+				</p>
+				<ol>
+					<li>#{messages['menu.help.msg.review.action1']}</li>
+					<li>#{messages['menu.help.msg.review.action2']}</li>
+					<li>#{messages['menu.help.msg.review.action3']}</li>
+				</ol>
+				
+				<h2 id="help-export">#{messages['menu.help.export']}</h2>
+				<p>
+					#{messages['menu.help.msg.export.intro']}
+				</p>
+				
+				<h2 id="help-reporting">#{messages['menu.help.reporting']}</h2>
+				<p>
+					#{messages['menu.help.msg.reporting.intro']}
+				</p>
+				<ol>
+					<li>#{messages['menu.help.msg.reporting.filter1']}</li>
+					<li>#{messages['menu.help.msg.reporting.filter2']}</li>
+					<li>#{messages['menu.help.msg.reporting.filter3']}</li>
+					<li>#{messages['menu.help.msg.reporting.filter4']}</li>
+				</ol>
+			</section>
+			
+			<section id="help-management">	
+				<h1 class="page-header text-success">#{messages['menu.help.management']}</h1>
+				<p>
+					#{messages['menu.help.msg.management.intro']}
+				</p>
+				
+				<h3 id="help-users">#{messages['menu.help.users']}</h3>
+				<p>
+					#{messages['menu.help.msg.management.users']}
+				</p>
+				
+				<h3 id="help-taxes">#{messages['menu.help.taxes']}</h3>
+				<p>
+					#{messages['menu.help.msg.management.taxes']}
+				</p>
+				
+				<h3 id="help-variables">#{messages['menu.help.variables']}</h3>
+				<p>
+					#{messages['menu.help.msg.management.variables']}
+				</p>
+			</section>
+		</ui:fragment>
 	</ui:define>
 </ui:composition>
