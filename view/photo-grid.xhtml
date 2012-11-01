@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:c="http://java.sun.com/jstl/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				xmlns:lightbox="http://richfaces.org/sandbox/lightbox" 
+				contentType="text/html">
+
+	<a:outputPanel id="photo-grid" layout="block">
+		<a:region rendered="#{report.photos.size() gt 0}">
+			<h3 class="muted">#{messages['report.photo.header']}</h3>
+			<c:forEach begin="0" end="#{report.photos.size()}" varStatus="varStatus" step="3">
+				<ul class="thumbnails">
+					<c:forEach begin="0" end="2" varStatus="internal">
+						<c:set var="photoIndex" value="#{varStatus.index + internal.index}" />
+					    <ui:fragment rendered="#{photoIndex lt report.photos.size()}">
+							<c:set var="photo" value="#{report.photos[photoIndex]}" />
+							<li class="span4">
+								<div class="thumbnail box align-center">
+									<s:link view="/seam/resource/photos/#{photo.fileName}" title="#{photo.title}">
+										<s:graphicImage value="#{photo.data}">
+											<s:transformImageSize height="200" maintainRatio="true"/>
+										</s:graphicImage>
+									</s:link>
+									<h3>#{photo.title}</h3>
+									<s:div rendered="#{editable}" styleClass="align-center">
+										<a:commandLink value="#{messages['report.photo.rename']}" action="#{photoAction.setPhoto(photo)}"
+												styleClass="btn" onclick="$j('#photo-rename-modal').modal('show')" reRender="photo-rename-inputs"/>
+										#{' '}
+										<a:commandLink value="#{messages['common.delete']}" actionListener="#{report.removePhoto(photo)}" reRender="photo-grid" styleClass="btn btn-danger" />
+									</s:div>
+								</div>
+							</li>
+						</ui:fragment>
+					</c:forEach>
+				</ul>
+			</c:forEach>
+			
+			 <lightbox:lightbox id="lightbox" selector=".thumbnail > a" />   
+		</a:region>
+	</a:outputPanel>
+
+</ui:composition>

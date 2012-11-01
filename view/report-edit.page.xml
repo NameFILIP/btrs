@@ -10,6 +10,8 @@
 	
 	<param name="reportFrom" />
 	<param name="reportId" value="#{reportHome.reportId}"/>
+	
+	<action execute="#{photoAction.addPhotosToStore()}"/>
 
 	<navigation from-action="#{reportHome.persist}">
 		<rule if-outcome="persisted">

@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				contentType="text/html">
+
+	<div class="modal hide fade" id="photo-rename-modal" tabindex="-1" role="dialog" aria-labelledby="photo-rename-modal-label" aria-hidden="false">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="photo-rename-modal-label">#{messages['report.photo.rename']}</h3>
+		</div>
+		<h:form id="photo-rename-form" styleClass="form-horizontal">
+			
+			<a:outputPanel id="photo-rename-inputs" layout="block" styleClass="modal-body">
+				<s:decorate id="titleField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['report.photo.title']}</ui:define>
+					<h:inputText id="title" size="40" maxlength="40" value="#{photoAction.photo.title}" />
+				</s:decorate>
+			</a:outputPanel>
+			
+			<div class="modal-footer">
+				<a:commandButton id="save-modal" value="#{messages['common.save']}" onclick="$j('#photo-rename-modal').modal('hide')" styleClass="btn btn-primary" reRender="photo-grid" />
+				<a:commandButton id="cancel-modal" value="#{messages['common.cancel']}" onclick="$j('#photo-rename-modal').modal('hide')" styleClass="btn" ajaxSingle="true" immediate="true"/>
+			</div>
+			
+		</h:form>
+	</div>
+     
+</ui:composition>

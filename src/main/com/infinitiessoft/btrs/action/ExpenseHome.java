@@ -147,6 +147,16 @@ public class ExpenseHome extends EntityHome<Expense> {
 		return hsrDataReady;
 	}
 	
-	
+	public Double calculateDistance() {
+		Expense expense = getInstance();
+		String distance = expense.getParameterValue(ParameterEnum.DISTANCE).getValue();
+		String carCoefficient = allVariables.get(ApplicationVariableList.CAR_COEFFICIENT).getValue();
+		
+		try {
+			return Integer.valueOf(distance) * Double.valueOf(carCoefficient);
+		} catch (NumberFormatException e) {
+			return 0.0;
+		}
+	}
 
 }

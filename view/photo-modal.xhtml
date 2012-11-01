@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:a="http://richfaces.org/a4j"
+				xmlns:rich="http://richfaces.org/rich" 
+				xmlns:s="http://jboss.com/products/seam/taglib" 
+				contentType="text/html">
+
+	<div class="modal hide fade" id="photo-modal" tabindex="-1" role="dialog" aria-labelledby="photo-modal-label" aria-hidden="false">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="photo-modal-label">#{messages['report.addPhoto']}</h3>
+		</div>
+		<h:form id="photo-upload-form" styleClass="form-horizontal" enctype="multipart/form-data">
+			
+			<a:outputPanel id="photo-inputs-modal" layout="block" styleClass="modal-body">
+				<s:decorate id="titleField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['report.photo.title']}</ui:define>
+					<h:inputText id="title" size="40" maxlength="40" value="#{uploadAction.title}" />
+				</s:decorate>
+
+				<s:decorate id="photoField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages['report.photo.photo']}</ui:define>
+					<div class="input-append">
+					   <input id="photoPath" type="text" onclick="$j('#photo-upload-form\\:photoField\\:photo').click()" readonly="readonly"/>
+					   <a class="btn" onclick="$j('#photo-upload-form\\:photoField\\:photo').click()">Browse</a>
+					</div>
+					
+					<s:fileUpload id="photo" data="#{uploadAction.data}" accept="image/*" contentType="#{uploadAction.contentType}" 
+							fileName="#{uploadAction.fileName}" fileSize="#{uploadAction.size}" size="1" maxlength="40" required="true" 
+							onchange="copyFileName('#photo-upload-form\\:photoField\\:photo', '#photoPath')" styleClass="display-none"/>
+				</s:decorate>
+			</a:outputPanel>
+			
+			<div class="modal-footer">
+				<h:commandButton id="save-modal" value="#{messages['common.save']}" action="#{uploadAction.upload()}" styleClass="btn btn-primary"/>
+				<a:commandButton id="cancel-modal" value="#{messages['common.cancel']}" reRender="photo-inputs-modal" ajaxSingle="true" immediate="true" onclick="$j('#photo-modal').modal('hide')" styleClass="btn" />
+			</div>
+
+			<!-- Hack for closing modal window if validation after Save successful 'hide'-->
+			<a:outputPanel id="hack-panel" styleClass="">
+				<h:messages id="hack-errors"></h:messages>
+			</a:outputPanel>
+			
+		</h:form>
+	</div>
+     
+</ui:composition>

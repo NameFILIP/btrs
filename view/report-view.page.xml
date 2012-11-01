@@ -8,6 +8,8 @@
 	<begin-conversation join="true" flush-mode="MANUAL"/>
 	
 	<param name="reportId" value="#{reportHome.reportId}"/>
+	
+	<action execute="#{photoAction.addPhotosToStore()}"/>
 
 	<navigation from-action="#{reportHome.approve}">
 		<rule if-outcome="approved">

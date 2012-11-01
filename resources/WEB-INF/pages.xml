@@ -11,6 +11,9 @@
 				<redirect view-id="/user-list.xhtml" />
 			</rule>
 		</navigation>
+		<navigation from-action="#{identity.logout}">
+			<redirect view-id="/login.xhtml" />
+		</navigation>
 	</page>
 
 	<exception class="org.jboss.seam.framework.EntityNotFoundException">

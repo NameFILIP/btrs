@@ -44,12 +44,12 @@
 	</context-param>
 	<context-param>
 		<param-name>org.richfaces.LoadScriptStrategy</param-name>
-		<param-value>ALL</param-value>
+		<param-value>DEFAULT</param-value>
 	</context-param>
 	<!-- Change load strategy to DEFAULT to disable sending scripts/styles as packs -->
 	<context-param>
 		<param-name>org.richfaces.LoadStyleStrategy</param-name>
-		<param-value>ALL</param-value>
+		<param-value>DEFAULT</param-value>
 	</context-param>
 	<!-- RichFaces -->
 	<context-param>

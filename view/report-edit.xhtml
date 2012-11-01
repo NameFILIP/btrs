@@ -27,6 +27,7 @@
 				<h:selectOneMenu id="reviewer" required="true" value="#{report.reviewer}">
 					<s:selectItems var="a" value="#{userList.getAccountants()}" itemValue="#{a}" label="#{userSharedList.getUserShared(a.userSharedId).fullName}" />
 					<s:convertEntity />
+					<a:support event="onblur" reRender="reviewerField" bypassUpdates="true" ajaxSingle="true" />
 				</h:selectOneMenu>
 			</s:decorate>
 
@@ -60,17 +61,24 @@
 
 			<s:decorate id="commentField" template="layout/edit.xhtml">
 				<ui:define name="label">#{messages['report.comment']}</ui:define>
-				<h:inputTextarea id="comment" cols="80" rows="3" value="#{report.comment}" />
+				<h:inputTextarea id="comment" cols="80" rows="3" value="#{report.comment}">
+					<a:support event="onblur" reRender="commentField" bypassUpdates="true" ajaxSingle="true" />
+				</h:inputTextarea>
 			</s:decorate>
 
-			<s:decorate id="expense-add" template="layout/display.xhtml">
+			<s:decorate id="add-buttons" template="layout/display.xhtml">
 				<a href="#expense-modal" role="button" class="btn" data-toggle="modal">#{messages['report.addExpense']}</a>
+				<a href="#photo-modal" role="button" class="btn" data-toggle="modal">#{messages['report.photo.add']}</a>
 			</s:decorate>
 
 			<ui:include src="expense-table.xhtml">
 				<ui:param name="editable" value="true" />
 			</ui:include>
-
+						
+			<ui:include src="photo-grid.xhtml">
+				<ui:param name="editable" value="true" />
+			</ui:include>
+			
 			<ui:include src="status-change-table.xhtml" />
 
 			<div class="form-actions">
@@ -83,6 +91,10 @@
 		</h:form>
 
 		<ui:include src="expense-modal.xhtml" />
+		
+		<ui:include src="photo-modal.xhtml" />
+		
+		<ui:include src="photo-rename-modal.xhtml" />
 		
 	</ui:define>
 </ui:composition>

@@ -56,6 +56,7 @@ public class Report implements java.io.Serializable {
 	
 	private List<StatusChange> statusChanges;
 	private List<Expense> expenses;
+    private List<Photo> photos;
 
 	
 	public Report() {}
@@ -207,6 +208,18 @@ public class Report implements java.io.Serializable {
 		this.expenses = expenses;
 	}
 	
+	@OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
+	public List<Photo> getPhotos() {
+		if (photos == null) {
+			photos = new ArrayList<Photo>(0);
+		}
+		return this.photos;
+	}
+
+	public void setPhotos(List<Photo> photos) {
+		this.photos = photos;
+	}
+	
 	
 	@Override
 	public String toString() {
@@ -221,6 +234,16 @@ public class Report implements java.io.Serializable {
 	@Transient
 	public boolean removeExpense(Expense expense) {
 		return getExpenses().remove(expense);
+	}
+	
+	@Transient
+	public boolean addPhoto(Photo photo) {
+		return getPhotos().add(photo);
+	}
+	
+	@Transient
+	public boolean removePhoto(Photo photo) {
+		return getPhotos().remove(photo);
 	}
 	
 	@Transient

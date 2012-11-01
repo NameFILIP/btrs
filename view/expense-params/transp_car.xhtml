@@ -13,7 +13,7 @@
 			<h:inputText id="distance" required="true" size="10" maxlength="100" value="#{expense.getParameterValue('DISTANCE').value}">
 				<a:support event="onkeyup" reRender="auto-distance" ignoreDupResponses="true" requestDelay="50" ajaxSingle="true" oncomplete="setCaretToEnd(event);" />
 			</h:inputText>
-			<h:outputText id="auto-distance" value=" #{messages['expense.kilometer']} * #{allVariables['carCoefficient'].value} = #{expense.getParameterValue('DISTANCE').value * allVariables['carCoefficient'].value}" />
+			<h:outputText id="auto-distance" value=" #{messages['expense.kilometer']} * #{allVariables['carCoefficient'].value} = #{expenseHome.calculateDistance()}" />
 		</s:decorate>
 		
 		<s:decorate id="amountField" template="/layout/edit.xhtml">

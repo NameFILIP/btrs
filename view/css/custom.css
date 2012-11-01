@@ -247,3 +247,25 @@ select[size="1"] {
 	color: #999;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
+
+input#photoPath {
+	cursor: auto;
+	vertical-align: top;
+}
+
+.thumbnail.box {
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.thumbnail img {
+	height: 200px;
+}
+
+.modal form {
+	margin-bottom: 0;
+}
+
+.display-none, .modal .display-none {
+	display: none;
+}

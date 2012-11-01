@@ -69,7 +69,7 @@ public class ExpenseTypeList extends EntityQuery<ExpenseType> {
 	@SuppressWarnings("unchecked")
 	public List<ExpenseType> getAllExpenseTypes() {
 		if (allExpenseTypes == null) {
-			allExpenseTypes = getEntityManager().createQuery("select distinct et from ExpenseType et join fetch et.typeParameters tp").getResultList();
+			allExpenseTypes = getEntityManager().createQuery("select distinct et from ExpenseType et left outer join fetch et.typeParameters tp").getResultList();
 		}
 		return allExpenseTypes;
 	}

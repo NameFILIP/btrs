@@ -45,7 +45,7 @@
 			</a:outputPanel>
 			<div class="modal-footer">
 				<a:commandButton id="save-modal" value="#{messages['common.save']}" actionListener="#{expenseHome.addToReportAndClear()}" reRender="inputs-modal, expense-table, hack-panel" oncomplete="closeWindow('expense-edit-form:hack-errors', '#expense-modal')" styleClass="btn btn-primary" />
-				<a:commandButton id="save-and-add-modal" value="#{messages['expense.saveAndAdd']}" actionListener="#{expenseHome.addToReportAndClear()}" reRender="inputs-modal, expense-table" styleClass="btn" />
+				<a:commandButton id="save-and-add-modal" value="#{messages['common.saveAndAdd']}" actionListener="#{expenseHome.addToReportAndClear()}" reRender="inputs-modal, expense-table" styleClass="btn" />
 				<a:commandButton id="cancel-modal" value="#{messages['common.cancel']}" actionListener="#{expenseHome.clear()}" reRender="inputs-modal" ajaxSingle="true" immediate="true" onclick="$j('#expense-modal').modal('hide')" styleClass="btn" />
 			</div>
 

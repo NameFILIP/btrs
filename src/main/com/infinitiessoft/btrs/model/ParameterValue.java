@@ -73,5 +73,12 @@ public class ParameterValue implements java.io.Serializable {
 	public void setValue(String value) {
 		this.value = value;
 	}
+
+	@Override
+	public String toString() {
+		return "ParameterValue [typeParameter=" + typeParameter + ", value=" + value + "]";
+	}
+	
+	
 	
 }

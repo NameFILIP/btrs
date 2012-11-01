@@ -40,6 +40,11 @@
 					<f:facet name="header">#{messages['user.fullName']}</f:facet>
 					<h:outputText value="#{userSharedList.getUserShared(_user.userSharedId).fullName}" />
 				</rich:column>
+				
+				<rich:column sortBy="#{userSharedList.getUserShared(_user.userSharedId).username}">
+					<f:facet name="header">#{messages['user.username']}</f:facet>
+					<h:outputText value="#{userSharedList.getUserShared(_user.userSharedId).username}" />
+				</rich:column>
 
 				<rich:column sortBy="#{userSharedList.getUserShared(_user.userSharedId).jobTitle}">
 					<f:facet name="header">#{messages['user.jobTitle']}</f:facet>
@@ -59,9 +64,9 @@
 					</ui:repeat>
 				</rich:column>
 
-				<rich:column sortBy="#{userSharedList.getUserShared(_user.userSharedId).createdDate}">
-					<f:facet name="header">#{messages['user.created']}</f:facet>
-					<h:outputText value="#{userSharedList.getUserShared(_user.userSharedId).createdDate}">
+				<rich:column sortBy="#{_user.lastLogin}">
+					<f:facet name="header">#{messages['user.lastLogin']}</f:facet>
+					<h:outputText value="#{_user.lastLogin}">
 						<s:convertDateTime pattern="#{messages['pattern.date.long']}" />
 					</h:outputText>
 				</rich:column>

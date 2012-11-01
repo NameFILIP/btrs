@@ -12,10 +12,10 @@
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-			<property name="hibernate.hbm2ddl.auto" value="validate" />
+<!-- 			<property name="hibernate.hbm2ddl.auto" value="validate" /> -->
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="false" />
-<!-- 			<property name="hibernate.hbm2ddl.auto" value="update" /> -->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 <!-- 			<property name="hibernate.show_sql" value="true" /> -->
 <!-- 			<property name="hibernate.format_sql" value="true" /> -->
 			<property name="hibernate.default_schema" value="public" />
@@ -33,6 +33,7 @@
 		<class>com.infinitiessoft.btrs.model.ExpenseCategory</class>
 		<class>com.infinitiessoft.btrs.model.ExpenseType</class>
 		<class>com.infinitiessoft.btrs.model.ParameterValue</class>
+		<class>com.infinitiessoft.btrs.model.Photo</class>
 		<class>com.infinitiessoft.btrs.model.Report</class>
 		<class>com.infinitiessoft.btrs.model.Role</class>
 		<class>com.infinitiessoft.btrs.model.StatusChange</class>
@@ -41,10 +42,10 @@
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-			<property name="hibernate.hbm2ddl.auto" value="validate" />
+<!-- 			<property name="hibernate.hbm2ddl.auto" value="validate" /> -->
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="false" />
-<!-- 			<property name="hibernate.hbm2ddl.auto" value="update" /> -->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 <!-- 			<property name="hibernate.show_sql" value="true" /> -->
 <!-- 			<property name="hibernate.format_sql" value="true" /> -->
 			<property name="hibernate.default_schema" value="public" />

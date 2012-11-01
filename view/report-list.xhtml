@@ -41,7 +41,7 @@
 					<h:outputText value="#{_report.reason}" />
 				</rich:column>
 
-				<rich:column sortBy="#{_report.lastUpdatedDate}">
+				<rich:column sortBy="#{empty _report.lastUpdatedDate ? _report.createdDate : _report.lastUpdatedDate}">
 					<f:facet name="header">#{messages['report.updated']}</f:facet>
 					<h:outputText value="#{empty _report.lastUpdatedDate ? _report.createdDate : _report.lastUpdatedDate}">
 						<s:convertDateTime pattern="#{messages['pattern.date.long']}" />

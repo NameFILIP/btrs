@@ -82,5 +82,10 @@ public class TypeParameter implements java.io.Serializable {
 	public void setParameterValues(Set<ParameterValue> parameterValues) {
 		this.parameterValues = parameterValues;
 	}
+
+	@Override
+	public String toString() {
+		return "TypeParameter [value=" + value + "]";
+	}
 	
 }

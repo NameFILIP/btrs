@@ -21,7 +21,7 @@ public class ApplicationVariableList extends EntityQuery<ApplicationVariable> {
 
 	@Logger Log log;
 	
-	private static final String CAR_COEFFICIENT = "carCoefficient";
+	public static final String CAR_COEFFICIENT = "carCoefficient";
 
 	private static final String EJBQL = "select applicationVariable from ApplicationVariable applicationVariable";
 
@@ -66,7 +66,7 @@ public class ApplicationVariableList extends EntityQuery<ApplicationVariable> {
 //		return prices;
 //	}
 	
-	@Factory(value = "allVariables", scope = ScopeType.APPLICATION)
+	@Factory(value = "allVariables", scope = ScopeType.APPLICATION, autoCreate = true)
 	public Map<String, ApplicationVariable> getAllVariables() {
 		Map<String, ApplicationVariable> allVariables = new HashMap<String, ApplicationVariable>();
 		

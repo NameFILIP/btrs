@@ -10,10 +10,9 @@
 	
 
 	<a:outputPanel id="expense-table" layout="block" styleClass="expense-table">
-		
-			<a:region>
-		
+		<a:region>
 			<a:repeat var="_expense" value="#{report.expenses}" rendered="#{not empty report.expenses}">
+				<h3 class="muted">#{messages['report.expense.header']}</h3>
 				<table class="table report-expense">
 					<thead>
 						<tr class="success">
@@ -73,7 +72,7 @@
 					</tbody>
 				</table>
 			</a:repeat>
-			</a:region>
+		</a:region>
 	</a:outputPanel>
 
 </ui:composition>

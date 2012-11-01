@@ -30,6 +30,8 @@ service jboss restart
 when deploying, copy "btrs-ds.xml" file and "btrs.war" folder
 install: http://easylinuxstuffs.blogspot.tw/2009/08/installing-jboss-on-linux.html
 
+In <JBOSS-ROOT>server\default\deploy\jbossweb.sar\server.xml, settings URIEncoding="UTF-8" in <Connector> elements. 
+
 
 PostgreSQL
 location: /var/lib/pgsql/9.2/
