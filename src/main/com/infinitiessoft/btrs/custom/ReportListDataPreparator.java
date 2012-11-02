@@ -110,6 +110,8 @@ public class ReportListDataPreparator implements Serializable {
 			reports = reportList.getReportsWithExpensesForUser();
 		} else if (ReportTypeEnum.APPROVED.name().equalsIgnoreCase(type)) {
 			reports = reportList.getReportsForUserByStatus(StatusEnum.APPROVED);
+		} else if (ReportTypeEnum.GLOBAL.name().equalsIgnoreCase(type)) {
+			reports = reportList.getReportsGlobal();
 		} else {
 			throw new BtrsRuntimeException("Wrong type: " + type);
 		}

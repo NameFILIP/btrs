@@ -32,6 +32,7 @@ public class ReportsCounter {
 		int rejectedCount = 0;
 		int approvedCount = 0;
 		int allCount = 0;
+		int globalCount = reportList.getResultCount().intValue();
 
 		List<Report> usersReports = reportList.getReportsForUser();
 
@@ -45,13 +46,15 @@ public class ReportsCounter {
 			}
 		}
 		allCount = usersReports.size();
-
+		
 		Map<String, Integer> reportsCounts = new HashMap<String, Integer>();
 		reportsCounts.put(ReportTypeEnum.SUBMITTED.getLabel(), submittedCount);
 		reportsCounts.put(ReportTypeEnum.REJECTED.getLabel(), rejectedCount);
 		
 		reportsCounts.put(ReportTypeEnum.ALL.getLabel(), allCount);
 		reportsCounts.put(ReportTypeEnum.APPROVED.getLabel(), approvedCount);
+		
+		reportsCounts.put(ReportTypeEnum.GLOBAL.getLabel(), globalCount);
 		
 		log.info("Reports Counts are: {0}", reportsCounts);
 

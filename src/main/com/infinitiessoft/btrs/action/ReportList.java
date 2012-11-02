@@ -97,4 +97,12 @@ public class ReportList extends EntityQuery<Report> {
 				.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Report> getReportsGlobal() {
+		return getEntityManager().createQuery("select distinct r from Report r " +
+				"left outer join fetch r.expenses e " +
+				"order by r.lastUpdatedDate")
+				.getResultList();
+	}
+	
 }

@@ -38,6 +38,17 @@
 				<span class="pull-right">#{reportsCounts['All']}</span>
 			</s:link>
 		</li>
+		
+		<ui:fragment rendered="#{currentUserShared.username eq 'admin'}">
+			<li class="divider"></li>
+			<li>
+				<s:link id="global-reports" view="/report-list.xhtml" propagation="none">
+					<f:param name="type" value="Global" />
+					<span>#{messages['menu.global']}</span>
+					<span class="pull-right">#{reportsCounts['Global']}</span>
+				</s:link>
+			</li>
+		</ui:fragment>
 	</ul>
 
 	<s:fragment rendered="#{s:hasRole('ACCOUNTANT')}">

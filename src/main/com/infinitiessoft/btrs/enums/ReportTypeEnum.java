@@ -6,7 +6,9 @@ public enum ReportTypeEnum {
 	REJECTED("Rejected"),
 	
 	ALL("All"),
-	APPROVED("Approved");
+	APPROVED("Approved"),
+	
+	GLOBAL("Global");
 	
 	
 	private final String label;
