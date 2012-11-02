@@ -2,3 +2,7 @@
 /exploded-archives/
 /test-build/
 *.spdia
+
+resources/import-dev.sql
+
+*.war
