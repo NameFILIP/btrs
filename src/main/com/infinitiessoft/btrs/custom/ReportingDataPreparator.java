@@ -74,7 +74,7 @@ public class ReportingDataPreparator {
 		}
 		
 		long endTime = System.currentTimeMillis();
-		log.info("Constructing reporting rows took: #0 ms", endTime - beginTime);
+		log.debug("Constructing reporting rows took: #0 ms", endTime - beginTime);
 		return reportingRows;
 	}
 	
@@ -105,13 +105,13 @@ public class ReportingDataPreparator {
 		dirty = false;
 		
 		long endTime = System.currentTimeMillis();
-		log.info("Constructing Reportings took: #0 ms", endTime - beginTime);
+		log.debug("Constructing Reportings took: #0 ms", endTime - beginTime);
 	}
 	
 	
 	public void loadCurrentReporting(String periodType) {
 		currentReporting = getReportingByType(periodType);
-		log.info("Reporing for type #0 is accessed", periodType);
+		log.debug("Reporing for type #0 is accessed", periodType);
 	}
 	
 	public PeriodTypeEnum getPeriodType(String periodType) {

@@ -119,7 +119,7 @@ public class ReportListDataPreparator implements Serializable {
 		preparedReports = reports;
 		
 		long endTime = System.currentTimeMillis();
-		log.info("Preparing reports took: #0 ms", endTime - beginTime);
+		log.debug("Preparing reports took: #0 ms", endTime - beginTime);
 	}
 
 	public String defaultType() {

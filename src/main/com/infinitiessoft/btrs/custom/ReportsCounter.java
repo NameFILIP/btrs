@@ -56,10 +56,10 @@ public class ReportsCounter {
 		
 		reportsCounts.put(ReportTypeEnum.GLOBAL.getLabel(), globalCount);
 		
-		log.info("Reports Counts are: {0}", reportsCounts);
+		log.debug("Reports Counts are: {0}", reportsCounts);
 
 		long endTime = System.currentTimeMillis();
-		log.info("Counting reports took: #0 ms", endTime - beginTime);
+		log.debug("Counting reports took: #0 ms", endTime - beginTime);
 		return reportsCounts;
 	}
 }
