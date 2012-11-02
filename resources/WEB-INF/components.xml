@@ -43,6 +43,7 @@
 		<action execute="#{identity.tryLogin}" />
 	</event>
 	<event type="org.jboss.seam.security.postAuthenticate">
+		<action execute="#{userHome.updateLastLoginDate()}" />
 		<action execute="#{redirect.returnToCapturedView}" />
 	</event>
 

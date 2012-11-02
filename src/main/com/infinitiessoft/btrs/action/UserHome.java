@@ -8,7 +8,6 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
@@ -125,7 +124,9 @@ public class UserHome extends EntityHome<User> {
 		return super.remove();
 	}
 	
-	@Observer(Identity.EVENT_POST_AUTHENTICATE)
+	/**
+	 * Defined as observer of "org.jboss.seam.security.postAuthenticate" event in the components.xml
+	 */
 	public void updateLastLoginDate() {
 		currentUserShared = userSharedList.getUserShared(identity.getPrincipal().getName());
 		currentUser = userList.getUserBySharedId(currentUserShared.getId());
