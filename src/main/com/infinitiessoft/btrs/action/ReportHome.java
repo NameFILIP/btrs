@@ -1,12 +1,14 @@
 package com.infinitiessoft.btrs.action;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
+import javax.persistence.TemporalType;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.annotations.In;
@@ -108,6 +110,7 @@ public class ReportHome extends EntityHome<Report> {
 	public String persist() {
 		Report report = getInstance();
 		report.setCreatedDate(new Date());
+		report.setMaxIdLastMonth(getMaxIdLastMonth());
 		report.setCurrentStatus(StatusEnum.SUBMITTED);
 		
 		String result = super.persist();
@@ -116,6 +119,25 @@ public class ReportHome extends EntityHome<Report> {
 		
 		mailSender.sendSubmittedEmail(prepareMailInfo());
 		return result;
+	}
+	
+	private Long getMaxIdLastMonth() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		
+		cal.add(Calendar.MILLISECOND, -1);
+		Date lastMonthEnd = cal.getTime();
+		
+		Long maxIdLastMonth = (Long) getEntityManager().createQuery("SELECT max(r.id) FROM Report r WHERE r.createdDate <= :lastMonthEnd")
+				.setParameter("lastMonthEnd", lastMonthEnd, TemporalType.TIMESTAMP)
+				.getSingleResult();
+		
+		log.debug("MaxIdLastMonth has been selected: #0, before date: #1", maxIdLastMonth, lastMonthEnd);
+		return maxIdLastMonth == null ? 0 : maxIdLastMonth ;
 	}
 	
 //	public String generatorPersist() {

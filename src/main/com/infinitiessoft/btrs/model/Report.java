@@ -40,6 +40,7 @@ public class Report implements java.io.Serializable {
 	private static final long serialVersionUID = -1116817819653771651L;
 	
 	private Long id;
+	private Long maxIdLastMonth;
 	
 	private User owner;
 	private User reviewer;
@@ -71,6 +72,15 @@ public class Report implements java.io.Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@Column(name = "max_id_last_month", nullable = false)
+	public Long getMaxIdLastMonth() {
+		return maxIdLastMonth;
+	}
+
+	public void setMaxIdLastMonth(Long maxIdLastMonth) {
+		this.maxIdLastMonth = maxIdLastMonth;
 	}
 
 	@ManyToOne
@@ -284,10 +294,9 @@ public class Report implements java.io.Serializable {
 		if (this.id != null) {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(createdDate);
-			int day = cal.get(Calendar.DAY_OF_MONTH);
 			int month = cal.get(Calendar.MONTH);
-			composedId = (day < 10 ? "0" : "") + day  + MonthEnum.getShortName(month) + cal.get(Calendar.YEAR)
-					+ "_" + this.id;
+			composedId = MonthEnum.getShortName(month) + "_" + cal.get(Calendar.YEAR)
+					+ "-" + (this.id - this.maxIdLastMonth);
 		}
 		return composedId;
 	}

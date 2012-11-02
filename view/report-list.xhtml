@@ -36,6 +36,11 @@
 					<h:selectBooleanCheckbox value="#{reportListDataPreparator.selectedRowsMap[_report]}" />
 				</rich:column>
 
+				<rich:column sortBy="#{_report.createdDate}">
+					<f:facet name="header">#{messages['report.id']}</f:facet>
+					<h:outputText value="#{_report.displayId}" />
+				</rich:column>
+				
 				<rich:column sortBy="#{_report.reason}">
 					<f:facet name="header">#{messages['report.reason']}</f:facet>
 					<h:outputText value="#{_report.reason}" />
