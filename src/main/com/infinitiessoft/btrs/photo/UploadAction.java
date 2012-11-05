@@ -1,4 +1,4 @@
-package com.infinitiessoft.btrs.custom;
+package com.infinitiessoft.btrs.photo;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -15,6 +15,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.Log;
 
 import com.infinitiessoft.btrs.action.ReportHome;
+import com.infinitiessoft.btrs.custom.CustomUtils;
 import com.infinitiessoft.btrs.model.Photo;
 import com.infinitiessoft.btrs.model.Report;
 

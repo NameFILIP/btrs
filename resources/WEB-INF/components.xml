@@ -75,6 +75,10 @@
 		<property name="developerMail">@developerMail@</property>
 	</component>
 	
+	<component name="attendanceConnector">
+		<property name="attendanceApiUrl">@attendanceApiUrl@</property>
+	</component>
+	
 	<web:multipart-filter create-temp-files="true" max-request-size="10000000"/>
 	
 </components>

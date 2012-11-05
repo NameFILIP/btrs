@@ -8,7 +8,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 
-import com.infinitiessoft.btrs.custom.PasswordManager;
+import com.infinitiessoft.btrs.auth.PasswordManager;
 import com.infinitiessoft.btrs.model.UserShared;
 
 @Name("userSharedHome")

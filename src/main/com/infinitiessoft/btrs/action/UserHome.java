@@ -13,7 +13,7 @@ import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
 
-import com.infinitiessoft.btrs.custom.PasswordManager;
+import com.infinitiessoft.btrs.auth.PasswordManager;
 import com.infinitiessoft.btrs.model.Report;
 import com.infinitiessoft.btrs.model.Role;
 import com.infinitiessoft.btrs.model.StatusChange;

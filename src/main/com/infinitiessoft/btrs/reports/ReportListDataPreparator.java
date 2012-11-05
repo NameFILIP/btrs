@@ -1,4 +1,4 @@
-package com.infinitiessoft.btrs.custom;
+package com.infinitiessoft.btrs.reports;
 
 import java.io.Serializable;
 import java.util.ArrayList;

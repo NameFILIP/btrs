@@ -1,11 +1,14 @@
 package com.infinitiessoft.btrs.action;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.framework.EntityQuery;
 
 import com.infinitiessoft.btrs.enums.StatusEnum;
@@ -98,11 +101,19 @@ public class ReportList extends EntityQuery<Report> {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Restrict("#{s:hasRole('ACCOUNTANT')}")
 	public List<Report> getReportsGlobal() {
 		return getEntityManager().createQuery("select distinct r from Report r " +
 				"left outer join fetch r.expenses e " +
 				"order by r.lastUpdatedDate")
 				.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Set<Long> getUsedAttendanceRecordsIds() {
+		List<Long> list = getEntityManager().createQuery("select r.attendanceRecordId from Report r")
+				.getResultList();
+		return new HashSet<Long>(list);
 	}
 	
 }

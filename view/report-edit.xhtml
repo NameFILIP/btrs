@@ -22,6 +22,15 @@
 				<h:outputText value="#{userSharedList.getUserShared(report.owner.userSharedId).jobTitle}" />
 			</s:decorate>
 
+			<s:decorate id="attendanceRecordField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['report.attendanceRecord']}</ui:define>
+				<h:selectOneMenu id="attendanceRecord" value="#{report.attendanceRecordId}">
+					<s:selectItems var="a" value="#{attendanceConnector.getAsList(report.owner.userSharedId)}" itemValue="#{a.id}" label="#{a.label}" noSelectionLabel="#{messages['common.prompt']}"/>
+					<a:support event="onchange" action="#{reportHome.loadDataFromAttendance(report.owner.userSharedId)}" 
+							reRender="reasonField, startDateField, endDateField" ajaxSingle="true" />
+				</h:selectOneMenu>
+			</s:decorate>
+
 			<s:decorate id="reviewerField" template="layout/edit.xhtml">
 				<ui:define name="label">#{messages['report.accountant']}</ui:define>
 				<h:selectOneMenu id="reviewer" required="true" value="#{report.reviewer}">

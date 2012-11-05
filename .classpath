@@ -44,5 +44,6 @@
 	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/lightbox-3.3.4-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/imgscalr-lib-4.2.jar"/>
+	<classpathentry kind="lib" path="lib/json_simple.jar"/>
 	<classpathentry kind="output" path="test-build"/>
 </classpath>

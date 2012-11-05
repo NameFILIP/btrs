@@ -1,4 +1,4 @@
-package com.infinitiessoft.btrs.custom;
+package com.infinitiessoft.btrs.reports;
 
 import org.jboss.seam.annotations.Name;
 

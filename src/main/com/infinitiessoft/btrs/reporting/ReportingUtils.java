@@ -1,4 +1,4 @@
-package com.infinitiessoft.btrs.custom;
+package com.infinitiessoft.btrs.reporting;
 
 import java.util.List;
 import java.util.Map;

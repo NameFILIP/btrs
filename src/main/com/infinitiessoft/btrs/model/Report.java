@@ -42,6 +42,8 @@ public class Report implements java.io.Serializable {
 	private Long id;
 	private Long maxIdLastMonth;
 	
+	private Long attendanceRecordId;
+	
 	private User owner;
 	private User reviewer;
 	
@@ -81,6 +83,15 @@ public class Report implements java.io.Serializable {
 
 	public void setMaxIdLastMonth(Long maxIdLastMonth) {
 		this.maxIdLastMonth = maxIdLastMonth;
+	}
+
+	@Column(name = "attendance_record_id")
+	public Long getAttendanceRecordId() {
+		return attendanceRecordId;
+	}
+
+	public void setAttendanceRecordId(Long attendanceRecordId) {
+		this.attendanceRecordId = attendanceRecordId;
 	}
 
 	@ManyToOne

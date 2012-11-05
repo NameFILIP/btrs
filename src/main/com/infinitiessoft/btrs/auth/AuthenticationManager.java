@@ -1,4 +1,4 @@
-package com.infinitiessoft.btrs.custom;
+package com.infinitiessoft.btrs.auth;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

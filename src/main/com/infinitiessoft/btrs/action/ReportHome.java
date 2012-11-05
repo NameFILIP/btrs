@@ -17,14 +17,16 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 
+import com.infinitiessoft.btrs.attendance.AttendanceConnector;
+import com.infinitiessoft.btrs.attendance.AttendanceRecord;
 import com.infinitiessoft.btrs.custom.MailSender;
-import com.infinitiessoft.btrs.custom.ReportingDataPreparator;
 import com.infinitiessoft.btrs.enums.StatusEnum;
 import com.infinitiessoft.btrs.model.Expense;
 import com.infinitiessoft.btrs.model.Report;
 import com.infinitiessoft.btrs.model.StatusChange;
 import com.infinitiessoft.btrs.model.User;
 import com.infinitiessoft.btrs.model.UserShared;
+import com.infinitiessoft.btrs.reporting.ReportingDataPreparator;
 
 @Name("reportHome")
 public class ReportHome extends EntityHome<Report> {
@@ -45,11 +47,15 @@ public class ReportHome extends EntityHome<Report> {
 	@In
 	MailSender mailSender;
 	
+	@In(create = true)
+	AttendanceConnector attendanceConnector;
+	
 	@In("#{userSharedList.allUsersShared}")
 	private Map<Long, UserShared> allUsersShared;
 	
 	private String actionName;
 	private String comment;
+	
 
 	public void setReportId(Long id) {
 		setId(id);
@@ -225,5 +231,16 @@ public class ReportHome extends EntityHome<Report> {
 	
 	public String getCurrentUsername() {
 		return allUsersShared.get(currentUser.getUserSharedId()).getUsername();
+	}
+	
+	public void loadDataFromAttendance(Long userSharedId) {
+		Report report = getInstance();
+		Long attendanceRecordId = report.getAttendanceRecordId();
+		if (attendanceRecordId != null) {
+			AttendanceRecord record = attendanceConnector.getRecord(report.getAttendanceRecordId());
+			report.setReason(record.getReason());
+			report.setStartDate(record.getStartDate());
+			report.setEndDate(record.getEndDate());
+		}
 	}
 }

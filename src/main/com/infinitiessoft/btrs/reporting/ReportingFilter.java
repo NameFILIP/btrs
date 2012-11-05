@@ -1,4 +1,4 @@
-package com.infinitiessoft.btrs.custom;
+package com.infinitiessoft.btrs.reporting;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,10 +25,6 @@ import com.infinitiessoft.btrs.enums.PeriodTypeEnum;
 import com.infinitiessoft.btrs.model.ExpenseCategory;
 import com.infinitiessoft.btrs.model.ExpenseType;
 import com.infinitiessoft.btrs.model.User;
-import com.infinitiessoft.btrs.reporting.Period;
-import com.infinitiessoft.btrs.reporting.Reporting;
-import com.infinitiessoft.btrs.reporting.ReportingRow;
-import com.infinitiessoft.btrs.reporting.SubReporting;
 
 @Name("reportingFilter")
 @Scope(ScopeType.CONVERSATION)

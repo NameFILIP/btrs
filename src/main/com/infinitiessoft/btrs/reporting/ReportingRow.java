@@ -8,7 +8,6 @@ import java.util.Map;
 import org.jboss.seam.Component;
 
 import com.infinitiessoft.btrs.custom.CustomUtils;
-import com.infinitiessoft.btrs.custom.ReportingFilter;
 import com.infinitiessoft.btrs.enums.ExpenseTypeEnum;
 import com.infinitiessoft.btrs.model.ExpenseCategory;
 import com.infinitiessoft.btrs.model.ExpenseType;

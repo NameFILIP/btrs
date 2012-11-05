@@ -1,4 +1,4 @@
-package com.infinitiessoft.btrs.autologin;
+package com.infinitiessoft.btrs.auth.autologin;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 

@@ -1,4 +1,4 @@
-package com.infinitiessoft.btrs.custom;
+package com.infinitiessoft.btrs.reporting;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,9 +19,6 @@ import com.infinitiessoft.btrs.model.Expense;
 import com.infinitiessoft.btrs.model.ExpenseCategory;
 import com.infinitiessoft.btrs.model.ExpenseType;
 import com.infinitiessoft.btrs.model.Report;
-import com.infinitiessoft.btrs.reporting.Period;
-import com.infinitiessoft.btrs.reporting.Reporting;
-import com.infinitiessoft.btrs.reporting.ReportingRow;
 
 @Name("reportingDataPreparator")
 @Scope(ScopeType.APPLICATION)
