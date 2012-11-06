@@ -17,6 +17,11 @@
 	<ui:define name="data-main-body">
 		<h:form id="report" styleClass="form-horizontal">
 
+			<s:decorate id="id" template="layout/display.xhtml" rendered="#{report.id ne null}">
+				<ui:define name="label">#{messages['report.id']}</ui:define>
+				#{report.displayId}
+			</s:decorate>
+			
 			<s:decorate id="jobTitle" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['report.jobTitle']}</ui:define>
 				<h:outputText value="#{userSharedList.getUserShared(report.owner.userSharedId).jobTitle}" />
