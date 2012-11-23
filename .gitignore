@@ -6,3 +6,5 @@
 resources/import-dev.sql
 
 *.war
+
+resources/components-dev.properties
