@@ -207,10 +207,17 @@ select[size="1"] {
 
 .filter-header {
 	font-size: 16px;
+	margin-bottom: 0;
 }
 
 .filter-body {
 	border-top-style: none;
+	margin-bottom: 0;
+}
+
+.filter-body .form-actions {
+	margin-bottom: 0;
+	padding-bottom: 0;
 }
 
 .total {
@@ -268,4 +275,8 @@ input#photoPath {
 
 .display-none, .modal .display-none {
 	display: none;
+}
+
+input.rich-calendar-input {
+	cursor: pointer;
 }

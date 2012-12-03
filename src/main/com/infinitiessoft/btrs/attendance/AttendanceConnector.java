@@ -75,7 +75,7 @@ public class AttendanceConnector {
 				for (Object object : objRecords) {
 					JSONObject objRecord = (JSONObject) object;
 					AttendanceRecord record = createFromJSON(objRecord, sdf);
-					
+
 					if (filter(record)) {
 						records.put(record.getId(), record);
 					}
@@ -84,14 +84,18 @@ public class AttendanceConnector {
 				log.error("Error while parsing JSON response from Attendance system", e);
 			}
 		}
+		log.debug("List of filtered Attendance Records has size: #0", records.size());
 		disconnect();
 		return records;
 	}
 	
 	public List<AttendanceRecord> getAsList(Long id) {
-		requestAttendanceRecords(id);
-		List<AttendanceRecord> result = new ArrayList<AttendanceRecord>(records.values());
-		Collections.sort(result, attendanceRecordComparator);
+		Map<Long, AttendanceRecord> records = requestAttendanceRecords(id);
+		List<AttendanceRecord> result = new ArrayList<AttendanceRecord>();
+		if ( ! records.isEmpty()) {
+			result.addAll(records.values());
+			Collections.sort(result, attendanceRecordComparator);
+		}
 		return result;
 	}
 	
