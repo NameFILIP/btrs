@@ -11,10 +11,9 @@
 	<ui:define name="title">#{messages['login.title']}</ui:define>
 
 	<ui:define name="content">
-		<div class="offset3 span6">
 
-			<h:form styleClass="form-horizontal" id="loginForm">
-				<legend>#{messages['login.title']}</legend>
+			<h:form styleClass="form-horizontal" id="login-form">
+				<legend class="text-center">#{messages['login.title']}</legend>
 
 				<s:decorate id="usernameField" template="layout/edit.xhtml">
 					<ui:define name="label">#{messages['login.username']}</ui:define>
@@ -32,11 +31,10 @@
 				</s:label>
 				</s:decorate>
 
-				<div class="form-actions">
+				<div class="form-actions" id="login-actions">
 					<h:commandButton id="login" value="#{messages['login.login']}" action="#{identity.login}" styleClass="btn btn-primary" rendered="#{not identity.loggedIn}" />
 					<h:commandButton id="logout" value="#{messages['login.logout']}" action="#{identity.logout}" styleClass="btn" rendered="#{identity.loggedIn}" />
 				</div>
 			</h:form>
-		</div>
 	</ui:define>
 </ui:composition>
