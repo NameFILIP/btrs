@@ -172,14 +172,6 @@ select[size="1"] {
 	padding-top: 4px;
 }
 
-.rich-calendar-exterior, .rich-calendar-time-layout {
-	background-color: #fff;
-}
-
-.rich-calendar-cell {
-	border: 0;
-}
-
 .centered-pills {
 	text-align: center;
 	height: 73px;
@@ -275,10 +267,6 @@ input#photoPath {
 
 .display-none, .modal .display-none {
 	display: none;
-}
-
-input.rich-calendar-input {
-	cursor: pointer;
 }
 
 .actions {

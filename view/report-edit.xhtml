@@ -61,14 +61,18 @@
 
 			<s:decorate id="startDateField" template="layout/edit.xhtml">
 				<ui:define name="label">#{messages['report.start']}</ui:define>
-				<rich:calendar id="startDate" required="true" value="#{report.startDate}" datePattern="#{messages['pattern.date.long']}" showWeeksBar="false" styleClass="table-condensed">
+				<rich:calendar id="startDate" required="true" value="#{report.startDate}" datePattern="#{messages['pattern.date.long']}" 
+						showApplyButton="true" showWeeksBar="false" weekDayLabelsShort="Su, Mo, Tu, We, Th, Fr, Sa"
+	        			styleClass="table-bordered calendar-external">
 					<a:support event="onchanged" reRender="startDateField" bypassUpdates="true" ajaxSingle="true" />
 				</rich:calendar>
 			</s:decorate>
 
 			<s:decorate id="endDateField" template="layout/edit.xhtml">
 				<ui:define name="label">#{messages['report.end']}</ui:define>
-				<rich:calendar id="endDate" required="true" value="#{report.endDate}" datePattern="#{messages['pattern.date.long']}" showWeeksBar="false" styleClass="table-condensed">
+				<rich:calendar id="endDate" required="true" value="#{report.endDate}" datePattern="#{messages['pattern.date.long']}" 
+						showApplyButton="true" showWeeksBar="false" weekDayLabelsShort="Su, Mo, Tu, We, Th, Fr, Sa"
+	        			styleClass="table-bordered calendar-external">
 					<a:support event="onchanged" reRender="endDateField" bypassUpdates="true" ajaxSingle="true" />
 				</rich:calendar>
 			</s:decorate>

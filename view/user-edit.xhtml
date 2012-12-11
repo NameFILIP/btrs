@@ -99,7 +99,9 @@
 
 				<s:decorate id="dateOfBirthField" template="layout/edit.xhtml">
 					<ui:define name="label">#{messages['user.dateOfBirth']}</ui:define>
-					<rich:calendar id="dateOfBirth" value="#{userShared.dateOfBirth}" datePattern="#{messages['pattern.date.short']}" showWeeksBar="false" styleClass="table-condensed">
+					<rich:calendar id="dateOfBirth" value="#{userShared.dateOfBirth}" datePattern="#{messages['pattern.date.short']}" 
+							showWeeksBar="false" weekDayLabelsShort="Su, Mo, Tu, We, Th, Fr, Sa"
+	        				styleClass="table-bordered calendar-external">
 						<a:support event="onchanged" reRender="dateOfBirthField" bypassUpdates="true" ajaxSingle="true" />
 					</rich:calendar>
 				</s:decorate>
