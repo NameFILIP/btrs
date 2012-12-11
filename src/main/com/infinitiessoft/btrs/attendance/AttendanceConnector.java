@@ -60,18 +60,18 @@ public class AttendanceConnector {
 	public Map<Long, AttendanceRecord> requestAttendanceRecords(Long id) {
 		String urlString = attendanceApiUrl + "permitedrecord?employeeid=" + id;
 		records = new HashMap<Long, AttendanceRecord>();
-		
-		BufferedReader response = getResponse(urlString);
-		if (response != null) {
-			usedAttendanceRecordsIds = reportList.getUsedAttendanceRecordsIds();
-			log.debug("List of usedAttendanceRecordsIds has size: #0", usedAttendanceRecordsIds.size());
-			
-			JSONParser parser = new JSONParser();
-			try {
+		try {
+			BufferedReader response = getResponse(urlString);
+			if (response != null) {
+				usedAttendanceRecordsIds = reportList.getUsedAttendanceRecordsIds();
+				log.debug("List of usedAttendanceRecordsIds has size: #0", usedAttendanceRecordsIds.size());
+
+				JSONParser parser = new JSONParser();
+
 				Object obj = parser.parse(response);
 				SimpleDateFormat sdf = new SimpleDateFormat(IN_DATE_FORMAT);
 				JSONArray objRecords = (JSONArray) obj;
-				
+
 				for (Object object : objRecords) {
 					JSONObject objRecord = (JSONObject) object;
 					AttendanceRecord record = createFromJSON(objRecord, sdf);
@@ -80,9 +80,9 @@ public class AttendanceConnector {
 						records.put(record.getId(), record);
 					}
 				}
-			} catch (Exception e) {
-				log.error("Error while parsing JSON response from Attendance system", e);
 			}
+		} catch (Exception e) {
+			log.error("Error while parsing JSON response from Attendance system", e);
 		}
 		log.debug("List of filtered Attendance Records has size: #0", records.size());
 		disconnect();
