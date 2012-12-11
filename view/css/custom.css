@@ -280,3 +280,7 @@ input#photoPath {
 input.rich-calendar-input {
 	cursor: pointer;
 }
+
+.actions {
+	white-space: nowrap;
+}

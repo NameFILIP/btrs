@@ -47,7 +47,7 @@
 					</ui:repeat>
 				</rich:column>
 
-				<rich:column>
+				<rich:column styleClass="actions">
 					<f:facet name="header">#{messages['common.action']}</f:facet>
 					<s:link view="/expense-category-view.xhtml" value="#{messages['common.view']}" propagation="none" id="expense-category-view" styleClass="btn btn-mini">
 						<f:param name="expenseCategoryId" value="#{_expenseCategory.id}" />
