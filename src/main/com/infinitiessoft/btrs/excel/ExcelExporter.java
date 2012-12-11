@@ -138,18 +138,30 @@ public class ExcelExporter {
 		int pageNumber = 1;
 		Sheet sheet = initSheet(messages.get(MSG_PAGE) + " " + pageNumber++, wb);
 		
-		int reportsPerSheet = 3;
+		int rowsPerSheet = 42; // actually 44, but 2 is for safety
 		for (int i = 0; i < reports.size(); i++) {
-			generateReport(sheet, reports.get(i), styles);
-			if ((i + 1) % reportsPerSheet == 0) {
-//				sheet.setRowBreak(rowIndex);
+			Report report = reports.get(i);
+			int reportHeight = getReportHeight(report);
+			if (reportHeight + rowIndex + 1 > rowsPerSheet) {
 				sheet = initSheet(messages.get(MSG_PAGE) + " " + pageNumber++, wb);
-				
 				rowIndex = 0;
-			} else {
+			} else if (i != 0) {
 				rowIndex++;
 			}
+			generateReport(sheet, report, styles);
 		}
+//		int reportsPerSheet = 3;
+//		for (int i = 0; i < reports.size(); i++) {
+//			generateReport(sheet, reports.get(i), styles);
+//			if ((i + 1) % reportsPerSheet == 0) {
+////				sheet.setRowBreak(rowIndex);
+//				sheet = initSheet(messages.get(MSG_PAGE) + " " + pageNumber++, wb);
+//
+//				rowIndex = 0;
+//			} else {
+//				rowIndex++;
+//			}
+//		}
 		long endTime = System.currentTimeMillis();
 		log.info("Generate workbook took: #0 ms", endTime - beginTime);
 		return wb;
@@ -172,6 +184,7 @@ public class ExcelExporter {
 	}
 	
 	private void setColumnWidths(Sheet sheet) {
+		sheet.setColumnWidth(0, sheet.getColumnWidth(0) * 5 / 4);
 		sheet.setColumnWidth(1, sheet.getColumnWidth(1) * 5 / 4);
 		sheet.setColumnWidth(2, sheet.getColumnWidth(2) * 3 / 4);
 		sheet.setColumnWidth(3, sheet.getColumnWidth(3) * 3 / 4);
@@ -201,7 +214,7 @@ public class ExcelExporter {
 			}
 		}
 		excelStyles.removeBorder(workbook, cells, 0, reportWidth - 1, 1, 0);
-		excelStyles.drawThinkBorder(workbook, cells, 2, reportWidth - 1, reportHeight - 1, 0);
+		excelStyles.drawOuterBorder(workbook, cells, 2, reportWidth - 1, reportHeight - 1, 0);
 		
 		// Header Row
 		Cell title = cells[reportRow][0];
@@ -221,6 +234,18 @@ public class ExcelExporter {
 		createdDateValue.setCellStyle(styles.get(ExcelStylesNames.CREATED_DATE_VALUE));
 		sheet.addMergedRegion(
 				new CellRangeAddress(rowIndex + reportRow, rowIndex + reportRow, 6, getReportWidth() - 1));
+		reportRow++;
+		
+		// Applicant Row
+		Cell applicantTopName = cells[reportRow][0];
+		applicantTopName.setCellValue(messages.get(MSG_APPLICANT));
+		applicantTopName.setCellStyle(styles.get(ExcelStylesNames.APPLICANT_TOP_NAME));
+		Cell applicantTopValue = cells[reportRow][1];
+		String applicantFullName = allUsersShared.get(report.getOwner().getUserSharedId()).getFullName();
+		applicantTopValue.setCellValue(applicantFullName);
+		applicantTopValue.setCellStyle(styles.get(ExcelStylesNames.APPLICANT_TOP_VALUE));
+		sheet.addMergedRegion(
+				new CellRangeAddress(rowIndex + reportRow, rowIndex + reportRow, 1, getReportWidth() - 1));
 		reportRow++;
 		
 		// Reason Row
@@ -400,26 +425,32 @@ public class ExcelExporter {
 		reportRow++;
 		
 		// Footer Row
+		Row footerRow = sheet.getRow(rowIndex + reportRow);
+		footerRow.setHeight((short) (footerRow.getHeight() * 3));
+		
 		Cell statusName = cells[reportRow][0];
 		statusName.setCellValue(messages.get(MSG_STATUS));
 		statusName.setCellStyle(styles.get(ExcelStylesNames.STATUS_NAME));
 		Cell statusValue = cells[reportRow][1];
 		statusValue.setCellValue(messages.get(report.getCurrentStatusNameKey()));
 		statusValue.setCellStyle(styles.get(ExcelStylesNames.STATUS_VALUE));
-		Cell accountantName = cells[reportRow][2];
+		sheet.addMergedRegion(
+				new CellRangeAddress(rowIndex + reportRow, rowIndex + reportRow, 1, 2));
+		
+		Cell accountantName = cells[reportRow][3];
 		accountantName.setCellValue(messages.get(MSG_ACCOUNTANT));
 		accountantName.setCellStyle(styles.get(ExcelStylesNames.ACCONUTANT_NAME));
-		Cell accountantValue = cells[reportRow][3];
+		Cell accountantValue = cells[reportRow][4];
 		String accountantFullName = allUsersShared.get(report.getReviewer().getUserSharedId()).getFullName();
 		accountantValue.setCellValue(accountantFullName);
 		accountantValue.setCellStyle(styles.get(ExcelStylesNames.ACCOUNTANT_VALUE));
 		sheet.addMergedRegion(
-				new CellRangeAddress(rowIndex + reportRow, rowIndex + reportRow, 3, getReportWidth() - 3));
+				new CellRangeAddress(rowIndex + reportRow, rowIndex + reportRow, 4, getReportWidth() - 3));
+		
 		Cell appicantName = cells[reportRow][getReportWidth() - 2];
 		appicantName.setCellValue(messages.get(MSG_APPLICANT));
 		appicantName.setCellStyle(styles.get(ExcelStylesNames.APPLICANT_NAME));
 		Cell applicantValue = cells[reportRow][getReportWidth() - 1];
-		String applicantFullName = allUsersShared.get(report.getOwner().getUserSharedId()).getFullName();
 		applicantValue.setCellValue(applicantFullName);
 		applicantValue.setCellStyle(styles.get(ExcelStylesNames.APPLICANT_VALUE));
 		reportRow++;
@@ -475,7 +506,7 @@ public class ExcelExporter {
 	}
 	
 	private int getReportHeight(Report report) {
-		int rowCount = 9;// header, created date, reason, route, travel date, comment summary-amount, total, footer
+		int rowCount = 10;// header, created date, applicant top row, reason, route, travel date, comment summary-amount, total, footer
 //		Set<ExpenseTypeEnum> uniqueExpenseRows = new HashSet<ExpenseTypeEnum>();
 //		for (Expense expense : report.getExpenses()) {
 //			uniqueExpenseRows.add(expense.getExpenseType().getValue());
@@ -483,6 +514,7 @@ public class ExcelExporter {
 		rowCount += report.getExpenses().size();
 		return rowCount;
 	}
+	
 	
 	private int getReportWidth() {
 		return 9;

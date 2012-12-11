@@ -26,7 +26,7 @@ public class ExcelStyles {
 	private static final String MSG_DATE_FORMAT = "excel.date.format";
 	private static final String MSG_CURRENCY_FORMAT = "excel.currency.format";
 
-	public static final short OUTER_BORDER_TYPE = CellStyle.BORDER_MEDIUM;
+	public static final short OUTER_BORDER_TYPE = CellStyle.BORDER_THIN;
 	public static final short OUTER_BORDER_COLOR = IndexedColors.BLACK.getIndex();
 	
 	private Map<ExcelStylesNames, CellStyle> styles = null;
@@ -66,14 +66,22 @@ public class ExcelStyles {
 //		setBottomBorder(createdDateValue, CellStyle.BORDER_THICK, IndexedColors.BLACK.getIndex());
 		styles.put(ExcelStylesNames.CREATED_DATE_VALUE, createdDateValue);
 
+		CellStyle applicantTopName = createCellStyle(workbook);
+//		reasonName.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		setTopBorder(applicantTopName, OUTER_BORDER_TYPE, OUTER_BORDER_COLOR);
+		setLeftBorder(applicantTopName, OUTER_BORDER_TYPE, OUTER_BORDER_COLOR);
+		styles.put(ExcelStylesNames.APPLICANT_TOP_NAME, applicantTopName);
+
+		CellStyle applicantTopValue = createCellStyle(workbook);
+		setTopBorder(applicantTopValue, OUTER_BORDER_TYPE, OUTER_BORDER_COLOR);
+		styles.put(ExcelStylesNames.APPLICANT_TOP_VALUE, applicantTopValue);
+		
 		CellStyle reasonName = createCellStyle(workbook);
 //		reasonName.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-		setTopBorder(reasonName, OUTER_BORDER_TYPE, OUTER_BORDER_COLOR);
 		setLeftBorder(reasonName, OUTER_BORDER_TYPE, OUTER_BORDER_COLOR);
 		styles.put(ExcelStylesNames.REASON_NAME, reasonName);
 
 		CellStyle reasonValue = createCellStyle(workbook);
-		setTopBorder(reasonValue, OUTER_BORDER_TYPE, OUTER_BORDER_COLOR);
 		styles.put(ExcelStylesNames.REASON_VALUE, reasonValue);
 
 		CellStyle routeName = createCellStyle(workbook);
@@ -260,7 +268,7 @@ public class ExcelStyles {
 		setBorder(style, CellStyle.BORDER_NONE, IndexedColors.BLACK.getIndex());
 	}
 	
-	public void drawThinkBorder(Workbook workbook, Cell[][] cells, int topRow, int rightColumn, int bottomRow, int leftColumn) {
+	public void drawOuterBorder(Workbook workbook, Cell[][] cells, int topRow, int rightColumn, int bottomRow, int leftColumn) {
 		assert topRow < cells.length && bottomRow < cells.length && bottomRow > topRow;
 		assert leftColumn < cells[0].length && rightColumn < cells[0].length && rightColumn > leftColumn;
 		
