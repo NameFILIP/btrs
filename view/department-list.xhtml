@@ -35,9 +35,9 @@
 			<rich:dataTable id="departmentList" var="_department" value="#{departmentList.allDepartments}" rendered="#{not empty departmentList.allDepartments}"
 					styleClass="table table-bordered table-hover no-top-radius no-body-bottom-radius">
 
-				<rich:column sortBy="#{_department.name}">
+				<rich:column sortBy="#{messages[_department.nameKey]}">
 					<f:facet name="header">#{messages['department.name']}</f:facet>
-					<h:outputText value="#{_department.name}" />
+					<h:outputText value="#{messages[_department.nameKey]}" />
 				</rich:column>
 
 				<rich:column sortBy="#{_department.comment}">

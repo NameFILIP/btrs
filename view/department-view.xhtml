@@ -24,9 +24,9 @@
 
 			<s:decorate id="nameField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['department.name']}</ui:define>
-				<h:outputText value="#{department.name}" />
+				<h:outputText value="#{messages[department.nameKey]}" />
 			</s:decorate>
-
+			
 			<s:decorate id="commentField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['department.comment']}</ui:define>
 				<h:outputText value="#{department.comment}" />

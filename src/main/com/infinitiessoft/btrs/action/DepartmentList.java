@@ -19,7 +19,7 @@ public class DepartmentList extends EntityQuery<Department> {
 
 	private static final String[] RESTRICTIONS = {
 			"lower(department.comment) like lower(concat(#{departmentList.department.comment},'%'))",
-			"lower(department.name) like lower(concat(#{departmentList.department.name},'%'))",};
+			"lower(department.nameKey) like lower(concat(#{departmentList.department.nameKey},'%'))",};
 
 	private Department department = new Department();
 
@@ -27,7 +27,7 @@ public class DepartmentList extends EntityQuery<Department> {
 		setEjbql(EJBQL);
 		setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
 		setMaxResults(25);
-		setOrder("name");
+		setOrder("nameKey");
 	}
 
 	public Department getDepartment() {

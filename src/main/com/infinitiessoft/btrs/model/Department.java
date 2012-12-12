@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 
 /**
@@ -24,7 +23,7 @@ public class Department implements java.io.Serializable {
 	private static final long serialVersionUID = -746932327914798697L;
 	
 	private Long id;
-	private String name;
+	private String nameKey;
 	private String comment;
 	private Set<User> users;
 
@@ -42,15 +41,14 @@ public class Department implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name", nullable = false, length = 100)
+	@Column(name = "name_key", nullable = false)
 	@NotNull
-	@Length(max = 100)
-	public String getName() {
-		return this.name;
+	public String getNameKey() {
+		return nameKey;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNameKey(String nameKey) {
+		this.nameKey = nameKey;
 	}
 
 	@Column(length = 4000)

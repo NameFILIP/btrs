@@ -53,7 +53,7 @@
 
 			<s:decorate id="departmentField" template="layout/display.xhtml">
 				<ui:define name="label">#{messages['user.department']}</ui:define>
-				<h:outputText value="#{user.department.name}" />
+				<h:outputText value="#{messages[user.department.nameKey]}" />
 			</s:decorate>
 			
 			<!--s:decorate id="dateOfBirthField" template="layout/display.xhtml">

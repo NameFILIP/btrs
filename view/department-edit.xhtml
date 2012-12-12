@@ -22,11 +22,12 @@
 		
 		<h:form id="department" styleClass="form-horizontal">
 
-			<s:decorate id="nameField" template="layout/edit.xhtml">
-				<ui:define name="label">#{messages['department.name']}</ui:define>
-				<h:inputText id="name" required="true" size="100" maxlength="100" value="#{department.name}">
-					<a:support event="onblur" reRender="nameField" bypassUpdates="true" ajaxSingle="true" />
+			<s:decorate id="nameKeyField" template="layout/edit.xhtml">
+				<ui:define name="label">#{messages['department.nameKey']}</ui:define>
+				<h:inputText id="nameKey" required="true" size="100" maxlength="100" value="#{department.nameKey}">
+					<a:support event="onblur" reRender="nameKeyField" ajaxSingle="true" />
 				</h:inputText>
+				<h:outputText value=" - #{messages[department.nameKey]}" />
 			</s:decorate>
 
 			<s:decorate id="commentField" template="layout/edit.xhtml">

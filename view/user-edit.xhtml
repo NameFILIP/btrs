@@ -92,7 +92,7 @@
 				<s:decorate id="departmentField" template="layout/edit.xhtml">
 					<ui:define name="label">#{messages['user.department']}</ui:define>
 					<h:selectOneMenu id="department" value="#{user.department}">
-						<s:selectItems value="#{departmentList.resultList}" var="d" itemValue="#{d}" label="#{d.name}" />
+						<s:selectItems value="#{departmentList.resultList}" var="d" itemValue="#{d}" label="#{messages[d.nameKey]}" />
 						<s:convertEntity />
 					</h:selectOneMenu>
 				</s:decorate>

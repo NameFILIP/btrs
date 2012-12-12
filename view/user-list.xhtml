@@ -51,9 +51,9 @@
 					<h:outputText value="#{userSharedList.getUserShared(_user.userSharedId).jobTitle}" />
 				</rich:column>
 
-				<rich:column sortBy="#{_user.department.name}">
+				<rich:column sortBy="#{messages[_user.department.nameKey]}">
 					<f:facet name="header">#{messages['user.department']}</f:facet>
-					<h:outputText value="#{_user.department.name}" />
+					<h:outputText value="#{messages[_user.department.nameKey]}" />
 				</rich:column>
 
 				<rich:column>
